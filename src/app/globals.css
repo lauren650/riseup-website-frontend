@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+/* Dark-first theme - Anduril-inspired palette */
+:root {
+  --background: #000000;
+  --foreground: #ffffff;
+  --muted: #f1f0ea;
+  --accent: #dff140;
+  --muted-foreground: rgba(255, 255, 255, 0.6);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --font-sans: var(--font-inter);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-feature-settings: "rlig" 1, "calt" 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection styles */
+::selection {
+  background: var(--accent);
+  color: var(--background);
+}
