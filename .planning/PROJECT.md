@@ -30,6 +30,7 @@ Non-technical administrators can update website content instantly using natural 
 - [ ] Mobile fallback to static image on slow connections
 - [ ] Flag Football program page (age requirements, schedule, costs, coach bios, safety info)
 - [ ] Tackle Football program page (age requirements, schedule, costs, coach bios, safety info)
+- [ ] Academies & Clinics program page (age requirements, schedule, costs, coach bios)
 - [ ] About Us page (mission, leadership bios, history, photo gallery)
 - [ ] Contact page with inquiry form and contact info
 - [ ] Partners page displaying sponsor logos with click-through links
@@ -64,6 +65,18 @@ Non-technical administrators can update website content instantly using natural 
 - Event calendar — Phase 2 (can embed Google Calendar as stopgap)
 - Volunteer management — use external tools (SignUpGenius)
 - Multi-tier sponsorship system — simple approval sufficient for launch
+
+## Design Direction
+
+**Reference:** anduril.com — dark, cinematic, tech-forward aesthetic
+
+**Key Elements:**
+- Full-screen video hero with minimal overlay text
+- Three large program tiles below hero (Flag Football, Tackle Football, Academies & Clinics)
+- Dark backgrounds with dramatic, high-contrast imagery
+- Clean sans-serif typography, bold product/program names
+- Minimal navigation: Logo left, nav center, CTA right
+- Premium tech brand feel (not typical cheerful youth sports)
 
 ## Context
 
@@ -105,4 +118,4 @@ Non-technical administrators can update website content instantly using natural 
 | GiveButter embed (not custom) | Handles PCI compliance, donor management, reduces risk | — Pending |
 
 ---
-*Last updated: 2026-01-17 after initialization*
+*Last updated: 2026-01-17 after adding design direction and third program*

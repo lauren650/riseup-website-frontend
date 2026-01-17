@@ -24,6 +24,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **PAGE-03**: Video falls back to static image on slow connections/mobile
 - [ ] **PAGE-04**: Flag Football page displays program details (ages, schedule, costs)
 - [ ] **PAGE-05**: Tackle Football page displays program details (ages, schedule, costs)
+- [ ] **PAGE-12**: Academies & Clinics page displays program details (ages, schedule, costs)
 - [ ] **PAGE-06**: Program pages include coach bios with photos
 - [ ] **PAGE-07**: Program pages include safety protocols section
 - [ ] **PAGE-08**: About Us page displays mission, leadership, history
@@ -96,41 +97,42 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AI-01 | TBD | Pending |
-| AI-02 | TBD | Pending |
-| AI-03 | TBD | Pending |
-| AI-04 | TBD | Pending |
-| AI-05 | TBD | Pending |
-| AI-06 | TBD | Pending |
-| AI-07 | TBD | Pending |
-| PAGE-01 | TBD | Pending |
-| PAGE-02 | TBD | Pending |
-| PAGE-03 | TBD | Pending |
-| PAGE-04 | TBD | Pending |
-| PAGE-05 | TBD | Pending |
-| PAGE-06 | TBD | Pending |
-| PAGE-07 | TBD | Pending |
-| PAGE-08 | TBD | Pending |
-| PAGE-09 | TBD | Pending |
-| PAGE-10 | TBD | Pending |
-| PAGE-11 | TBD | Pending |
-| DON-01 | TBD | Pending |
-| DON-02 | TBD | Pending |
-| SPON-01 | TBD | Pending |
-| SPON-02 | TBD | Pending |
-| SPON-03 | TBD | Pending |
-| SPON-04 | TBD | Pending |
-| SPON-05 | TBD | Pending |
-| TECH-01 | TBD | Pending |
-| TECH-02 | TBD | Pending |
-| TECH-03 | TBD | Pending |
-| TECH-04 | TBD | Pending |
+| AI-01 | Phase 3 | Pending |
+| AI-02 | Phase 3 | Pending |
+| AI-03 | Phase 3 | Pending |
+| AI-04 | Phase 3 | Pending |
+| AI-05 | Phase 3 | Pending |
+| AI-06 | Phase 3 | Pending |
+| AI-07 | Phase 3 | Pending |
+| PAGE-01 | Phase 1 | Pending |
+| PAGE-02 | Phase 1 | Pending |
+| PAGE-03 | Phase 1 | Pending |
+| PAGE-04 | Phase 1 | Pending |
+| PAGE-05 | Phase 1 | Pending |
+| PAGE-06 | Phase 1 | Pending |
+| PAGE-07 | Phase 1 | Pending |
+| PAGE-08 | Phase 1 | Pending |
+| PAGE-09 | Phase 1 | Pending |
+| PAGE-10 | Phase 1 | Pending |
+| PAGE-11 | Phase 1 | Pending |
+| PAGE-12 | Phase 1 | Pending |
+| DON-01 | Phase 2 | Pending |
+| DON-02 | Phase 2 | Pending |
+| SPON-01 | Phase 2 | Pending |
+| SPON-02 | Phase 2 | Pending |
+| SPON-03 | Phase 2 | Pending |
+| SPON-04 | Phase 2 | Pending |
+| SPON-05 | Phase 2 | Pending |
+| TECH-01 | Phase 1 | Pending |
+| TECH-02 | Phase 1 | Pending |
+| TECH-03 | Phase 1 | Pending |
+| TECH-04 | Phase 1 | Pending |
 
 **Coverage:**
-- v1 requirements: 29 total
-- Mapped to phases: 0
-- Unmapped: 29 (pending roadmap)
+- v1 requirements: 30 total
+- Mapped to phases: 30
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-01-17*
-*Last updated: 2026-01-17 after initial definition*
+*Last updated: 2026-01-17 after adding Academies & Clinics program*
