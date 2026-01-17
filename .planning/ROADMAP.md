@@ -26,12 +26,18 @@ This roadmap delivers a modern youth football league website with an AI-powered 
   3. Program pages display complete information: age requirements, schedules, costs, coach bios with photos, and safety protocols
   4. Contact form submits successfully with spam protection and admin receives the inquiry
   5. Site loads in under 3 seconds and displays correctly on mobile devices
-**Plans**: 3 plans
+**Plans**: 3 plans (2 waves)
 
 Plans:
-- [ ] 01-01: Project scaffolding (Next.js, TypeScript, Tailwind, Supabase, Vercel deployment)
-- [ ] 01-02: Homepage and navigation (video hero, mobile menu, page structure)
-- [ ] 01-03: Content pages (programs, about, contact, partners, donations placeholder)
+- [ ] 01-01-PLAN.md — Project scaffolding (Next.js 15, TypeScript, Tailwind dark theme, Supabase clients, Vercel config)
+- [ ] 01-02-PLAN.md — Homepage and navigation (video hero with mobile fallback, program tiles, responsive nav with mobile menu)
+- [ ] 01-03-PLAN.md — Content pages (program pages with template, About, Contact form with reCAPTCHA, Partners/Ways to Give placeholders)
+
+**Wave Structure:**
+| Wave | Plans | Can Run Parallel |
+|------|-------|------------------|
+| 1 | 01-01 | Foundation must complete first |
+| 2 | 01-02, 01-03 | Yes - homepage and content pages are independent |
 
 ### Phase 2: Interactive Features
 **Goal**: Sponsors can self-submit and donors can contribute via embedded GiveButter form
@@ -71,11 +77,12 @@ Phases execute in numeric order: 1 -> 2 -> 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Public Pages | 0/3 | Not started | - |
+| 1. Foundation & Public Pages | 0/3 | Planned | - |
 | 2. Interactive Features | 0/2 | Not started | - |
 | 3. AI-Powered CMS | 0/2 | Not started | - |
 
 ---
 *Roadmap created: 2026-01-17*
+*Phase 1 planned: 2026-01-17*
 *Depth: Quick (3-5 phases)*
 *Coverage: 30/30 v1 requirements mapped*
