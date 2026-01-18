@@ -13,6 +13,10 @@
  * npx supabase gen types typescript --project-id <project-id> > src/lib/supabase/types.ts
  */
 
+// Helper type to extract Row types from tables
+export type Tables<T extends keyof Database["public"]["Tables"]> =
+  Database["public"]["Tables"][T]["Row"];
+
 export type Database = {
   PostgrestVersion: "12";
   public: {

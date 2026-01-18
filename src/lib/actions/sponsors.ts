@@ -1,6 +1,7 @@
 "use server";
 
 import { Resend } from "resend";
+import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { sponsorSchema, SponsorFormData } from "@/lib/validations/sponsor";
 
@@ -162,4 +163,41 @@ export async function submitSponsor(
     message:
       "Thank you for your submission! We'll review your information and add your logo to our Partners page soon.",
   };
+}
+
+/**
+ * Approve a sponsor submission - admin only action
+ */
+export async function approveSponsor(sponsorId: string): Promise<void> {
+  const supabase = await createClient();
+
+  // Verify the user is authenticated
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    throw new Error("Unauthorized: Admin authentication required");
+  }
+
+  // Update sponsor status to approved
+  const { error } = await supabase
+    .from("sponsors")
+    .update({
+      status: "approved" as const,
+      approved_at: new Date().toISOString(),
+      approved_by: user.id,
+    })
+    .eq("id", sponsorId);
+
+  if (error) {
+    console.error("Failed to approve sponsor:", error);
+    throw new Error("Failed to approve sponsor");
+  }
+
+  // Revalidate the partners page so the new sponsor appears
+  revalidatePath("/partners");
+
+  // Also revalidate the admin sponsors page
+  revalidatePath("/admin/dashboard/sponsors");
 }
