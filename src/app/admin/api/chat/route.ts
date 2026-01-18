@@ -2,7 +2,8 @@
  * AI Chat API Route for content management
  */
 
-import { streamText, type CoreMessage } from "ai";
+import { streamText } from "ai";
+import type { ModelMessage } from "@ai-sdk/provider-utils";
 import { anthropic } from "@ai-sdk/anthropic";
 import { createClient } from "@/lib/supabase/server";
 import { SYSTEM_PROMPT } from "@/lib/ai/prompts";
@@ -13,9 +14,9 @@ import {
   listEditableContentTool,
 } from "@/lib/ai/tools";
 
-// Convert UI messages to CoreMessage format for streamText
-function convertToCoreMessages(messages: unknown[]): CoreMessage[] {
-  const result: CoreMessage[] = [];
+// Convert UI messages to ModelMessage format for streamText
+function convertToModelMessages(messages: unknown[]): ModelMessage[] {
+  const result: ModelMessage[] = [];
 
   for (const msg of messages) {
     const m = msg as { role: string; content?: string; parts?: { type: string; text?: string }[] };
@@ -71,13 +72,13 @@ export async function POST(req: Request) {
 
   const { messages } = await req.json();
 
-  // Convert UI messages to CoreMessage format
-  const coreMessages = convertToCoreMessages(messages);
+  // Convert UI messages to ModelMessage format
+  const modelMessages = convertToModelMessages(messages);
 
   const result = streamText({
     model: anthropic("claude-sonnet-4-20250514"),
     system: SYSTEM_PROMPT,
-    messages: coreMessages,
+    messages: modelMessages,
     tools: {
       updateTextContent: updateTextContentTool,
       updateAnnouncementBar: updateAnnouncementBarTool,

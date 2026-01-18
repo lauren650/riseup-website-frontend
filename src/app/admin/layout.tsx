@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ChatDrawer } from "@/components/admin/chat-drawer";
+import { AdminLayoutClient } from "./admin-layout-client";
 
 async function signOut() {
   "use server";
@@ -20,63 +21,67 @@ export default async function AdminLayout({
     data: { user },
   } = await supabase.auth.getUser();
 
+  const isLoggedIn = !!user;
+
   return (
-    <div className="min-h-screen bg-black">
-      {/* Admin Header */}
-      <header className="border-b border-white/10 bg-black/50 backdrop-blur-sm">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-          <div className="flex items-center gap-6">
-            <Link
-              href="/admin/dashboard"
-              className="text-xl font-bold text-white"
-            >
-              RiseUp Admin
-            </Link>
+    <AdminLayoutClient isAdmin={isLoggedIn}>
+      <div className="min-h-screen bg-black">
+        {/* Admin Header */}
+        <header className="border-b border-white/10 bg-black/50 backdrop-blur-sm">
+          <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+            <div className="flex items-center gap-6">
+              <Link
+                href="/admin/dashboard"
+                className="text-xl font-bold text-white"
+              >
+                RiseUp Admin
+              </Link>
+              {user && (
+                <nav className="flex items-center gap-4">
+                  <Link
+                    href="/admin/dashboard"
+                    className="text-sm text-muted-foreground transition-colors hover:text-white"
+                  >
+                    Dashboard
+                  </Link>
+                  <Link
+                    href="/admin/dashboard/sponsors"
+                    className="text-sm text-muted-foreground transition-colors hover:text-white"
+                  >
+                    Sponsors
+                  </Link>
+                  <Link
+                    href="/admin/dashboard/history"
+                    className="text-sm text-muted-foreground transition-colors hover:text-white"
+                  >
+                    History
+                  </Link>
+                </nav>
+              )}
+            </div>
+
             {user && (
-              <nav className="flex items-center gap-4">
-                <Link
-                  href="/admin/dashboard"
-                  className="text-sm text-muted-foreground transition-colors hover:text-white"
-                >
-                  Dashboard
-                </Link>
-                <Link
-                  href="/admin/dashboard/sponsors"
-                  className="text-sm text-muted-foreground transition-colors hover:text-white"
-                >
-                  Sponsors
-                </Link>
-                <Link
-                  href="/admin/dashboard/history"
-                  className="text-sm text-muted-foreground transition-colors hover:text-white"
-                >
-                  History
-                </Link>
-              </nav>
+              <div className="flex items-center gap-4">
+                <span className="text-sm text-muted-foreground">{user.email}</span>
+                <form action={signOut}>
+                  <button
+                    type="submit"
+                    className="rounded-lg border border-white/10 px-4 py-2 text-sm text-white transition-colors hover:bg-white/5"
+                  >
+                    Log Out
+                  </button>
+                </form>
+              </div>
             )}
           </div>
+        </header>
 
-          {user && (
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-muted-foreground">{user.email}</span>
-              <form action={signOut}>
-                <button
-                  type="submit"
-                  className="rounded-lg border border-white/10 px-4 py-2 text-sm text-white transition-colors hover:bg-white/5"
-                >
-                  Log Out
-                </button>
-              </form>
-            </div>
-          )}
-        </div>
-      </header>
+        {/* Main Content */}
+        <main className="mx-auto max-w-6xl px-6 py-8">{children}</main>
 
-      {/* Main Content */}
-      <main className="mx-auto max-w-6xl px-6 py-8">{children}</main>
-
-      {/* AI Chat Drawer - only show for logged in users */}
-      {user && <ChatDrawer />}
-    </div>
+        {/* AI Chat Drawer - only show for logged in users */}
+        {user && <ChatDrawer />}
+      </div>
+    </AdminLayoutClient>
   );
 }
