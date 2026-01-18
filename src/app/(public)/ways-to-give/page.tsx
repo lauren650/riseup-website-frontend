@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import { GivebutterWidget } from "@/components/donations/givebutter-widget";
 
 export const metadata: Metadata = {
   title: "Ways to Give | RiseUp Youth Football League",
@@ -88,23 +89,7 @@ export default function WaysToGivePage() {
             Make a Donation
           </h2>
 
-          {/* GiveButter embed placeholder - will be replaced in Phase 2 */}
-          <div className="flex min-h-[400px] items-center justify-center rounded-xl border border-dashed border-white/20 bg-background p-8">
-            <div className="text-center">
-              <p className="text-lg text-muted-foreground">
-                Donation form coming soon
-              </p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                GiveButter integration will be added in Phase 2
-              </p>
-              <Link
-                href="/contact"
-                className="mt-6 inline-block rounded-full bg-accent px-6 py-3 font-semibold text-black transition-opacity hover:opacity-90"
-              >
-                Contact Us to Donate
-              </Link>
-            </div>
-          </div>
+          <GivebutterWidget align="center" />
         </div>
       </section>
 
