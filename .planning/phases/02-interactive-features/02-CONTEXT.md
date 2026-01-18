@@ -6,50 +6,47 @@
 <domain>
 ## Phase Boundary
 
-Sponsors can self-submit sponsorship assets (after pre-approval) and donors can contribute via embedded GiveButter form. This phase delivers the donation integration on Ways to Give and the sponsor submission/approval workflow for the Partners page.
+Enable donations via embedded GiveButter form and self-service sponsor submission with admin approval workflow. Sponsors submit their info and logo; admin reviews and approves; approved sponsors appear on Partners page. AI-powered content management is Phase 3.
 
 </domain>
 
 <decisions>
 ## Implementation Decisions
 
-### Donation Experience
-- GiveButter form placed mid-page, after impact messaging
-- Impact messaging is general ("Your donation helps kids play football") with photos/stories, not specific dollar amounts
-- Use GiveButter's default suggested amounts and recurring options — no customization needed
-- Let the embed handle its native functionality
+### Donation Page Experience
+- Hero-level prominence: large header, emotional messaging, GiveButter form front and center
+- Mission-focused messaging tone: "Help kids discover their potential" — big-picture vision
+- Let GiveButter handle donation tiers/amounts — use whatever is configured in GiveButter directly
 
-### Sponsor Submission Flow
-- Sponsors are pre-approved before they submit (admin has already arranged sponsorship)
-- Form purpose: collect assets only (logo, company info for display)
-- Required fields: Company name, logo, contact email, website URL, contact person name, phone, brief description
-- Logo requirements: Flexible — accept common formats (PNG, JPG, SVG), any reasonable size
-- After submission: Email confirmation sent to sponsor with their submission details
+### Sponsor Submission Form
+- Basic fields: company name, logo, website URL, contact email, contact name
+- No sponsorship tiers — all sponsors displayed equally
+- Strict logo requirements: PNG format, transparent background required, minimum 200x200px
 
 ### Admin Approval Workflow
-- Admin notified of new submissions via both email and dashboard
-- Admin must review and approve uploaded assets before they appear on Partners page (not auto-publish)
-- Admins can edit sponsor details directly after approval (logo, URL, description)
-- No rejection workflow needed — sponsors are pre-approved, so submissions just need asset review
+- Dual notification: email to admin when new sponsor submits + badge/counter on dashboard
+- Auto-email to sponsors on both approval ("You're live!") and rejection ("Thanks, but...")
+- Optional note field: admin can add custom message that goes in the email
+- List view with quick actions: table of pending sponsors with inline Approve/Reject buttons
 
 ### Partners Page Display
-- All logos displayed at uniform size (cropped/padded to fit grid)
-- Logos ordered alphabetically by company name
-- Clicking a logo opens sponsor's website in new tab
-- No tier grouping — all sponsors displayed equally in one section
+- Logo grid layout: clean grid of clickable logos, uniform sizing, responsive
+- Alphabetical ordering by company name
+- Click action: opens sponsor website in new tab
+- Prominent "Become a Partner" CTA button/section linking to sponsor submission form
 
 ### Claude's Discretion
-- Exact logo grid dimensions and padding
-- Email notification templates
-- Admin dashboard UI layout
-- Form validation specifics
+- Whether to include sponsorship/volunteering links on Ways to Give page
+- Loading states and error handling UX
+- Exact email template wording and design
+- Admin dashboard styling and table design
 
 </decisions>
 
 <specifics>
 ## Specific Ideas
 
-No specific requirements — open to standard approaches
+No specific product references — open to standard approaches that match the existing site aesthetic.
 
 </specifics>
 
