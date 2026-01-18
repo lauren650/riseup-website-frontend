@@ -13,10 +13,57 @@
  * npx supabase gen types typescript --project-id <project-id> > src/lib/supabase/types.ts
  */
 
-// Placeholder type - replace with generated types once schema is created
 export type Database = {
   public: {
-    Tables: Record<string, never>;
+    Tables: {
+      sponsors: {
+        Row: {
+          id: string;
+          company_name: string;
+          contact_name: string;
+          contact_email: string;
+          contact_phone: string;
+          website_url: string;
+          description: string | null;
+          logo_url: string;
+          status: "pending" | "approved";
+          created_at: string;
+          updated_at: string;
+          approved_at: string | null;
+          approved_by: string | null;
+        };
+        Insert: {
+          id?: string;
+          company_name: string;
+          contact_name: string;
+          contact_email: string;
+          contact_phone: string;
+          website_url: string;
+          description?: string | null;
+          logo_url: string;
+          status?: "pending" | "approved";
+          created_at?: string;
+          updated_at?: string;
+          approved_at?: string | null;
+          approved_by?: string | null;
+        };
+        Update: {
+          id?: string;
+          company_name?: string;
+          contact_name?: string;
+          contact_email?: string;
+          contact_phone?: string;
+          website_url?: string;
+          description?: string | null;
+          logo_url?: string;
+          status?: "pending" | "approved";
+          created_at?: string;
+          updated_at?: string;
+          approved_at?: string | null;
+          approved_by?: string | null;
+        };
+      };
+    };
     Views: Record<string, never>;
     Functions: Record<string, never>;
     Enums: Record<string, never>;
