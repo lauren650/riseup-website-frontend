@@ -14,6 +14,7 @@
  */
 
 export type Database = {
+  PostgrestVersion: "12";
   public: {
     Tables: {
       sponsors: {
@@ -62,6 +63,7 @@ export type Database = {
           approved_at?: string | null;
           approved_by?: string | null;
         };
+        Relationships: [];
       };
     };
     Views: Record<string, never>;
