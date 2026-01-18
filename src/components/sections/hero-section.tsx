@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { VideoHero } from '@/components/ui/video-hero';
 import { Button } from '@/components/ui/button';
+import { EditableText } from '@/components/editable/editable-text';
 import type { ContentKey } from '@/types/content';
 
 // Fallback content when database not seeded
@@ -42,26 +43,52 @@ export async function HeroSection() {
       posterSrc="/images/hero-poster.jpg"
     >
       <div className="text-center max-w-4xl mx-auto">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-6">
+        <EditableText
+          contentKey="hero.headline"
+          as="h1"
+          className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-6"
+          page="homepage"
+          section="hero"
+        >
           {headline}
-        </h1>
-        <p className="text-lg md:text-xl text-white/80 mb-10 max-w-2xl mx-auto">
+        </EditableText>
+        <EditableText
+          contentKey="hero.subtitle"
+          as="p"
+          className="text-lg md:text-xl text-white/80 mb-10 max-w-2xl mx-auto"
+          page="homepage"
+          section="hero"
+        >
           {subtitle}
-        </p>
+        </EditableText>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button
             variant="primary"
             size="lg"
             href="https://riseupyouthfootball.com/register"
           >
-            {ctaPrimary}
+            <EditableText
+              contentKey="hero.cta_primary"
+              as="span"
+              page="homepage"
+              section="hero"
+            >
+              {ctaPrimary}
+            </EditableText>
           </Button>
           <Button
             variant="outline"
             size="lg"
             href="#programs"
           >
-            {ctaSecondary}
+            <EditableText
+              contentKey="hero.cta_secondary"
+              as="span"
+              page="homepage"
+              section="hero"
+            >
+              {ctaSecondary}
+            </EditableText>
           </Button>
         </div>
       </div>
