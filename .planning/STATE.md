@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-17)
 
 **Core value:** Non-technical administrators can update website content instantly using natural language commands
-**Current focus:** Phase 2 Complete - Ready for Phase 3
+**Current focus:** Phase 3 In Progress - AI-Powered CMS
 
 ## Current Position
 
-Phase: 2 of 3 (Interactive Features) - COMPLETE
-Plan: 3 of 3 in phase 2
-Status: Phase 2 complete
-Last activity: 2026-01-18 - Completed 02-03-PLAN.md (Sponsor Display & Admin Dashboard)
+Phase: 3 of 3 (AI-Powered CMS)
+Plan: 1 of 2 in phase 3
+Status: In progress
+Last activity: 2026-01-18 - Completed 03-01-PLAN.md (AI Content Infrastructure)
 
-Progress: [███████░░░] 75%
+Progress: [████████░░] 87.5%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
-- Average duration: 15 min
-- Total execution time: 93 min
+- Total plans completed: 7
+- Average duration: 14 min
+- Total execution time: 104 min
 
 **By Phase:**
 
@@ -29,11 +29,11 @@ Progress: [███████░░░] 75%
 |-------|-------|-------|----------|
 | 1. Foundation & Public Pages | 3/3 | 67 min | 22 min |
 | 2. Interactive Features | 3/3 | 26 min | 9 min |
-| 3. AI-Powered CMS | 0/2 | - | - |
+| 3. AI-Powered CMS | 1/2 | 11 min | 11 min |
 
 **Recent Trend:**
-- Last 3 plans: 4min, 7min, 15min
-- Trend: Consistent (all Phase 2 plans under 20min)
+- Last 3 plans: 7min, 15min, 11min
+- Trend: Consistent under 20min per plan
 
 *Updated after each plan completion*
 
@@ -59,6 +59,9 @@ Recent decisions affecting current work:
 | Client-side Storage upload | 02-02 | Avoids server action 1MB body limit |
 | getUser() over getSession() | 02-03 | More secure server-side token validation |
 | Duplicate admin routes | 02-03 | Next.js 16 route groups fix - routes in both (admin) and admin/ |
+| AI SDK v6 inputSchema | 03-01 | v6 uses inputSchema not parameters for tools |
+| DefaultChatTransport for API | 03-01 | v6 pattern for custom chat endpoint |
+| Draft-based content workflow | 03-01 | Tools create drafts, preview, then publish |
 
 ### Pending Todos
 
@@ -75,11 +78,13 @@ None.
 - Run `supabase/migrations/001_sponsors.sql` in Supabase SQL Editor
 - ADMIN_EMAIL environment variable (sponsor notifications)
 - Create admin user in Supabase Dashboard -> Authentication -> Users
+- **NEW:** ANTHROPIC_API_KEY for AI chat
+- **NEW:** Run `supabase/migrations/002_content_cms.sql` in Supabase SQL Editor
 
 ## Session Continuity
 
-Last session: 2026-01-18T04:45:00Z
-Stopped at: Completed 02-03-PLAN.md (Sponsor Display & Admin Dashboard)
+Last session: 2026-01-18T14:53:17Z
+Stopped at: Completed 03-01-PLAN.md (AI Content Infrastructure)
 Resume file: None
 
 ## Phase 1 Completion Summary
@@ -105,13 +110,20 @@ Resume file: None
 - Sponsor approval workflow
 - Dynamic sponsor display on Partners page
 
-## Phase 3 Ready
+## Phase 3 Progress
+
+**Completed:**
+- 03-01: AI content editing infrastructure
+  - Database schema for content, drafts, versions, chat history
+  - AI SDK integration with Anthropic Claude
+  - Tool definitions for content operations
+  - Streaming chat API and UI
 
 **Remaining work:**
-- 03-01: AI content editing infrastructure
-- 03-02: Natural language content updates
+- 03-02: Preview page and publish workflow
 
 **Foundation in place:**
-- Admin authentication ready for AI CMS admin panel
-- Database patterns established for content storage
-- Server action patterns for content updates
+- Admin authentication ready
+- Chat drawer integrated into admin layout
+- Tools create drafts with preview URLs
+- Preview page needs to be built
