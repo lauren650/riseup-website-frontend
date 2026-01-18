@@ -69,6 +69,174 @@ export type Database = {
         };
         Relationships: [];
       };
+      site_content: {
+        Row: {
+          id: string;
+          content_key: string;
+          content_type: string;
+          content: { text?: string; [key: string]: unknown };
+          page: string | null;
+          section: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          content_key: string;
+          content_type?: string;
+          content: { text?: string; [key: string]: unknown };
+          page?: string | null;
+          section?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          content_key?: string;
+          content_type?: string;
+          content?: { text?: string; [key: string]: unknown };
+          page?: string | null;
+          section?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      content_drafts: {
+        Row: {
+          id: string;
+          content_key: string;
+          draft_type: string;
+          content: { text?: string; [key: string]: unknown };
+          created_by: string | null;
+          created_at: string;
+          expires_at: string;
+        };
+        Insert: {
+          id?: string;
+          content_key: string;
+          draft_type: string;
+          content: { text?: string; [key: string]: unknown };
+          created_by?: string | null;
+          created_at?: string;
+          expires_at?: string;
+        };
+        Update: {
+          id?: string;
+          content_key?: string;
+          draft_type?: string;
+          content?: { text?: string; [key: string]: unknown };
+          created_by?: string | null;
+          created_at?: string;
+          expires_at?: string;
+        };
+        Relationships: [];
+      };
+      content_versions: {
+        Row: {
+          id: number;
+          content_key: string;
+          content: { text?: string; [key: string]: unknown };
+          changed_by: string | null;
+          changed_at: string;
+          change_description: string | null;
+        };
+        Insert: {
+          id?: number;
+          content_key: string;
+          content: { text?: string; [key: string]: unknown };
+          changed_by?: string | null;
+          changed_at?: string;
+          change_description?: string | null;
+        };
+        Update: {
+          id?: number;
+          content_key?: string;
+          content?: { text?: string; [key: string]: unknown };
+          changed_by?: string | null;
+          changed_at?: string;
+          change_description?: string | null;
+        };
+        Relationships: [];
+      };
+      announcement_bar: {
+        Row: {
+          id: string;
+          text: string;
+          link_url: string | null;
+          link_text: string | null;
+          is_active: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          text: string;
+          link_url?: string | null;
+          link_text?: string | null;
+          is_active?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          text?: string;
+          link_url?: string | null;
+          link_text?: string | null;
+          is_active?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      section_visibility: {
+        Row: {
+          id: string;
+          section_key: string;
+          is_visible: boolean;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          section_key: string;
+          is_visible?: boolean;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          section_key?: string;
+          is_visible?: boolean;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      chat_messages: {
+        Row: {
+          id: string;
+          user_id: string | null;
+          role: "user" | "assistant";
+          content: string;
+          tool_calls: unknown | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id?: string | null;
+          role: "user" | "assistant";
+          content: string;
+          tool_calls?: unknown | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string | null;
+          role?: "user" | "assistant";
+          content?: string;
+          tool_calls?: unknown | null;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
