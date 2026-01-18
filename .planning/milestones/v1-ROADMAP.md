@@ -1,22 +1,17 @@
-# Roadmap: RiseUp Youth Football League Website
+# Milestone v1: MVP
+
+**Status:** SHIPPED 2026-01-18
+**Phases:** 1-3
+**Total Plans:** 9
 
 ## Overview
 
-This roadmap delivers a modern youth football league website with an AI-powered CMS in three phases. Phase 1 establishes the Next.js/Supabase foundation and all public-facing pages. Phase 2 adds interactive features: donation integration and the self-service sponsor portal. Phase 3 builds the differentiating AI CMS that enables non-technical admins to update content via natural language commands.
+This roadmap delivered a modern youth football league website with an AI-powered CMS in three phases. Phase 1 established the Next.js/Supabase foundation and all public-facing pages. Phase 2 added interactive features: donation integration and the self-service sponsor portal. Phase 3 built the differentiating AI CMS that enables non-technical admins to update content via natural language commands.
 
 ## Phases
 
-**Phase Numbering:**
-- Integer phases (1, 2, 3): Planned milestone work
-- Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
-
-- [x] **Phase 1: Foundation & Public Pages** - Project setup, all public pages, responsive design
-- [x] **Phase 2: Interactive Features** - Donation integration, sponsor portal with approval workflow
-- [x] **Phase 3: AI-Powered CMS** - Natural language content management system
-
-## Phase Details
-
 ### Phase 1: Foundation & Public Pages
+
 **Goal**: Visitors can browse a complete, responsive public website with all core content
 **Depends on**: Nothing (first phase)
 **Requirements**: PAGE-01, PAGE-02, PAGE-03, PAGE-04, PAGE-05, PAGE-06, PAGE-07, PAGE-08, PAGE-09, PAGE-10, PAGE-11, PAGE-12, TECH-01, TECH-02, TECH-03, TECH-04
@@ -39,7 +34,10 @@ Plans:
 | 1 | 01-01 | Foundation must complete first |
 | 2 | 01-02, 01-03 | Yes - homepage and content pages are independent |
 
+**Completed:** 2026-01-17
+
 ### Phase 2: Interactive Features
+
 **Goal**: Sponsors can self-submit and donors can contribute via embedded GiveButter form
 **Depends on**: Phase 1
 **Requirements**: DON-01, DON-02, SPON-01, SPON-02, SPON-03, SPON-04, SPON-05
@@ -61,7 +59,10 @@ Plans:
 | 1 | 02-01, 02-02 | Yes - donation and sponsor infrastructure are independent |
 | 2 | 02-03 | Depends on 02-02 (needs sponsors table and server actions) |
 
+**Completed:** 2026-01-18
+
 ### Phase 3: AI-Powered CMS
+
 **Goal**: Non-technical administrators can update website content instantly using natural language commands
 **Depends on**: Phase 2
 **Requirements**: AI-01, AI-02, AI-03, AI-04, AI-05, AI-06, AI-07
@@ -71,7 +72,7 @@ Plans:
   3. Admin can manage announcement bar (add, edit, remove) and toggle section visibility via commands
   4. System shows preview of changes before publishing and admin can confirm or cancel
   5. Admin can view change history and rollback to any of the last 10 versions
-**Plans**: 2 plans (2 waves)
+**Plans**: 3 plans (3 waves)
 
 Plans:
 - [x] 03-01-PLAN.md — Database content model, AI SDK integration, chat interface with tool definitions
@@ -85,6 +86,8 @@ Plans:
 | 2 | 03-02 | Depends on 03-01 (needs content tables and AI tools) |
 | 3 | 03-03 | Depends on 03-02 (needs content system in place) |
 
+**Completed:** 2026-01-18
+
 ## Progress
 
 **Execution Order:**
@@ -97,9 +100,29 @@ Phases execute in numeric order: 1 -> 2 -> 3
 | 3. AI-Powered CMS | 3/3 | Complete | 2026-01-18 |
 
 ---
-*Roadmap created: 2026-01-17*
-*Phase 1 planned: 2026-01-17*
-*Phase 2 planned: 2026-01-17*
-*Phase 3 planned: 2026-01-18*
-*Depth: Quick (3-5 phases)*
-*Coverage: 30/30 v1 requirements mapped*
+
+## Milestone Summary
+
+**Key Decisions:**
+- Next.js 16 + React 19 (latest stable from create-next-app)
+- Tailwind v4 CSS-based config (@theme inline)
+- Inter font for Anduril-inspired aesthetic
+- ProgramPage template pattern for consistent layouts
+- React 19 useActionState for server action forms
+- Client-side Storage upload to avoid 1MB body limit
+- Draft-based content workflow with preview
+- Inline editing + AI chat for content updates
+
+**Issues Resolved:**
+- Next.js 16 route groups required duplicate admin routes
+- AI SDK v6 uses inputSchema not parameters
+- DefaultChatTransport pattern for custom chat endpoint
+
+**Technical Debt:**
+- Duplicate admin routes (src/app/admin/ and src/app/(admin)/)
+- Node.js 18 vs 20 version warning (environment issue)
+
+---
+
+*Archived: 2026-01-18 as part of v1 milestone completion*
+*For current project status, see .planning/PROJECT.md*

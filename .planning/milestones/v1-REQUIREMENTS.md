@@ -1,3 +1,13 @@
+# Requirements Archive: v1 MVP
+
+**Archived:** 2026-01-18
+**Status:** SHIPPED
+
+This is the archived requirements specification for v1.
+For current requirements, see `.planning/PROJECT.md` (requirements move to Validated section).
+
+---
+
 # Requirements: RiseUp Youth Football League Website
 
 **Defined:** 2026-01-17
@@ -131,8 +141,16 @@ Which phases cover which requirements. Updated during roadmap creation.
 **Coverage:**
 - v1 requirements: 30 total
 - Mapped to phases: 30
+- Shipped: 30
 - Unmapped: 0
 
 ---
-*Requirements defined: 2026-01-17*
-*Last updated: 2026-01-17 after adding Academies & Clinics program*
+
+## Milestone Summary
+
+**Shipped:** 30 of 30 v1 requirements
+**Adjusted:** None - all requirements implemented as specified
+**Dropped:** None
+
+---
+*Archived: 2026-01-18 as part of v1 milestone completion*

@@ -8,50 +8,75 @@ A modern website for RiseUp Youth Football League featuring an AI-powered CMS th
 
 Non-technical administrators can update website content instantly using natural language commands — no code, no training, no complex interfaces.
 
+## Current State (v1 Shipped)
+
+**Shipped:** 2026-01-18
+**Codebase:** 8,043 LOC TypeScript, Next.js 16 + Supabase + Anthropic Claude
+**Status:** Ready for production deployment and content population
+
+**What's Working:**
+- 8-page responsive public website with dark cinematic theme
+- AI chat interface for natural language content editing
+- Inline click-to-edit for text and images
+- GiveButter donation integration
+- Self-service sponsor portal with admin approval
+- Preview and rollback workflow (keeps 10 versions)
+
+**User Setup Required:**
+- reCAPTCHA keys, Resend API key, GiveButter widget ID
+- Supabase Storage buckets (sponsor-logos, site-images)
+- Database migrations (001_sponsors.sql, 002_content_cms.sql, 003_images.sql)
+- Admin user in Supabase Auth
+- ANTHROPIC_API_KEY for AI chat
+
 ## Requirements
 
 ### Validated
 
-(None yet — ship to validate)
+- Chat interface in admin panel for natural language commands — v1
+- Text content updates via natural language ("Change [field] to say [new text]") — v1
+- Announcement bar management ("Add/remove announcement saying [text]") — v1
+- Section visibility toggles ("Hide/show [section]") — v1
+- Change history and rollback capability (last 10 changes) — v1
+- Preview before publish confirmation step — v1
+- Audit log with timestamp and user — v1
+- Video hero section with auto-play (muted, looping), overlay text, CTAs — v1
+- Mobile fallback to static image on slow connections — v1
+- Flag Football program page with full details — v1
+- Tackle Football program page with full details — v1
+- Academies & Clinics program page with full details — v1
+- About Us page (mission, leadership, history) — v1
+- Contact page with inquiry form — v1
+- Partners page with sponsor logos — v1
+- GiveButter embedded donation form — v1
+- Impact statements showing fund usage — v1
+- Sponsor submission form with logo upload — v1
+- File upload validation (type, size) — v1
+- Admin notification on sponsor submission — v1
+- Admin approval workflow — v1
+- Automatic display on Partners after approval — v1
+- Responsive mobile-first design — v1
+- Page load under 3 seconds — v1
+- Contact form spam protection (reCAPTCHA) — v1
+- Protected admin panel — v1
 
 ### Active
 
-**AI-Powered CMS Agent**
-- [ ] Chat interface in admin panel for natural language commands
-- [ ] Support for text content updates ("Change [field] to say [new text]")
-- [ ] Announcement bar management ("Add/remove announcement saying [text]")
-- [ ] Section visibility toggles ("Hide/show [section]")
-- [ ] Change history and rollback capability (last 10 changes)
-- [ ] Preview before publish confirmation step
-- [ ] Audit log with timestamp and user
+(None — all v1 requirements shipped)
 
-**Public Website - Core Pages**
-- [ ] Video hero section with auto-play (muted, looping), overlay text, CTAs
-- [ ] Mobile fallback to static image on slow connections
-- [ ] Flag Football program page (age requirements, schedule, costs, coach bios, safety info)
-- [ ] Tackle Football program page (age requirements, schedule, costs, coach bios, safety info)
-- [ ] Academies & Clinics program page (age requirements, schedule, costs, coach bios)
-- [ ] About Us page (mission, leadership bios, history, photo gallery)
-- [ ] Contact page with inquiry form and contact info
-- [ ] Partners page displaying sponsor logos with click-through links
+### Deferred to v2
 
-**Donation Integration**
-- [ ] GiveButter embedded donation form on "Ways to Give" page
-- [ ] Impact statements showing fund usage
-
-**Self-Service Sponsor Portal**
-- [ ] Sponsor submission form (company name, contact, logo upload, website URL)
-- [ ] File upload with validation (.png/.jpg/.svg, max 2MB, auto-resize)
-- [ ] Admin notification and approval workflow
-- [ ] Automatic display on Partners page after approval
-- [ ] Confirmation and thank you email automation
-
-**Technical Foundation**
-- [ ] Responsive design (mobile-first, 60%+ mobile traffic expected)
-- [ ] SEO foundation (meta tags, schema markup, sitemap)
-- [ ] Page load < 3 seconds, Lighthouse score > 90
-- [ ] WCAG 2.1 Level AA accessibility
-- [ ] Contact form with spam protection (reCAPTCHA)
+- WCAG 2.1 Level AA accessibility compliance
+- SEO meta tags and schema markup on all pages
+- XML sitemap generation
+- Lighthouse score > 90 optimization
+- Sponsor confirmation/thank you email automation
+- AI confidence scores for ambiguous commands
+- Common command templates/suggestions
+- Image upload via AI commands
+- Player/parent portal with login
+- Blog/news section
+- Event calendar
 
 ### Out of Scope
 
@@ -60,11 +85,7 @@ Non-technical administrators can update website content instantly using natural 
 - Mobile app — responsive web is sufficient
 - Multi-language support — English only at launch
 - Advanced analytics dashboard — Google Analytics is sufficient
-- Player/parent portal with login — Phase 2
-- Blog/news section — Phase 2
-- Event calendar — Phase 2 (can embed Google Calendar as stopgap)
 - Volunteer management — use external tools (SignUpGenius)
-- Multi-tier sponsorship system — simple approval sufficient for launch
 
 ## Design Direction
 
@@ -74,7 +95,7 @@ Non-technical administrators can update website content instantly using natural 
 - Full-screen video hero with minimal overlay text
 - Three large program tiles below hero (Flag Football, Tackle Football, Academies & Clinics)
 - Dark backgrounds with dramatic, high-contrast imagery
-- Clean sans-serif typography, bold product/program names
+- Clean sans-serif typography (Inter), bold product/program names
 - Minimal navigation: Logo left, nav center, CTA right
 - Premium tech brand feel (not typical cheerful youth sports)
 
@@ -93,17 +114,11 @@ Non-technical administrators can update website content instantly using natural 
 - $10,000+ in online donations
 - 10+ new sponsor partnerships
 
-**Content Status:**
-- Most text, images, and video content is ready
-- Registration links to external custom system (no API integration needed)
-
 ## Constraints
 
-- **Budget**: Under $5,000 — must use free/freemium tiers aggressively
-- **Timeline**: 1-2 months (ASAP) — aggressive, requires focused scope
-- **Tech Stack**: Next.js 14+, TypeScript, Tailwind CSS, Supabase (database, auth, file storage)
+- **Budget**: Under $5,000 — using free/freemium tiers (Vercel, Supabase, AI ~$50-100/month)
+- **Tech Stack**: Next.js 16, TypeScript, Tailwind v4, Supabase, Anthropic Claude
 - **Hosting**: Vercel (frontend), Supabase (backend)
-- **AI API**: OpenAI GPT-4 or Anthropic Claude — budget ~$50-100/month, need caching
 - **External Dependencies**: GiveButter (donations), external registration system (links only)
 - **No Payment Processing**: All payments handled by GiveButter or external systems
 
@@ -111,11 +126,16 @@ Non-technical administrators can update website content instantly using natural 
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Next.js + Supabase stack | SEO-friendly SSR, generous free tiers, easy AI integration | — Pending |
-| Chat interface for AI CMS | Simpler than external tool, admin panel keeps everything in one place | — Pending |
-| Manual sponsor approval | Prevents spam, admin clicks approval link vs fully automated | — Pending |
-| Links to external registration | Specialized tools handle registration better, reduces scope | — Pending |
-| GiveButter embed (not custom) | Handles PCI compliance, donor management, reduces risk | — Pending |
+| Next.js 16 + Supabase stack | SEO-friendly SSR, generous free tiers, easy AI integration | Good |
+| Chat interface for AI CMS | Simpler than external tool, admin panel keeps everything in one place | Good |
+| Manual sponsor approval | Prevents spam, admin clicks approval link vs fully automated | Good |
+| Links to external registration | Specialized tools handle registration better, reduces scope | Good |
+| GiveButter embed (not custom) | Handles PCI compliance, donor management, reduces risk | Good |
+| Tailwind v4 CSS-based config | Latest version, @theme inline instead of config file | Good |
+| React 19 useActionState | New pattern for server action forms, cleaner than useFormState | Good |
+| Draft-based content workflow | AI tools create drafts, preview before publish | Good |
+| Client-side Storage upload | Avoids server action 1MB body limit for images | Good |
+| Inline editing + AI chat | Two content editing modes serve different user preferences | Good |
 
 ---
-*Last updated: 2026-01-17 after adding design direction and third program*
+*Last updated: 2026-01-18 after v1 milestone*
