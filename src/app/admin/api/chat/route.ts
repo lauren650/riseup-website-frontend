@@ -2,7 +2,7 @@
  * AI Chat API Route for content management
  */
 
-import { streamText } from "ai";
+import { streamText, type CoreMessage } from "ai";
 import { anthropic } from "@ai-sdk/anthropic";
 import { createClient } from "@/lib/supabase/server";
 import { SYSTEM_PROMPT } from "@/lib/ai/prompts";
@@ -12,6 +12,36 @@ import {
   toggleSectionVisibilityTool,
   listEditableContentTool,
 } from "@/lib/ai/tools";
+
+// Convert UI messages to CoreMessage format for streamText
+function convertToCoreMessages(messages: unknown[]): CoreMessage[] {
+  const result: CoreMessage[] = [];
+
+  for (const msg of messages) {
+    const m = msg as { role: string; content?: string; parts?: { type: string; text?: string }[] };
+
+    // Extract text content from parts if present (UI message format)
+    let content = m.content || "";
+    if (m.parts && Array.isArray(m.parts)) {
+      const textPart = m.parts.find((p) => p.type === "text");
+      if (textPart && textPart.text) {
+        content = textPart.text;
+      }
+    }
+
+    // Skip messages with empty content (e.g., tool-only assistant messages)
+    if (!content.trim()) {
+      continue;
+    }
+
+    result.push({
+      role: m.role as "user" | "assistant",
+      content,
+    });
+  }
+
+  return result;
+}
 
 export async function POST(req: Request) {
   // Verify admin authentication
@@ -41,10 +71,13 @@ export async function POST(req: Request) {
 
   const { messages } = await req.json();
 
+  // Convert UI messages to CoreMessage format
+  const coreMessages = convertToCoreMessages(messages);
+
   const result = streamText({
     model: anthropic("claude-sonnet-4-20250514"),
     system: SYSTEM_PROMPT,
-    messages,
+    messages: coreMessages,
     tools: {
       updateTextContent: updateTextContentTool,
       updateAnnouncementBar: updateAnnouncementBarTool,
