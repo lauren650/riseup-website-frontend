@@ -4,27 +4,59 @@
 
 import { createClient } from "@/lib/supabase/server";
 import type { Tables } from "@/lib/supabase/types";
-import type { AnnouncementBar, ChatMessage, ContentKey } from "@/types/content";
+import type {
+  AnnouncementBar,
+  ChatMessage,
+  TextContentKey,
+  ImageContentKey,
+  ImageContent,
+} from "@/types/content";
 
 type AnnouncementBarRow = Tables<"announcement_bar">;
 type ChatMessageRow = Tables<"chat_messages">;
 
 /**
- * Default content fallbacks (matching current hardcoded values)
+ * Default text content fallbacks (matching current hardcoded values)
  */
-export const DEFAULT_CONTENT: Record<ContentKey, string> = {
+export const DEFAULT_TEXT_CONTENT: Record<TextContentKey, string> = {
   "hero.headline": "BUILDING CHAMPIONS ON AND OFF THE FIELD",
   "hero.subtitle":
     "Youth football programs for ages 5-14. Building character, discipline, and teamwork through the game we love.",
   "hero.cta_primary": "Register Now",
   "hero.cta_secondary": "Learn More",
+  "programs.section_title": "Our Programs",
 };
 
 /**
- * Content descriptions for AI context
+ * Default image content fallbacks
  */
-export const CONTENT_DESCRIPTIONS: Record<
-  ContentKey,
+export const DEFAULT_IMAGE_CONTENT: Record<ImageContentKey, ImageContent> = {
+  "hero.poster": {
+    url: "/images/hero-poster.jpg",
+    alt: "Youth football players on the field",
+  },
+  "programs.flag_football.image": {
+    url: "/images/flag-football.jpg",
+    alt: "Flag football program",
+  },
+  "programs.tackle_football.image": {
+    url: "/images/tackle-football.jpg",
+    alt: "Tackle football program",
+  },
+  "programs.academies.image": {
+    url: "/images/academies-clinics.jpg",
+    alt: "Academies and clinics program",
+  },
+};
+
+// Legacy alias for backwards compatibility
+export const DEFAULT_CONTENT = DEFAULT_TEXT_CONTENT;
+
+/**
+ * Text content descriptions for AI context
+ */
+export const TEXT_CONTENT_DESCRIPTIONS: Record<
+  TextContentKey,
   { description: string; page: string; section: string }
 > = {
   "hero.headline": {
@@ -47,12 +79,49 @@ export const CONTENT_DESCRIPTIONS: Record<
     page: "Homepage",
     section: "Hero",
   },
+  "programs.section_title": {
+    description: "Section title for programs grid",
+    page: "Homepage",
+    section: "Programs",
+  },
 };
 
 /**
- * Fetch content by key, with fallback to default
+ * Image content descriptions for AI context
  */
-export async function getContent(contentKey: ContentKey): Promise<string> {
+export const IMAGE_CONTENT_DESCRIPTIONS: Record<
+  ImageContentKey,
+  { description: string; page: string; section: string }
+> = {
+  "hero.poster": {
+    description: "Hero background poster image",
+    page: "Homepage",
+    section: "Hero",
+  },
+  "programs.flag_football.image": {
+    description: "Flag football program tile image",
+    page: "Homepage",
+    section: "Programs",
+  },
+  "programs.tackle_football.image": {
+    description: "Tackle football program tile image",
+    page: "Homepage",
+    section: "Programs",
+  },
+  "programs.academies.image": {
+    description: "Academies & clinics program tile image",
+    page: "Homepage",
+    section: "Programs",
+  },
+};
+
+// Legacy alias for backwards compatibility
+export const CONTENT_DESCRIPTIONS = TEXT_CONTENT_DESCRIPTIONS;
+
+/**
+ * Fetch text content by key, with fallback to default
+ */
+export async function getContent(contentKey: TextContentKey): Promise<string> {
   const supabase = await createClient();
 
   const { data } = await supabase
@@ -65,7 +134,31 @@ export async function getContent(contentKey: ContentKey): Promise<string> {
     return data.content.text as string;
   }
 
-  return DEFAULT_CONTENT[contentKey] || "";
+  return DEFAULT_TEXT_CONTENT[contentKey] || "";
+}
+
+/**
+ * Fetch image content by key, with fallback to default
+ */
+export async function getImageContent(
+  contentKey: ImageContentKey
+): Promise<ImageContent> {
+  const supabase = await createClient();
+
+  const { data } = await supabase
+    .from("site_content")
+    .select("content")
+    .eq("content_key", contentKey)
+    .single();
+
+  if (data?.content?.url) {
+    return {
+      url: data.content.url as string,
+      alt: (data.content.alt as string) || DEFAULT_IMAGE_CONTENT[contentKey].alt,
+    };
+  }
+
+  return DEFAULT_IMAGE_CONTENT[contentKey];
 }
 
 /**
@@ -178,11 +271,11 @@ export async function getChatHistory(
 }
 
 /**
- * Get all editable content with current values
+ * Get all editable text content with current values
  */
 export async function getAllEditableContent(): Promise<
   Array<{
-    contentKey: ContentKey;
+    contentKey: TextContentKey;
     description: string;
     currentValue: string;
     page: string;
@@ -191,8 +284,8 @@ export async function getAllEditableContent(): Promise<
 > {
   const result = [];
 
-  for (const [key, meta] of Object.entries(CONTENT_DESCRIPTIONS)) {
-    const contentKey = key as ContentKey;
+  for (const [key, meta] of Object.entries(TEXT_CONTENT_DESCRIPTIONS)) {
+    const contentKey = key as TextContentKey;
     const currentValue = await getContent(contentKey);
 
     result.push({

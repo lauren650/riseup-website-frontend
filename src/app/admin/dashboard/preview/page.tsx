@@ -1,8 +1,8 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { PreviewBar } from '@/components/admin/preview-bar';
-import { getContent } from '@/lib/content/queries';
-import type { ContentKey } from '@/types/content';
+import { getContent, getImageContent, DEFAULT_TEXT_CONTENT } from '@/lib/content/queries';
+import type { TextContentKey, ImageContentKey } from '@/types/content';
 import type { Tables } from '@/lib/supabase/types';
 
 type ContentDraftRow = Tables<'content_drafts'>;
@@ -58,11 +58,21 @@ export default async function PreviewPage({ searchParams }: PreviewPageProps) {
   let changeDescription = '';
 
   if (draftData.draft_type === 'text') {
-    const contentKey = draftData.content_key as ContentKey;
-    currentValue = await getContent(contentKey);
+    const contentKey = draftData.content_key;
+    // Check if this is a known text content key
+    if (contentKey in DEFAULT_TEXT_CONTENT) {
+      currentValue = await getContent(contentKey as TextContentKey);
+    }
     const contentObj = draftData.content as Record<string, unknown>;
     newValue = (contentObj?.text as string) || '';
     changeDescription = `Text change for "${draftData.content_key}"`;
+  } else if (draftData.draft_type === 'image') {
+    const contentKey = draftData.content_key as ImageContentKey;
+    const currentImage = await getImageContent(contentKey);
+    currentValue = currentImage.url;
+    const contentObj = draftData.content as Record<string, unknown>;
+    newValue = (contentObj?.url as string) || '';
+    changeDescription = `Image change for "${draftData.content_key}"`;
   } else if (draftData.draft_type === 'announcement') {
     const contentObj = draftData.content as Record<string, unknown>;
     const action = contentObj?.action as string;

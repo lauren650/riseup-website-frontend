@@ -1,46 +1,23 @@
-import { createClient } from '@/lib/supabase/server';
-import { VideoHero } from '@/components/ui/video-hero';
+import { getContent, getImageContent } from '@/lib/content/queries';
+import { VideoHeroEditable } from '@/components/ui/video-hero-editable';
 import { Button } from '@/components/ui/button';
 import { EditableText } from '@/components/editable/editable-text';
-import type { ContentKey } from '@/types/content';
-
-// Fallback content when database not seeded
-const DEFAULTS: Record<ContentKey, string> = {
-  'hero.headline': 'BUILDING CHAMPIONS ON AND OFF THE FIELD',
-  'hero.subtitle': 'Youth football programs for ages 5-14. Building character, discipline, and teamwork through the game we love.',
-  'hero.cta_primary': 'Register Now',
-  'hero.cta_secondary': 'Learn More',
-};
-
-async function getHeroContent(key: ContentKey): Promise<string> {
-  try {
-    const supabase = await createClient();
-    const { data } = await supabase
-      .from('site_content')
-      .select('content')
-      .eq('content_key', key)
-      .single();
-
-    const contentObj = data?.content as Record<string, unknown> | undefined;
-    return (contentObj?.text as string) || DEFAULTS[key];
-  } catch {
-    // Database not available or not seeded - use fallback
-    return DEFAULTS[key];
-  }
-}
 
 export async function HeroSection() {
-  const [headline, subtitle, ctaPrimary, ctaSecondary] = await Promise.all([
-    getHeroContent('hero.headline'),
-    getHeroContent('hero.subtitle'),
-    getHeroContent('hero.cta_primary'),
-    getHeroContent('hero.cta_secondary'),
+  const [headline, subtitle, ctaPrimary, ctaSecondary, heroPoster] = await Promise.all([
+    getContent('hero.headline'),
+    getContent('hero.subtitle'),
+    getContent('hero.cta_primary'),
+    getContent('hero.cta_secondary'),
+    getImageContent('hero.poster'),
   ]);
 
   return (
-    <VideoHero
+    <VideoHeroEditable
       videoSrc="/videos/hero.mp4"
-      posterSrc="/images/hero-poster.jpg"
+      posterSrc={heroPoster.url}
+      posterAlt={heroPoster.alt}
+      posterContentKey="hero.poster"
     >
       <div className="text-center max-w-4xl mx-auto">
         <EditableText
@@ -92,6 +69,6 @@ export async function HeroSection() {
           </Button>
         </div>
       </div>
-    </VideoHero>
+    </VideoHeroEditable>
   );
 }

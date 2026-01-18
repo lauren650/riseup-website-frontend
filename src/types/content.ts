@@ -3,13 +3,36 @@
  */
 
 /**
- * Valid content keys that can be edited through the AI chat
+ * Valid text content keys that can be edited
  */
-export type ContentKey =
+export type TextContentKey =
   | "hero.headline"
   | "hero.subtitle"
   | "hero.cta_primary"
-  | "hero.cta_secondary";
+  | "hero.cta_secondary"
+  | "programs.section_title";
+
+/**
+ * Valid image content keys that can be edited
+ */
+export type ImageContentKey =
+  | "hero.poster"
+  | "programs.flag_football.image"
+  | "programs.tackle_football.image"
+  | "programs.academies.image";
+
+/**
+ * All valid content keys (text or image)
+ */
+export type ContentKey = TextContentKey | ImageContentKey;
+
+/**
+ * Image content structure
+ */
+export interface ImageContent {
+  url: string;
+  alt: string;
+}
 
 /**
  * Site content record from database
@@ -19,7 +42,9 @@ export interface SiteContent {
   content_key: ContentKey;
   content_type: string;
   content: {
-    text: string;
+    text?: string;
+    url?: string;
+    alt?: string;
     [key: string]: unknown;
   };
   page: string | null;
@@ -98,7 +123,7 @@ export interface ToolResult {
  * Content list item for listEditableContent tool
  */
 export interface EditableContentItem {
-  contentKey: ContentKey;
+  contentKey: TextContentKey;
   description: string;
   currentValue: string;
   page: string;

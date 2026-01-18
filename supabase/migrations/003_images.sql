@@ -8,6 +8,11 @@ INSERT INTO site_content (content_key, content_type, content, page, section) VAL
   ('hero.video', 'video', '{"url": "/videos/hero.mp4", "type": "video/mp4"}', 'homepage', 'hero')
 ON CONFLICT (content_key) DO NOTHING;
 
+-- Add programs section title
+INSERT INTO site_content (content_key, content_type, content, page, section) VALUES
+  ('programs.section_title', 'text', '{"text": "Our Programs"}', 'homepage', 'programs')
+ON CONFLICT (content_key) DO NOTHING;
+
 -- Add program tile image entries
 INSERT INTO site_content (content_key, content_type, content, page, section) VALUES
   ('programs.flag_football.image', 'image', '{"url": "/images/flag-football.jpg", "alt": "Flag football program"}', 'homepage', 'programs'),

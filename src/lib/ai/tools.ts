@@ -6,16 +6,17 @@ import { tool } from "ai";
 import { z } from "zod";
 import { createDraft } from "@/lib/content/mutations";
 import { getAllEditableContent, getContent } from "@/lib/content/queries";
-import type { ContentKey } from "@/types/content";
+import type { TextContentKey } from "@/types/content";
 
 /**
- * Valid content keys for the AI to edit
+ * Valid text content keys for the AI to edit
  */
-const CONTENT_KEYS = [
+const TEXT_CONTENT_KEYS = [
   "hero.headline",
   "hero.subtitle",
   "hero.cta_primary",
   "hero.cta_secondary",
+  "programs.section_title",
 ] as const;
 
 /**
@@ -26,16 +27,16 @@ export const updateTextContentTool = tool({
     "Update a text content field on the website. Use this when the user wants to change text like headlines, subtitles, or button text.",
   inputSchema: z.object({
     contentKey: z
-      .enum(CONTENT_KEYS)
+      .enum(TEXT_CONTENT_KEYS)
       .describe(
-        "The content field to update. Options: hero.headline (main headline), hero.subtitle (subtitle text), hero.cta_primary (primary button), hero.cta_secondary (secondary button)"
+        "The content field to update. Options: hero.headline (main headline), hero.subtitle (subtitle text), hero.cta_primary (primary button), hero.cta_secondary (secondary button), programs.section_title (section title)"
       ),
     newText: z.string().describe("The new text content to set"),
   }),
   execute: async ({ contentKey, newText }) => {
     try {
       // Get current value for context
-      const currentValue = await getContent(contentKey as ContentKey);
+      const currentValue = await getContent(contentKey as TextContentKey);
 
       // Create draft for preview
       const draft = await createDraft(
