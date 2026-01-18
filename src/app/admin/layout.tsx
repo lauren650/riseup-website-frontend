@@ -46,6 +46,12 @@ export default async function AdminLayout({
                 >
                   Sponsors
                 </Link>
+                <Link
+                  href="/admin/dashboard/history"
+                  className="text-sm text-muted-foreground transition-colors hover:text-white"
+                >
+                  History
+                </Link>
               </nav>
             )}
           </div>
