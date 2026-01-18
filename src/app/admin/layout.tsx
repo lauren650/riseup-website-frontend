@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { ChatDrawer } from "@/components/admin/chat-drawer";
 
 async function signOut() {
   "use server";
@@ -67,6 +68,9 @@ export default async function AdminLayout({
 
       {/* Main Content */}
       <main className="mx-auto max-w-6xl px-6 py-8">{children}</main>
+
+      {/* AI Chat Drawer - only show for logged in users */}
+      {user && <ChatDrawer />}
     </div>
   );
 }
