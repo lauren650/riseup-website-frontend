@@ -10,7 +10,7 @@ This roadmap delivers a modern youth football league website with an AI-powered 
 - Integer phases (1, 2, 3): Planned milestone work
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
-- [ ] **Phase 1: Foundation & Public Pages** - Project setup, all public pages, responsive design
+- [x] **Phase 1: Foundation & Public Pages** - Project setup, all public pages, responsive design
 - [ ] **Phase 2: Interactive Features** - Donation integration, sponsor portal with approval workflow
 - [ ] **Phase 3: AI-Powered CMS** - Natural language content management system
 
@@ -29,9 +29,9 @@ This roadmap delivers a modern youth football league website with an AI-powered 
 **Plans**: 3 plans (2 waves)
 
 Plans:
-- [ ] 01-01-PLAN.md — Project scaffolding (Next.js 15, TypeScript, Tailwind dark theme, Supabase clients, Vercel config)
-- [ ] 01-02-PLAN.md — Homepage and navigation (video hero with mobile fallback, program tiles, responsive nav with mobile menu)
-- [ ] 01-03-PLAN.md — Content pages (program pages with template, About, Contact form with reCAPTCHA, Partners/Ways to Give placeholders)
+- [x] 01-01-PLAN.md — Project scaffolding (Next.js 15, TypeScript, Tailwind dark theme, Supabase clients, Vercel config)
+- [x] 01-02-PLAN.md — Homepage and navigation (video hero with mobile fallback, program tiles, responsive nav with mobile menu)
+- [x] 01-03-PLAN.md — Content pages (program pages with template, About, Contact form with reCAPTCHA, Partners/Ways to Give placeholders)
 
 **Wave Structure:**
 | Wave | Plans | Can Run Parallel |
@@ -84,7 +84,7 @@ Phases execute in numeric order: 1 -> 2 -> 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Public Pages | 0/3 | Planned | - |
+| 1. Foundation & Public Pages | 3/3 | Complete | 2026-01-17 |
 | 2. Interactive Features | 0/3 | Planned | - |
 | 3. AI-Powered CMS | 0/2 | Not started | - |
 

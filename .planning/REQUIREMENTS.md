@@ -104,18 +104,18 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AI-05 | Phase 3 | Pending |
 | AI-06 | Phase 3 | Pending |
 | AI-07 | Phase 3 | Pending |
-| PAGE-01 | Phase 1 | Pending |
-| PAGE-02 | Phase 1 | Pending |
-| PAGE-03 | Phase 1 | Pending |
-| PAGE-04 | Phase 1 | Pending |
-| PAGE-05 | Phase 1 | Pending |
-| PAGE-06 | Phase 1 | Pending |
-| PAGE-07 | Phase 1 | Pending |
-| PAGE-08 | Phase 1 | Pending |
-| PAGE-09 | Phase 1 | Pending |
-| PAGE-10 | Phase 1 | Pending |
-| PAGE-11 | Phase 1 | Pending |
-| PAGE-12 | Phase 1 | Pending |
+| PAGE-01 | Phase 1 | Complete |
+| PAGE-02 | Phase 1 | Complete |
+| PAGE-03 | Phase 1 | Complete |
+| PAGE-04 | Phase 1 | Complete |
+| PAGE-05 | Phase 1 | Complete |
+| PAGE-06 | Phase 1 | Complete |
+| PAGE-07 | Phase 1 | Complete |
+| PAGE-08 | Phase 1 | Complete |
+| PAGE-09 | Phase 1 | Complete |
+| PAGE-10 | Phase 1 | Complete |
+| PAGE-11 | Phase 1 | Complete |
+| PAGE-12 | Phase 1 | Complete |
 | DON-01 | Phase 2 | Pending |
 | DON-02 | Phase 2 | Pending |
 | SPON-01 | Phase 2 | Pending |
@@ -123,10 +123,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SPON-03 | Phase 2 | Pending |
 | SPON-04 | Phase 2 | Pending |
 | SPON-05 | Phase 2 | Pending |
-| TECH-01 | Phase 1 | Pending |
-| TECH-02 | Phase 1 | Pending |
-| TECH-03 | Phase 1 | Pending |
-| TECH-04 | Phase 1 | Pending |
+| TECH-01 | Phase 1 | Complete |
+| TECH-02 | Phase 1 | Complete |
+| TECH-03 | Phase 1 | Complete |
+| TECH-04 | Phase 1 | Complete |
 
 **Coverage:**
 - v1 requirements: 30 total
