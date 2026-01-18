@@ -74,14 +74,16 @@ Plans:
 **Plans**: 2 plans (2 waves)
 
 Plans:
-- [ ] 03-01-PLAN.md — Database content model, AI SDK integration, chat interface with tool definitions
-- [ ] 03-02-PLAN.md — Preview system, version history with rollback, wire public site to database content
+- [x] 03-01-PLAN.md — Database content model, AI SDK integration, chat interface with tool definitions
+- [x] 03-02-PLAN.md — Preview system, version history with rollback, wire public site to database content
+- [ ] 03-03-PLAN.md — Inline editing for text and images with upload
 
 **Wave Structure:**
 | Wave | Plans | Can Run Parallel |
 |------|-------|------------------|
 | 1 | 03-01 | AI infrastructure and chat must complete first |
 | 2 | 03-02 | Depends on 03-01 (needs content tables and AI tools) |
+| 3 | 03-03 | Depends on 03-02 (needs content system in place) |
 
 ## Progress
 
