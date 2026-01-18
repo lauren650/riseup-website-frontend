@@ -71,11 +71,17 @@ Plans:
   3. Admin can manage announcement bar (add, edit, remove) and toggle section visibility via commands
   4. System shows preview of changes before publishing and admin can confirm or cancel
   5. Admin can view change history and rollback to any of the last 10 versions
-**Plans**: 2 plans
+**Plans**: 2 plans (2 waves)
 
 Plans:
-- [ ] 03-01: Admin panel and AI chat interface (auth, chat UI, command parsing)
-- [ ] 03-02: Content management features (preview, rollback, audit log)
+- [ ] 03-01-PLAN.md — Database content model, AI SDK integration, chat interface with tool definitions
+- [ ] 03-02-PLAN.md — Preview system, version history with rollback, wire public site to database content
+
+**Wave Structure:**
+| Wave | Plans | Can Run Parallel |
+|------|-------|------------------|
+| 1 | 03-01 | AI infrastructure and chat must complete first |
+| 2 | 03-02 | Depends on 03-01 (needs content tables and AI tools) |
 
 ## Progress
 
@@ -86,11 +92,12 @@ Phases execute in numeric order: 1 -> 2 -> 3
 |-------|----------------|--------|-----------|
 | 1. Foundation & Public Pages | 3/3 | Complete | 2026-01-17 |
 | 2. Interactive Features | 3/3 | Complete | 2026-01-18 |
-| 3. AI-Powered CMS | 0/2 | Not started | - |
+| 3. AI-Powered CMS | 0/2 | Planned | - |
 
 ---
 *Roadmap created: 2026-01-17*
 *Phase 1 planned: 2026-01-17*
 *Phase 2 planned: 2026-01-17*
+*Phase 3 planned: 2026-01-18*
 *Depth: Quick (3-5 phases)*
 *Coverage: 30/30 v1 requirements mapped*
