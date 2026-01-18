@@ -48,11 +48,18 @@ Plans:
   2. Potential sponsor can submit company info and logo via self-service form
   3. Admin receives notification when new sponsor submits and can approve/reject via admin panel
   4. Approved sponsor logo automatically appears on Partners page with click-through link
-**Plans**: 2 plans
+**Plans**: 3 plans (2 waves)
 
 Plans:
-- [ ] 02-01: Donation integration (GiveButter embed, impact statements)
-- [ ] 02-02: Sponsor portal (submission form, validation, admin approval workflow)
+- [ ] 02-01-PLAN.md — Donation integration (GiveButter widget component, embed on Ways to Give page)
+- [ ] 02-02-PLAN.md — Sponsor submission infrastructure (database schema, storage, validation, form, email notifications)
+- [ ] 02-03-PLAN.md — Admin dashboard (auth middleware, login, sponsor approval, dynamic Partners page)
+
+**Wave Structure:**
+| Wave | Plans | Can Run Parallel |
+|------|-------|------------------|
+| 1 | 02-01, 02-02 | Yes - donation and sponsor infrastructure are independent |
+| 2 | 02-03 | Depends on 02-02 (needs sponsors table and server actions) |
 
 ### Phase 3: AI-Powered CMS
 **Goal**: Non-technical administrators can update website content instantly using natural language commands
@@ -78,11 +85,12 @@ Phases execute in numeric order: 1 -> 2 -> 3
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Public Pages | 0/3 | Planned | - |
-| 2. Interactive Features | 0/2 | Not started | - |
+| 2. Interactive Features | 0/3 | Planned | - |
 | 3. AI-Powered CMS | 0/2 | Not started | - |
 
 ---
 *Roadmap created: 2026-01-17*
 *Phase 1 planned: 2026-01-17*
+*Phase 2 planned: 2026-01-17*
 *Depth: Quick (3-5 phases)*
 *Coverage: 30/30 v1 requirements mapped*
