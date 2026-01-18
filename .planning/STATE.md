@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-17)
 
 **Core value:** Non-technical administrators can update website content instantly using natural language commands
-**Current focus:** Phase 3 In Progress - AI-Powered CMS
+**Current focus:** Phase 3 Complete - AI-Powered CMS
 
 ## Current Position
 
 Phase: 3 of 3 (AI-Powered CMS)
-Plan: 1 of 2 in phase 3
-Status: In progress
-Last activity: 2026-01-18 - Completed 03-01-PLAN.md (AI Content Infrastructure)
+Plan: 3 of 3 in phase 3
+Status: Complete
+Last activity: 2026-01-18 - Completed 03-03-PLAN.md (Inline Editing System)
 
-Progress: [████████░░] 87.5%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
-- Average duration: 14 min
-- Total execution time: 104 min
+- Total plans completed: 9
+- Average duration: 13 min
+- Total execution time: 116 min
 
 **By Phase:**
 
@@ -29,11 +29,11 @@ Progress: [████████░░] 87.5%
 |-------|-------|-------|----------|
 | 1. Foundation & Public Pages | 3/3 | 67 min | 22 min |
 | 2. Interactive Features | 3/3 | 26 min | 9 min |
-| 3. AI-Powered CMS | 1/2 | 11 min | 11 min |
+| 3. AI-Powered CMS | 3/3 | 23 min | 8 min |
 
 **Recent Trend:**
-- Last 3 plans: 7min, 15min, 11min
-- Trend: Consistent under 20min per plan
+- Last 3 plans: 11min, 6min, 6min
+- Trend: Consistent improvement, all under 15min
 
 *Updated after each plan completion*
 
@@ -62,6 +62,9 @@ Recent decisions affecting current work:
 | AI SDK v6 inputSchema | 03-01 | v6 uses inputSchema not parameters for tools |
 | DefaultChatTransport for API | 03-01 | v6 pattern for custom chat endpoint |
 | Draft-based content workflow | 03-01 | Tools create drafts, preview, then publish |
+| TextContentKey/ImageContentKey split | 03-03 | Type-safe content keys for text vs images |
+| Client-side image upload | 03-03 | Supabase Storage upload avoids server action size limits |
+| Edit mode keyboard shortcut | 03-03 | Cmd/Ctrl+E for quick toggle |
 
 ### Pending Todos
 
@@ -78,13 +81,15 @@ None.
 - Run `supabase/migrations/001_sponsors.sql` in Supabase SQL Editor
 - ADMIN_EMAIL environment variable (sponsor notifications)
 - Create admin user in Supabase Dashboard -> Authentication -> Users
-- **NEW:** ANTHROPIC_API_KEY for AI chat
-- **NEW:** Run `supabase/migrations/002_content_cms.sql` in Supabase SQL Editor
+- ANTHROPIC_API_KEY for AI chat
+- Run `supabase/migrations/002_content_cms.sql` in Supabase SQL Editor
+- Supabase Storage bucket `site-images` (for inline image editing)
+- Run `supabase/migrations/003_images.sql` in Supabase SQL Editor
 
 ## Session Continuity
 
-Last session: 2026-01-18T14:53:17Z
-Stopped at: Completed 03-01-PLAN.md (AI Content Infrastructure)
+Last session: 2026-01-18T20:32:22Z
+Stopped at: Completed 03-03-PLAN.md (Inline Editing System)
 Resume file: None
 
 ## Phase 1 Completion Summary
@@ -110,20 +115,43 @@ Resume file: None
 - Sponsor approval workflow
 - Dynamic sponsor display on Partners page
 
-## Phase 3 Progress
+## Phase 3 Completion Summary
 
-**Completed:**
+**AI-Powered CMS fully implemented:**
 - 03-01: AI content editing infrastructure
   - Database schema for content, drafts, versions, chat history
   - AI SDK integration with Anthropic Claude
   - Tool definitions for content operations
   - Streaming chat API and UI
 
-**Remaining work:**
 - 03-02: Preview page and publish workflow
+  - Preview page with change comparison
+  - Publish and cancel actions
+  - Version history with rollback
+  - Public pages wired to database content
 
-**Foundation in place:**
-- Admin authentication ready
-- Chat drawer integrated into admin layout
-- Tools create drafts with preview URLs
-- Preview page needs to be built
+- 03-03: Inline editing system
+  - Edit mode toggle with keyboard shortcut (Cmd/Ctrl+E)
+  - Editable text component with inline editing
+  - Editable image component with Supabase Storage upload
+  - Hero and program content fully editable
+
+**Key capabilities delivered:**
+- Natural language content editing via AI chat
+- Click-to-edit inline editing for text and images
+- Preview changes before publishing
+- Version history with one-click rollback
+- All content stored in database, not hardcoded
+
+## Project Complete
+
+All 3 phases and 9 plans completed successfully.
+
+**Total execution time:** 116 minutes
+**Average per plan:** 13 minutes
+
+Ready for:
+- Production environment setup
+- Content population
+- User training
+- Deployment
