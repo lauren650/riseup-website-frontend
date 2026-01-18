@@ -10,30 +10,30 @@ See: .planning/PROJECT.md (updated 2026-01-17)
 ## Current Position
 
 Phase: 2 of 3 (Interactive Features)
-Plan: 1 of 3 in phase 2
+Plan: 2 of 3 in phase 2
 Status: In progress
-Last activity: 2026-01-18 - Completed 02-01-PLAN.md (GiveButter Donation Widget)
+Last activity: 2026-01-18 - Completed 02-02-PLAN.md (Sponsor Submission Infrastructure)
 
-Progress: [█████░░░░░] 50%
+Progress: [██████░░░░] 62%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
-- Average duration: 18 min
-- Total execution time: 71 min
+- Total plans completed: 5
+- Average duration: 16 min
+- Total execution time: 78 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1. Foundation & Public Pages | 3/3 | 67 min | 22 min |
-| 2. Interactive Features | 1/3 | 4 min | 4 min |
+| 2. Interactive Features | 2/3 | 11 min | 5.5 min |
 | 3. AI-Powered CMS | 0/2 | - | - |
 
 **Recent Trend:**
-- Last 3 plans: 28min, 33min, 4min
-- Trend: Variable (02-01 was smaller scope)
+- Last 3 plans: 33min, 4min, 7min
+- Trend: Variable (phase 2 plans are more focused)
 
 *Updated after each plan completion*
 
@@ -55,6 +55,8 @@ Recent decisions affecting current work:
 | Optional integrations | 01-03 | reCAPTCHA/Resend work without env vars for dev |
 | Separate .d.ts for custom elements | 02-01 | React 19 module augmentation requires separate type file |
 | Fallback UI for unconfigured services | 02-01 | Graceful degradation when env vars not set |
+| PostgrestVersion in Database type | 02-02 | Required for Supabase v2.78+ typed query compatibility |
+| Client-side Storage upload | 02-02 | Avoids server action 1MB body limit |
 
 ### Pending Todos
 
@@ -67,11 +69,14 @@ None.
 - Resend API key (contact form email delivery)
 - CONTACT_EMAIL environment variable
 - GiveButter widget ID (donation form)
+- Supabase Storage bucket `sponsor-logos` (must be created manually)
+- Run `supabase/migrations/001_sponsors.sql` in Supabase SQL Editor
+- ADMIN_EMAIL environment variable (sponsor notifications)
 
 ## Session Continuity
 
-Last session: 2026-01-18T04:16:01Z
-Stopped at: Completed 02-01-PLAN.md (GiveButter Donation Widget)
+Last session: 2026-01-18T04:19:58Z
+Stopped at: Completed 02-02-PLAN.md (Sponsor Submission Infrastructure)
 Resume file: None
 
 ## Phase 1 Completion Summary
@@ -87,7 +92,7 @@ Resume file: None
 
 **Completed:**
 - 02-01: GiveButter donation widget integrated into Ways to Give page
+- 02-02: Sponsor submission infrastructure (database, storage, form, email)
 
 **Remaining:**
-- 02-02: Sponsor submission portal (form, storage, email notifications)
-- 02-03: Admin dashboard (auth, sponsor approval, content management)
+- 02-03: Sponsor display on Partners page and admin dashboard
