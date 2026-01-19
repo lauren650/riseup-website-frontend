@@ -41,13 +41,13 @@ export function DonationModal({ isOpen, onClose }: DonationModalProps) {
       {/* Modal */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
         <div
-          className="relative w-full max-w-md mx-auto"
+          className="relative w-full max-w-md mx-auto bg-white rounded-xl shadow-2xl"
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Close button */}
+          {/* Close button - positioned at top-right corner of modal */}
           <button
             onClick={onClose}
-            className="absolute -top-12 right-0 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-accent"
+            className="absolute top-4 right-4 z-[60] flex h-10 w-10 items-center justify-center rounded-full bg-black/80 text-white transition-all hover:bg-black hover:scale-110 focus:outline-none focus:ring-2 focus:ring-accent"
             aria-label="Close modal"
           >
             <svg
@@ -66,7 +66,9 @@ export function DonationModal({ isOpen, onClose }: DonationModalProps) {
           </button>
 
           {/* Just the GiveButter Widget */}
-          <GivebutterWidget align="center" />
+          <div className="p-6">
+            <GivebutterWidget align="center" />
+          </div>
         </div>
       </div>
     </>
