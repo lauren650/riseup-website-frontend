@@ -8,61 +8,79 @@ interface ProgramTile {
   href: string
   title: string
   ageRange: string
-  imageKey: ImageContentKey
+  imageKeys: [ImageContentKey, ImageContentKey, ImageContentKey]
 }
 
 const programs: ProgramTile[] = [
   {
     href: '/flag-football',
-    title: 'FLAG FOOTBALL',
+    title: "GIRL'S FLAG FOOTBALL",
     ageRange: 'Ages 5-8',
-    imageKey: 'programs.flag_football.image',
+    imageKeys: [
+      'programs.flag_football.image_1',
+      'programs.flag_football.image_2',
+      'programs.flag_football.image_3',
+    ],
   },
   {
     href: '/tackle-football',
     title: 'TACKLE FOOTBALL',
     ageRange: 'Ages 9-14',
-    imageKey: 'programs.tackle_football.image',
+    imageKeys: [
+      'programs.tackle_football.image_1',
+      'programs.tackle_football.image_2',
+      'programs.tackle_football.image_3',
+    ],
   },
   {
     href: '/academies-clinics',
-    title: 'ACADEMIES & CLINICS',
+    title: 'ACADEMIES & CLINIC',
     ageRange: 'All Ages',
-    imageKey: 'programs.academies.image',
+    imageKeys: [
+      'programs.academies.image_1',
+      'programs.academies.image_2',
+      'programs.academies.image_3',
+    ],
   },
 ]
 
 export async function ProgramTiles() {
-  // Fetch section title and all program images in parallel
-  const [sectionTitle, ...programImages] = await Promise.all([
-    getContent('programs.section_title'),
-    ...programs.map((p) => getImageContent(p.imageKey)),
-  ])
+  // Fetch all program images in parallel (3 per program = 9 total)
+  const allImagePromises = programs.flatMap((p) =>
+    p.imageKeys.map((key) => getImageContent(key))
+  )
+  const allImages = await Promise.all(allImagePromises)
 
   return (
-    <section id="programs" className="bg-black py-16 md:py-24">
+    <section id="programs" className="relative z-40 py-16 md:py-20">
       <div className="mx-auto max-w-7xl px-6">
-        <EditableText
-          contentKey="programs.section_title"
-          as="h2"
-          className="text-3xl md:text-4xl font-bold text-white mb-12 text-center"
-          page="homepage"
-          section="programs"
-        >
-          {sectionTitle}
-        </EditableText>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {programs.map((program, index) => (
-            <ProgramTileEditable
-              key={program.href}
-              href={program.href}
-              title={program.title}
-              ageRange={program.ageRange}
-              imageSrc={programImages[index].url}
-              imageAlt={programImages[index].alt}
-              imageContentKey={program.imageKey}
-            />
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {programs.map((program, programIndex) => {
+            // Each program has 3 images, so get the slice for this program
+            const startIndex = programIndex * 3
+            const programImages = program.imageKeys.map((key, imgIndex) => {
+              const imageData = allImages[startIndex + imgIndex]
+              return {
+                src: imageData.url,
+                alt: imageData.alt,
+                contentKey: key,
+                position: imageData.position,
+              }
+            })
+
+            return (
+              <ProgramTileEditable
+                key={program.href}
+                href={program.href}
+                title={program.title}
+                ageRange={program.ageRange}
+                images={programImages}
+                // First tile: fade sequentially every 2 seconds
+                rotationInterval={programIndex === 0 ? 2000 : undefined}
+                rotationMode={programIndex === 0 ? 'sequential' : 'random'}
+              />
+            )
+          })}
         </div>
       </div>
     </section>

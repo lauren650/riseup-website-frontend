@@ -5,18 +5,23 @@ import Script from "next/script";
 interface GivebutterWidgetProps {
   widgetId?: string;
   align?: "left" | "center" | "right";
+  campaignId?: string;
+  accountId?: string;
 }
 
 export function GivebutterWidget({
   widgetId,
   align = "center",
+  campaignId,
+  accountId,
 }: GivebutterWidgetProps) {
-  // Use prop or environment variable, with fallback for unconfigured state
-  const resolvedWidgetId =
-    widgetId || process.env.NEXT_PUBLIC_GIVEBUTTER_WIDGET_ID;
+  // Use props or environment variables
+  const resolvedWidgetId = widgetId || process.env.NEXT_PUBLIC_GIVEBUTTER_WIDGET_ID;
+  const resolvedAccountId = accountId || process.env.NEXT_PUBLIC_GIVEBUTTER_ACCOUNT;
+  const resolvedCampaignId = campaignId || process.env.NEXT_PUBLIC_GIVEBUTTER_CAMPAIGN_ID;
 
-  // Show fallback if widget ID is not configured
-  if (!resolvedWidgetId || resolvedWidgetId === "your-widget-id") {
+  // Show fallback if not configured
+  if (!resolvedWidgetId || !resolvedAccountId) {
     return (
       <div className="flex min-h-[500px] items-center justify-center rounded-xl border border-dashed border-white/20 bg-background p-8">
         <div className="text-center">
@@ -24,7 +29,7 @@ export function GivebutterWidget({
             Donation form not configured
           </p>
           <p className="mt-2 text-sm text-muted-foreground">
-            Set NEXT_PUBLIC_GIVEBUTTER_WIDGET_ID in your environment
+            Set NEXT_PUBLIC_GIVEBUTTER_ACCOUNT and NEXT_PUBLIC_GIVEBUTTER_WIDGET_ID
           </p>
         </div>
       </div>
@@ -33,15 +38,22 @@ export function GivebutterWidget({
 
   return (
     <>
-      {/* GiveButter library script - load once */}
+      {/* GiveButter library script */}
       <Script
-        src="https://widgets.givebutter.com/latest.umd.cjs"
+        src={`https://widgets.givebutter.com/latest.umd.cjs?acct=${resolvedAccountId}`}
         strategy="afterInteractive"
       />
 
-      {/* Widget element - min-height prevents layout shift during checkout */}
-      <div style={{ minHeight: "500px" }}>
-        <givebutter-widget id={resolvedWidgetId} align={align}></givebutter-widget>
+      {/* GiveButter form element - using the giving-form component that matches your old site */}
+      <div style={{ minHeight: "500px" }} className="mx-auto" style={{ maxWidth: "440px" }}>
+        <givebutter-giving-form
+          id={resolvedWidgetId}
+          account={resolvedAccountId}
+          campaign={resolvedCampaignId}
+          theme-color="#121126"
+          max-width="440px"
+          show-goal-bar="false"
+        ></givebutter-giving-form>
       </div>
     </>
   );

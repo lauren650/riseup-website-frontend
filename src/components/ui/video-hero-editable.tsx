@@ -8,26 +8,25 @@ import { createClient } from '@/lib/supabase/client'
 interface VideoHeroEditableProps {
   videoSrc: string
   posterSrc: string
-  posterAlt: string
-  posterContentKey: string
+  videoContentKey?: string
   children: React.ReactNode
 }
 
 export function VideoHeroEditable({
   videoSrc,
   posterSrc,
-  posterAlt,
-  posterContentKey,
+  videoContentKey = 'hero.video',
   children,
 }: VideoHeroEditableProps) {
   const [canPlayVideo, setCanPlayVideo] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
-  const [currentPosterSrc, setCurrentPosterSrc] = useState(posterSrc)
-  const [isUploading, setIsUploading] = useState(false)
+  const [currentPosterSrc] = useState(posterSrc)
+  const [currentVideoSrc, setCurrentVideoSrc] = useState(videoSrc)
+  const [isUploadingVideo, setIsUploadingVideo] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
   const [error, setError] = useState<string | null>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
-  const fileInputRef = useRef<HTMLInputElement>(null)
+  const videoInputRef = useRef<HTMLInputElement>(null)
   const { isEditMode } = useEditMode()
 
   useEffect(() => {
@@ -53,27 +52,27 @@ export function VideoHeroEditable({
     }
   }, [])
 
-  // Handle file selection for poster image
-  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  // Handle video file selection
+  const handleVideoSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (!file) return
 
     // Validate file type
-    const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+    const validTypes = ['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime']
     if (!validTypes.includes(file.type)) {
-      setError('Please select a valid image file (JPEG, PNG, WebP, or GIF)')
+      setError('Please select a valid video file (MP4, MOV, WebM, or OGG)')
       return
     }
 
-    // Validate file size (5MB max)
-    const maxSize = 5 * 1024 * 1024
+    // Validate file size (100MB max for videos)
+    const maxSize = 100 * 1024 * 1024
     if (file.size > maxSize) {
-      setError('Image must be less than 5MB')
+      setError('Video must be less than 100MB')
       return
     }
 
     setError(null)
-    setIsUploading(true)
+    setIsUploadingVideo(true)
     setUploadProgress(10)
 
     try {
@@ -81,29 +80,33 @@ export function VideoHeroEditable({
 
       // Generate unique filename
       const timestamp = Date.now()
-      const extension = file.name.split('.').pop() || 'jpg'
-      const filename = `${posterContentKey.replace(/\./g, '-')}-${timestamp}.${extension}`
-      const path = `images/${filename}`
+      const extension = file.name.split('.').pop() || 'mp4'
+      const filename = `hero-video-${timestamp}.${extension}`
+      const path = `videos/${filename}`
 
-      setUploadProgress(30)
+      setUploadProgress(20)
+      console.log('Starting video upload:', { filename, size: file.size, type: file.type })
 
       // Upload to Supabase Storage
-      const { error: uploadError } = await supabase.storage
+      const { data: uploadData, error: uploadError } = await supabase.storage
         .from('site-images')
         .upload(path, file, {
           cacheControl: '3600',
-          upsert: false,
+          upsert: true,
         })
 
+      console.log('Upload result:', { uploadData, uploadError })
+
       if (uploadError) {
+        console.error('Upload error:', uploadError)
         if (uploadError.message.includes('Bucket not found')) {
           setError(
             "Storage bucket not set up. Please create 'site-images' bucket in Supabase Dashboard."
           )
         } else {
-          setError(uploadError.message)
+          setError(`Upload failed: ${uploadError.message}`)
         }
-        setIsUploading(false)
+        setIsUploadingVideo(false)
         return
       }
 
@@ -117,107 +120,106 @@ export function VideoHeroEditable({
       setUploadProgress(85)
 
       // Save to database
-      const result = await saveInlineImage(posterContentKey, publicUrl, posterAlt, 'homepage', 'hero')
+      const result = await saveInlineImage(videoContentKey, publicUrl, 'Hero background video', 'homepage', 'hero')
 
       if (!result.success) {
-        setError(result.error || 'Failed to save image')
-        setIsUploading(false)
+        setError(result.error || 'Failed to save video')
+        setIsUploadingVideo(false)
         return
       }
 
       setUploadProgress(100)
 
       // Update local state with new URL
-      setCurrentPosterSrc(publicUrl)
+      setCurrentVideoSrc(publicUrl)
+      setIsLoaded(false) // Reset to trigger reload
 
       // Reset state after brief delay to show 100%
       setTimeout(() => {
-        setIsUploading(false)
+        setIsUploadingVideo(false)
         setUploadProgress(0)
       }, 500)
     } catch (err) {
       console.error('Upload error:', err)
-      setError('Failed to upload image')
-      setIsUploading(false)
+      setError('Failed to upload video')
+      setIsUploadingVideo(false)
     }
 
     // Clear file input
-    if (fileInputRef.current) {
-      fileInputRef.current.value = ''
+    if (videoInputRef.current) {
+      videoInputRef.current.value = ''
     }
   }
 
-  // Handle click on poster to trigger file input
-  const handlePosterClick = () => {
-    if (isEditMode && !isUploading && fileInputRef.current) {
-      fileInputRef.current.click()
-    }
-  }
+  const isUploading = isUploadingVideo
 
   return (
     <section className="relative h-screen w-full overflow-hidden">
       {/* Poster Image (always rendered, video overlays when ready) */}
       <div
-        className={`absolute inset-0 bg-cover bg-center bg-no-repeat ${
-          isEditMode ? 'cursor-pointer' : ''
-        }`}
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${currentPosterSrc})` }}
         aria-hidden="true"
-        onClick={handlePosterClick}
       />
 
-      {/* Edit overlay for poster (only in edit mode) */}
+      {/* Edit controls (only in edit mode) */}
       {isEditMode && (
         <>
+          {/* Hidden file input */}
           <input
-            ref={fileInputRef}
+            ref={videoInputRef}
             type="file"
-            accept="image/jpeg,image/png,image/webp,image/gif"
-            onChange={handleFileSelect}
+            accept="video/mp4,video/webm,video/ogg,video/quicktime,.mov"
+            onChange={handleVideoSelect}
             className="hidden"
           />
-          <div
-            onClick={handlePosterClick}
-            className={`
-              absolute left-4 top-4 z-20 flex cursor-pointer items-center gap-2
-              rounded-lg bg-black/70 px-4 py-2 transition-opacity
-              ${isUploading ? 'opacity-100' : 'opacity-70 hover:opacity-100'}
-            `}
-          >
-            {isUploading ? (
-              <>
-                <div className="h-1 w-16 overflow-hidden rounded-full bg-white/30">
-                  <div
-                    className="h-full bg-accent transition-all duration-300"
-                    style={{ width: `${uploadProgress}%` }}
-                  />
-                </div>
-                <span className="text-sm text-white">Uploading... {uploadProgress}%</span>
-              </>
-            ) : (
-              <>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-                  <circle cx="12" cy="13" r="4" />
-                </svg>
-                <span className="text-sm font-medium text-white">Change Background</span>
-              </>
-            )}
+
+          {/* Edit button */}
+          <div className="absolute left-4 top-24 z-20">
+            <button
+              onClick={() => videoInputRef.current?.click()}
+              disabled={isUploading}
+              className={`
+                flex items-center gap-2 rounded-lg bg-black/70 px-4 py-2 transition-opacity
+                ${isUploadingVideo ? 'opacity-100' : 'opacity-70 hover:opacity-100'}
+                disabled:cursor-not-allowed
+              `}
+            >
+              {isUploadingVideo ? (
+                <>
+                  <div className="h-1 w-16 overflow-hidden rounded-full bg-white/30">
+                    <div
+                      className="h-full bg-accent transition-all duration-300"
+                      style={{ width: `${uploadProgress}%` }}
+                    />
+                  </div>
+                  <span className="text-sm text-white">Uploading video... {uploadProgress}%</span>
+                </>
+              ) : (
+                <>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="white"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <polygon points="23 7 16 12 23 17 23 7" />
+                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+                  </svg>
+                  <span className="text-sm font-medium text-white">Change Background Video</span>
+                </>
+              )}
+            </button>
           </div>
 
           {/* Error message */}
           {error && (
-            <div className="absolute left-4 top-16 z-20 rounded-lg bg-red-500/90 px-4 py-2 text-sm text-white">
+            <div className="absolute left-4 top-36 z-20 rounded-lg bg-red-500/90 px-4 py-2 text-sm text-white">
               {error}
               <button
                 onClick={() => setError(null)}
@@ -231,9 +233,10 @@ export function VideoHeroEditable({
       )}
 
       {/* Video (only on desktop with good connection) */}
-      {canPlayVideo && (
+      {canPlayVideo && currentVideoSrc && (
         <video
           ref={videoRef}
+          key={currentVideoSrc}
           autoPlay
           muted
           loop
@@ -244,7 +247,7 @@ export function VideoHeroEditable({
             isLoaded ? 'opacity-100' : 'opacity-0'
           }`}
         >
-          <source src={videoSrc} type="video/mp4" />
+          <source src={currentVideoSrc} type="video/mp4" />
         </video>
       )}
 

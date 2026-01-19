@@ -8,88 +8,30 @@ export const metadata: Metadata = {
     "Support RiseUp Youth Football League through donations, volunteering, or corporate sponsorship. Every contribution helps young athletes succeed.",
 };
 
-const impactStatements = [
-  {
-    amount: "$50",
-    impact: "Provides equipment for one player",
-    description: "Cleats, mouthguard, and practice gear for a season",
-    icon: "🏈",
-  },
-  {
-    amount: "$100",
-    impact: "Sponsors a player's registration",
-    description: "Covers full registration fees for one child",
-    icon: "🎟️",
-  },
-  {
-    amount: "$250",
-    impact: "Funds coaching certification",
-    description: "USA Football certification for one volunteer coach",
-    icon: "📋",
-  },
-  {
-    amount: "$500",
-    impact: "Funds a team for a season",
-    description: "Equipment, uniforms, and supplies for 15 players",
-    icon: "👕",
-  },
-];
-
 export default function WaysToGivePage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative flex h-[40vh] min-h-[300px] items-end justify-center bg-gradient-to-br from-accent/20 to-transparent">
+      <section className="relative flex h-[25vh] min-h-[200px] items-center justify-center bg-gradient-to-br from-accent/20 to-transparent pt-16">
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-        <div className="relative z-10 pb-12 text-center">
+        <div className="relative z-10 text-center">
           <h1 className="text-4xl font-bold text-white md:text-5xl lg:text-6xl">
             Support RiseUp
           </h1>
-          <p className="mt-4 text-lg text-muted-foreground md:text-xl">
-            Your generosity changes lives
-          </p>
         </div>
       </section>
 
-      {/* Impact Statements */}
-      <section className="py-16 md:py-24">
-        <div className="mx-auto max-w-6xl px-6">
-          <h2 className="mb-4 text-center text-3xl font-bold text-white md:text-4xl">
-            Your Impact
-          </h2>
-          <p className="mb-12 text-center text-lg text-muted-foreground">
-            See how your donation makes a difference
-          </p>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {impactStatements.map((item, index) => (
-              <div
-                key={index}
-                className="rounded-xl border border-white/10 bg-white/5 p-6 text-center"
-              >
-                <span className="text-4xl">{item.icon}</span>
-                <p className="mt-4 text-3xl font-bold text-accent">
-                  {item.amount}
-                </p>
-                <h3 className="mt-2 text-lg font-semibold text-white">
-                  {item.impact}
-                </h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  {item.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Donation Section - GiveButter Placeholder */}
-      <section className="bg-white/5 py-16 md:py-24">
+      {/* Donation Section - GiveButter Widget */}
+      <section className="bg-white/5 pt-8 pb-12 md:pt-10 md:pb-16">
         <div className="mx-auto max-w-3xl px-6">
-          <h2 className="mb-8 text-center text-3xl font-bold text-white md:text-4xl">
-            Make a Donation
-          </h2>
-
           <GivebutterWidget align="center" />
+          
+          {/* Tax-Deductible Note */}
+          <div className="mt-8 text-center">
+            <p className="text-sm text-muted-foreground">
+              RiseUp Youth Football League is a registered 501(c)(3) nonprofit organization. All donations are tax-deductible to the fullest extent allowed by law.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -151,22 +93,6 @@ export default function WaysToGivePage() {
         </div>
       </section>
 
-      {/* Tax Information */}
-      <section className="bg-white/5 py-16 md:py-24">
-        <div className="mx-auto max-w-3xl px-6 text-center">
-          <h2 className="text-3xl font-bold text-white md:text-4xl">
-            Tax-Deductible Giving
-          </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
-            RiseUp Youth Football League is a registered 501(c)(3) nonprofit
-            organization. All donations are tax-deductible to the fullest extent
-            allowed by law. You will receive a receipt for your records.
-          </p>
-          <p className="mt-4 text-sm text-muted-foreground">
-            EIN: XX-XXXXXXX
-          </p>
-        </div>
-      </section>
     </>
   );
 }

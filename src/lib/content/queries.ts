@@ -25,6 +25,18 @@ export const DEFAULT_TEXT_CONTENT: Record<TextContentKey, string> = {
   "hero.cta_primary": "Register Now",
   "hero.cta_secondary": "Learn More",
   "programs.section_title": "Our Programs",
+  "impact.title": "THE RISEUP EFFECT",
+  "impact.stat_1_value": "500+",
+  "impact.stat_1_label": "Athletes Trained",
+  "impact.stat_2_value": "12",
+  "impact.stat_2_label": "Teams Strong",
+  "impact.stat_3_value": "95%",
+  "impact.stat_3_label": "Return Rate",
+  "impact.stat_4_value": "1,000+",
+  "impact.stat_4_label": "Hours Coached",
+  "impact.testimonial_quote": "RiseUp taught my son that failure is just another rep. He's a different kid now.",
+  "impact.testimonial_author": "Sarah M.",
+  "impact.testimonial_role": "Flag Football Parent",
 };
 
 /**
@@ -35,17 +47,61 @@ export const DEFAULT_IMAGE_CONTENT: Record<ImageContentKey, ImageContent> = {
     url: "/images/hero-poster.jpg",
     alt: "Youth football players on the field",
   },
-  "programs.flag_football.image": {
-    url: "/images/flag-football.jpg",
-    alt: "Flag football program",
+  "hero.video": {
+    url: "/videos/hero.mp4",
+    alt: "Hero background video",
   },
-  "programs.tackle_football.image": {
-    url: "/images/tackle-football.jpg",
-    alt: "Tackle football program",
+  "header.logo": {
+    url: "/images/logo.png",
+    alt: "RiseUp Youth Football logo",
   },
-  "programs.academies.image": {
-    url: "/images/academies-clinics.jpg",
-    alt: "Academies and clinics program",
+  "scroll_reveal.earth_background": {
+    url: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80",
+    alt: "Earth horizon from space",
+  },
+  "programs.flag_football.image_1": {
+    url: "",
+    alt: "Flag football program image 1",
+  },
+  "programs.flag_football.image_2": {
+    url: "",
+    alt: "Flag football program image 2",
+  },
+  "programs.flag_football.image_3": {
+    url: "",
+    alt: "Flag football program image 3",
+  },
+  "programs.tackle_football.image_1": {
+    url: "",
+    alt: "Tackle football program image 1",
+  },
+  "programs.tackle_football.image_2": {
+    url: "",
+    alt: "Tackle football program image 2",
+  },
+  "programs.tackle_football.image_3": {
+    url: "",
+    alt: "Tackle football program image 3",
+  },
+  "programs.academies.image_1": {
+    url: "",
+    alt: "Academies and clinics program image 1",
+  },
+  "programs.academies.image_2": {
+    url: "",
+    alt: "Academies and clinics program image 2",
+  },
+  "programs.academies.image_3": {
+    url: "",
+    alt: "Academies and clinics program image 3",
+  },
+  "tackle_football.hero": {
+    url: "/images/tackle-football-hero.jpg",
+    alt: "RiseUp Tackle Football Players",
+  },
+  "donation.flag_background": {
+    url: "https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?w=1920&q=80",
+    alt: "American flag background",
   },
 };
 
@@ -84,6 +140,66 @@ export const TEXT_CONTENT_DESCRIPTIONS: Record<
     page: "Homepage",
     section: "Programs",
   },
+  "impact.title": {
+    description: "Impact section main title",
+    page: "Homepage",
+    section: "Impact",
+  },
+  "impact.stat_1_value": {
+    description: "First stat number (e.g., 500+)",
+    page: "Homepage",
+    section: "Impact",
+  },
+  "impact.stat_1_label": {
+    description: "First stat label (e.g., Athletes Trained)",
+    page: "Homepage",
+    section: "Impact",
+  },
+  "impact.stat_2_value": {
+    description: "Second stat number (e.g., 12)",
+    page: "Homepage",
+    section: "Impact",
+  },
+  "impact.stat_2_label": {
+    description: "Second stat label (e.g., Seasons Strong)",
+    page: "Homepage",
+    section: "Impact",
+  },
+  "impact.stat_3_value": {
+    description: "Third stat number (e.g., 95%)",
+    page: "Homepage",
+    section: "Impact",
+  },
+  "impact.stat_3_label": {
+    description: "Third stat label (e.g., Return Rate)",
+    page: "Homepage",
+    section: "Impact",
+  },
+  "impact.stat_4_value": {
+    description: "Fourth stat number (e.g., 1,000+)",
+    page: "Homepage",
+    section: "Impact",
+  },
+  "impact.stat_4_label": {
+    description: "Fourth stat label (e.g., Hours Coached)",
+    page: "Homepage",
+    section: "Impact",
+  },
+  "impact.testimonial_quote": {
+    description: "Featured testimonial quote",
+    page: "Homepage",
+    section: "Impact",
+  },
+  "impact.testimonial_author": {
+    description: "Testimonial author name",
+    page: "Homepage",
+    section: "Impact",
+  },
+  "impact.testimonial_role": {
+    description: "Testimonial author role/title",
+    page: "Homepage",
+    section: "Impact",
+  },
 };
 
 /**
@@ -94,24 +210,79 @@ export const IMAGE_CONTENT_DESCRIPTIONS: Record<
   { description: string; page: string; section: string }
 > = {
   "hero.poster": {
-    description: "Hero background poster image",
+    description: "Hero background poster image (fallback when video doesn't play)",
     page: "Homepage",
     section: "Hero",
   },
-  "programs.flag_football.image": {
-    description: "Flag football program tile image",
+  "hero.video": {
+    description: "Hero background video (plays on desktop)",
+    page: "Homepage",
+    section: "Hero",
+  },
+  "header.logo": {
+    description: "Site logo displayed in the navigation header",
+    page: "All pages",
+    section: "Header",
+  },
+  "scroll_reveal.earth_background": {
+    description: "Earth from space background image for scroll reveal section",
+    page: "Homepage",
+    section: "Scroll Reveal",
+  },
+  "programs.flag_football.image_1": {
+    description: "Flag football program tile image (slot 1)",
     page: "Homepage",
     section: "Programs",
   },
-  "programs.tackle_football.image": {
-    description: "Tackle football program tile image",
+  "programs.flag_football.image_2": {
+    description: "Flag football program tile image (slot 2)",
     page: "Homepage",
     section: "Programs",
   },
-  "programs.academies.image": {
-    description: "Academies & clinics program tile image",
+  "programs.flag_football.image_3": {
+    description: "Flag football program tile image (slot 3)",
     page: "Homepage",
     section: "Programs",
+  },
+  "programs.tackle_football.image_1": {
+    description: "Tackle football program tile image (slot 1)",
+    page: "Homepage",
+    section: "Programs",
+  },
+  "programs.tackle_football.image_2": {
+    description: "Tackle football program tile image (slot 2)",
+    page: "Homepage",
+    section: "Programs",
+  },
+  "programs.tackle_football.image_3": {
+    description: "Tackle football program tile image (slot 3)",
+    page: "Homepage",
+    section: "Programs",
+  },
+  "programs.academies.image_1": {
+    description: "Academies & clinics program tile image (slot 1)",
+    page: "Homepage",
+    section: "Programs",
+  },
+  "programs.academies.image_2": {
+    description: "Academies & clinics program tile image (slot 2)",
+    page: "Homepage",
+    section: "Programs",
+  },
+  "programs.academies.image_3": {
+    description: "Academies & clinics program tile image (slot 3)",
+    page: "Homepage",
+    section: "Programs",
+  },
+  "tackle_football.hero": {
+    description: "Hero banner image for tackle football page",
+    page: "Tackle Football",
+    section: "Hero",
+  },
+  "donation.flag_background": {
+    description: "Faded flag background image for donation section",
+    page: "Homepage",
+    section: "Donation",
   },
 };
 
@@ -155,6 +326,7 @@ export async function getImageContent(
     return {
       url: data.content.url as string,
       alt: (data.content.alt as string) || DEFAULT_IMAGE_CONTENT[contentKey].alt,
+      position: data.content.position as { x: number; y: number } | undefined,
     };
   }
 

@@ -93,7 +93,7 @@ function ContactPageContent() {
                 <div className="flex gap-4">
                   <a
                     href="#"
-                    className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-accent hover:text-black"
+                    className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-accent hover:text-white"
                     aria-label="Facebook"
                   >
                     <svg
@@ -106,7 +106,7 @@ function ContactPageContent() {
                   </a>
                   <a
                     href="#"
-                    className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-accent hover:text-black"
+                    className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-accent hover:text-white"
                     aria-label="Instagram"
                   >
                     <svg
@@ -119,7 +119,7 @@ function ContactPageContent() {
                   </a>
                   <a
                     href="#"
-                    className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-accent hover:text-black"
+                    className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-accent hover:text-white"
                     aria-label="Twitter"
                   >
                     <svg

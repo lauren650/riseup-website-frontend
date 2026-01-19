@@ -126,3 +126,66 @@ export async function saveInlineImage(
     return { success: false, error: "Failed to save image" };
   }
 }
+
+/**
+ * Save image position (x, y percentages) to the database.
+ * Updates only the position in the existing content record.
+ *
+ * @param contentKey - Unique identifier for the image (e.g., 'programs.flag_football.image_1')
+ * @param position - The position object with x and y percentages (0-100)
+ */
+export async function saveImagePosition(
+  contentKey: string,
+  position: { x: number; y: number }
+): Promise<SaveResult> {
+  const supabase = await createClient();
+
+  // Verify user is authenticated
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { success: false, error: "Not authenticated" };
+  }
+
+  try {
+    // First, get the existing content to preserve other fields
+    const { data: existing } = await supabase
+      .from("site_content")
+      .select("content")
+      .eq("content_key", contentKey)
+      .single();
+
+    const existingContent = existing?.content || {};
+
+    // Merge position with existing content
+    const { error } = await supabase.from("site_content").upsert(
+      {
+        content_key: contentKey,
+        content_type: "image",
+        content: {
+          ...existingContent,
+          position: { x: position.x, y: position.y },
+        },
+        updated_at: new Date().toISOString(),
+      },
+      {
+        onConflict: "content_key",
+      }
+    );
+
+    if (error) {
+      console.error("Error saving image position:", error);
+      return { success: false, error: error.message };
+    }
+
+    // Revalidate all public pages that might show this content
+    revalidatePath("/", "layout");
+
+    return { success: true };
+  } catch (err) {
+    console.error("Error in saveImagePosition:", err);
+    return { success: false, error: "Failed to save position" };
+  }
+}

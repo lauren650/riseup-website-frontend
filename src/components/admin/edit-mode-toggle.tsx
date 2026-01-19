@@ -19,7 +19,7 @@ export function EditModeToggle() {
         transition-all duration-200
         ${
           isEditMode
-            ? "bg-accent text-black"
+            ? "bg-accent text-white"
             : "border border-white/20 text-white hover:bg-white/5"
         }
       `}

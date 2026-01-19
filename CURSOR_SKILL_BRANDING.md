@@ -1,0 +1,203 @@
+# RiseUp Branding Guidelines - Cursor Skill
+
+**Copy the content below into a new Cursor Skill to ensure all AI-generated code follows RiseUp's brand guidelines.**
+
+---
+
+## How to Create This Skill in Cursor:
+
+1. Open Cursor Settings (Cmd/Ctrl + ,)
+2. Go to "Cursor" → "Skills"
+3. Click "New Skill"
+4. Name it: "RiseUp Branding Guidelines"
+5. Copy and paste the text between the dashed lines below
+
+---
+
+```
+You are working on the RiseUp website, a youth football organization that empowers underserved communities through sports. Follow these strict branding guidelines for ALL code you generate:
+
+## VISUAL IDENTITY
+
+### Color Palette
+- **Primary Background**: #000000 (pure black)
+- **Primary Foreground**: #ffffff (pure white)
+- **Signature Accent**: #b72031 (patriotic red - THIS IS OUR BRAND COLOR)
+- **Muted Background**: #121126 (patriotic blue - THIS IS OUR BRAND COLOR)
+- **Muted Text**: rgba(255, 255, 255, 0.6) (60% white)
+
+CRITICAL: The accent color #b72031 is RiseUp's signature brand color. Use it for:
+- Primary CTAs (especially "Donate" buttons)
+- Hover states on important elements
+- Selection highlights
+- Focus rings
+- Key visual accents
+
+### Typography
+- **Font Family**: Inter (via next/font)
+- **Font Features**: Enable ligatures ("rlig" 1, "calt" 1)
+- **Font Smoothing**: Always use antialiasing (-webkit-font-smoothing: antialiased)
+- **Weights**: Regular (400), Medium (500), Semibold (600), Bold (700)
+
+### Design Principles
+1. **Dark-First**: All designs should embrace the black background, not fight it
+2. **High Contrast**: Use pure white (#ffffff) for primary text, 60% white for secondary
+3. **Modern & Tech-Forward**: Inspired by Anduril's aesthetic - sleek, professional, cutting-edge
+4. **Purposeful Accent Use**: The lime-yellow accent should draw attention to key actions
+5. **Clean & Minimal**: Reduce visual noise, let content breathe
+
+### Component Styling
+
+#### Buttons
+- **Shape**: Always rounded-full (pill-shaped)
+- **Primary**: bg-accent (#dff140), text-black, hover:opacity-90
+- **Secondary**: bg-white, text-black, hover:bg-white/90
+- **Outline**: border border-white, text-white, hover:bg-white/10
+- **Sizes**: sm (px-4 py-2), md (px-6 py-3), lg (px-8 py-4)
+- **Focus**: ring-2 ring-accent ring-offset-2 ring-offset-black
+
+#### Cards
+- Dark background with subtle borders
+- Hover effects should be subtle (slight opacity or border color changes)
+- Internal padding: typically p-6 or p-8
+
+#### Links
+- Default: text-white/60
+- Hover: text-white
+- Transition: transition-colors
+- No underlines unless in body text
+
+#### Forms
+- Dark backgrounds with white/60 borders
+- Focus states use accent color
+- Labels in white/60, inputs in white
+- Placeholder text at 40% opacity
+
+### Spacing Scale
+Use Tailwind's default spacing scale:
+- Small gaps: 2, 3, 4 (8px, 12px, 16px)
+- Medium gaps: 6, 8 (24px, 32px)
+- Large gaps: 12, 16, 24 (48px, 64px, 96px)
+- Section padding: px-6 (24px) on mobile, up to px-8 on desktop
+- Max content width: max-w-7xl (1280px)
+
+### Animation & Transitions
+- **Duration**: 200ms for most interactions, 300ms for larger movements
+- **Easing**: ease-in-out (default)
+- **Smooth Scroll**: Always enabled (scroll-behavior: smooth)
+- Keep animations subtle and performant
+
+### Accessibility
+- Maintain WCAG AA contrast ratios (our high contrast palette makes this easy)
+- Always include focus states with visible accent-colored rings
+- Use semantic HTML
+- Include proper ARIA labels on interactive elements
+- Test keyboard navigation
+
+## BRAND VOICE & TONE
+
+### Voice Characteristics
+- **Empowering**: Use action-oriented language ("Rise up", "Get started", "Join us")
+- **Professional yet Approachable**: Serious about our mission, warm in our delivery
+- **Community-Focused**: "We", "our community", "together"
+- **Youth-Centered, Parent-Trusted**: Speak to both audiences appropriately
+
+### Tone Guidelines
+- **Warm but Confident**: Encouraging without being preachy
+- **Direct & Clear**: No jargon, plain language
+- **Celebratory**: Highlight achievement and growth
+- **Authentic**: Genuine stories, real impact
+
+### Messaging Examples
+✅ DO:
+- "Rise up with us"
+- "Empowering youth through football"
+- "Join our community"
+- "Make an impact today"
+- "Build skills, build character"
+
+❌ DON'T:
+- Overly corporate language
+- Excessive sports clichés
+- Condescending or patronizing tones
+- Vague promises without action
+
+## TECHNICAL IMPLEMENTATION
+
+### Always Use Brand Constants
+Import from `@/lib/branding` instead of hardcoding values:
+
+```typescript
+import { brandColors, spacing, typography } from '@/lib/branding'
+```
+
+### Consistent Class Patterns
+When writing Tailwind classes:
+- Background: `bg-background` (black) or `bg-muted` (off-white)
+- Text: `text-foreground` (white) or `text-muted-foreground` (60% white)
+- Accent: `bg-accent` or `text-accent` for the signature lime-yellow
+
+### Component Architecture
+- Use 'use client' only when necessary (interactivity, hooks)
+- Prefer server components for static content
+- Keep components focused and composable
+- Export reusable variants (like button styles)
+
+### File Organization
+- `/components/ui/` - Base UI components (buttons, cards, etc.)
+- `/components/sections/` - Page sections (hero, features, etc.)
+- `/components/layout/` - Layout components (header, footer)
+- `/lib/` - Utilities, actions, validations
+
+## QUALITY CHECKLIST
+
+Before completing any component, verify:
+- [ ] Uses brand colors from branding.ts or CSS variables
+- [ ] Accent color (#dff140) used for primary CTAs
+- [ ] All buttons are rounded-full (pill-shaped)
+- [ ] High contrast text (white on black or black on accent)
+- [ ] Smooth transitions on interactive elements
+- [ ] Responsive on mobile, tablet, desktop
+- [ ] Accessible focus states with accent-colored rings
+- [ ] Follows spacing scale (no arbitrary values)
+- [ ] Uses Inter font family
+- [ ] Maintains dark-first aesthetic
+
+## INSPIRATION REFERENCES
+
+Think of brands like:
+- **Anduril**: Modern, tech-forward, dark UI, purposeful design
+- **Stripe**: Clean, high-contrast, excellent typography
+- **Linear**: Smooth animations, minimal chrome, focused UX
+
+RiseUp combines these influences with a community-focused, empowering mission.
+```
+
+---
+
+## Next Steps:
+
+1. **Create the Skill**: Follow the instructions above to add this as a Cursor Skill
+2. **Test It**: Ask me to create a new component and watch how I automatically apply these guidelines
+3. **Iterate**: You can always edit the skill as your brand evolves
+
+## Using the Brand Constants File
+
+Now you can import brand values in any component:
+
+```typescript
+import { brandColors, spacing, typography, buttonVariants } from '@/lib/branding'
+
+// Use in CSS-in-JS
+style={{ 
+  backgroundColor: brandColors.accent,
+  padding: spacing[6]
+}}
+
+// Or reference in calculations
+const glowEffect = `0 0 20px ${getRgbaColor(brandColors.accent, 0.3)}`
+```
+
+---
+
+**Would you like me to help you update any existing components to use these new brand constants?**

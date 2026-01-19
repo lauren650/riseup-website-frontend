@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
-/* Dark-first theme - Anduril-inspired palette */
+/* Dark-first theme - RiseUp brand palette */
 :root {
   --background: #000000;
   --foreground: #ffffff;
-  --muted: #f1f0ea;
-  --accent: #dff140;
+  --muted: #121126;
+  --accent: #b72031;
   --muted-foreground: rgba(255, 255, 255, 0.6);
 }
 

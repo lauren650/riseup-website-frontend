@@ -12,10 +12,9 @@ const navLinks = [
   { href: '/flag-football', label: 'Flag Football' },
   { href: '/tackle-football', label: 'Tackle Football' },
   { href: '/academies-clinics', label: 'Academies & Clinics' },
-  { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/ways-to-give', label: 'Ways to Give' },
   { href: '/partners', label: 'Partners' },
-  { href: '/ways-to-give', label: 'Donate' },
+  { href: '/about', label: 'About' },
 ]
 
 export function MobileNav({ isOpen, onClose }: MobileNavProps) {

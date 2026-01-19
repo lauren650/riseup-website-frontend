@@ -185,7 +185,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={isPending}
-        className="w-full rounded-full bg-accent px-8 py-4 text-lg font-semibold text-black transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+        className="w-full rounded-full bg-accent px-8 py-4 text-lg font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {isPending ? "Sending..." : "Send Message"}
       </button>

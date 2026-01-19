@@ -10,16 +10,39 @@ export type TextContentKey =
   | "hero.subtitle"
   | "hero.cta_primary"
   | "hero.cta_secondary"
-  | "programs.section_title";
+  | "programs.section_title"
+  | "impact.title"
+  | "impact.stat_1_value"
+  | "impact.stat_1_label"
+  | "impact.stat_2_value"
+  | "impact.stat_2_label"
+  | "impact.stat_3_value"
+  | "impact.stat_3_label"
+  | "impact.stat_4_value"
+  | "impact.stat_4_label"
+  | "impact.testimonial_quote"
+  | "impact.testimonial_author"
+  | "impact.testimonial_role";
 
 /**
  * Valid image content keys that can be edited
  */
 export type ImageContentKey =
   | "hero.poster"
-  | "programs.flag_football.image"
-  | "programs.tackle_football.image"
-  | "programs.academies.image";
+  | "hero.video"
+  | "header.logo"
+  | "scroll_reveal.earth_background"
+  | "programs.flag_football.image_1"
+  | "programs.flag_football.image_2"
+  | "programs.flag_football.image_3"
+  | "programs.tackle_football.image_1"
+  | "programs.tackle_football.image_2"
+  | "programs.tackle_football.image_3"
+  | "programs.academies.image_1"
+  | "programs.academies.image_2"
+  | "programs.academies.image_3"
+  | "tackle_football.hero"
+  | "donation.flag_background";
 
 /**
  * All valid content keys (text or image)
@@ -32,6 +55,7 @@ export type ContentKey = TextContentKey | ImageContentKey;
 export interface ImageContent {
   url: string;
   alt: string;
+  position?: { x: number; y: number };
 }
 
 /**

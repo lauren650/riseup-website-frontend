@@ -217,7 +217,7 @@ export function ProgramPage({
           </p>
           <Link
             href={ctaLink}
-            className="mt-8 inline-block rounded-full bg-accent px-8 py-4 text-lg font-semibold text-black transition-opacity hover:opacity-90"
+            className="mt-8 inline-block rounded-full bg-accent px-8 py-4 text-lg font-semibold text-white transition-opacity hover:opacity-90"
           >
             {ctaText}
           </Link>
