@@ -44,16 +44,9 @@ export function GivebutterWidget({
         strategy="afterInteractive"
       />
 
-      {/* GiveButter form element - using the giving-form component that matches your old site */}
+      {/* GiveButter widget - standard Givebutter embed */}
       <div style={{ minHeight: "500px", maxWidth: "440px" }} className="mx-auto">
-        <givebutter-giving-form
-          id={resolvedWidgetId}
-          account={resolvedAccountId}
-          campaign={resolvedCampaignId}
-          theme-color="#121126"
-          max-width="440px"
-          show-goal-bar="false"
-        ></givebutter-giving-form>
+        <givebutter-widget id={resolvedWidgetId}></givebutter-widget>
       </div>
     </>
   );
