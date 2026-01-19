@@ -494,7 +494,7 @@ export function ProgramTileEditable({
               <div className="text-white text-sm font-medium mb-2">Click to edit images</div>
               <div className="flex gap-2 w-full justify-center">
                 {currentImages.map((img, idx) => {
-                  const hasImage = img.src && !img.src.includes('placeholder')
+                  const hasImage = !!(img.src && !img.src.includes('placeholder'))
                   const isSelected = selectedSlot === idx
 
                   return (
