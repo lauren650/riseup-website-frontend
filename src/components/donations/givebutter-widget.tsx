@@ -45,7 +45,7 @@ export function GivebutterWidget({
       />
 
       {/* GiveButter form element - using the giving-form component that matches your old site */}
-      <div style={{ minHeight: "500px" }} className="mx-auto" style={{ maxWidth: "440px" }}>
+      <div style={{ minHeight: "500px", maxWidth: "440px" }} className="mx-auto">
         <givebutter-giving-form
           id={resolvedWidgetId}
           account={resolvedAccountId}
