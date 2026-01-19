@@ -41,7 +41,7 @@ export function EditableHeroImage({
   const fileInputRef = useRef<HTMLInputElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  // Load saved image and settings from Supabase and localStorage
+  // Load saved image and settings from Supabase
   useEffect(() => {
     const loadImage = async () => {
       try {
@@ -56,20 +56,21 @@ export function EditableHeroImage({
           .single()
         
         if (!queryError && data?.content) {
-          const content = data.content as { url?: string; alt?: string }
+          const content = data.content as { 
+            url?: string; 
+            alt?: string;
+            scale?: number;
+            posX?: number;
+            posY?: number;
+          }
           if (content.url) {
             setCurrentSrc(content.url)
           }
+          // Load positioning from database (falls back to defaults if not set)
+          if (content.scale !== undefined) setScale(content.scale)
+          if (content.posX !== undefined) setPosX(content.posX)
+          if (content.posY !== undefined) setPosY(content.posY)
         }
-        
-        // Load positioning from localStorage
-        const savedScale = localStorage.getItem(`${contentKey}-scale`)
-        const savedPosX = localStorage.getItem(`${contentKey}-posX`)
-        const savedPosY = localStorage.getItem(`${contentKey}-posY`)
-        
-        if (savedScale) setScale(parseFloat(savedScale))
-        if (savedPosX) setPosX(parseFloat(savedPosX))
-        if (savedPosY) setPosY(parseFloat(savedPosY))
       } catch (err) {
         console.error('Error loading image:', err)
       } finally {
@@ -80,11 +81,43 @@ export function EditableHeroImage({
     loadImage()
   }, [contentKey])
 
-  // Save settings to localStorage
-  const saveSettings = useCallback(() => {
-    localStorage.setItem(`${contentKey}-scale`, scale.toString())
-    localStorage.setItem(`${contentKey}-posX`, posX.toString())
-    localStorage.setItem(`${contentKey}-posY`, posY.toString())
+  // Save settings to Supabase
+  const saveSettings = useCallback(async () => {
+    try {
+      const supabase = createClient()
+      
+      // Get current image data
+      const { data: currentData } = await supabase
+        .from('site_content')
+        .select('content')
+        .eq('content_key', contentKey)
+        .eq('content_type', 'image')
+        .single()
+      
+      if (currentData?.content) {
+        const content = currentData.content as { url?: string; alt?: string }
+        
+        // Update with positioning data
+        const { error: updateError } = await supabase
+          .from('site_content')
+          .update({
+            content: {
+              ...content,
+              scale,
+              posX,
+              posY,
+            }
+          })
+          .eq('content_key', contentKey)
+          .eq('content_type', 'image')
+        
+        if (updateError) {
+          console.error('Error saving position:', updateError)
+        }
+      }
+    } catch (err) {
+      console.error('Error saving settings:', err)
+    }
   }, [contentKey, scale, posX, posY])
 
   // Handle file upload
@@ -158,9 +191,6 @@ export function EditableHeroImage({
         setScale(1.5)
         setPosX(50)
         setPosY(50)
-        localStorage.removeItem(`${contentKey}-scale`)
-        localStorage.removeItem(`${contentKey}-posX`)
-        localStorage.removeItem(`${contentKey}-posY`)
 
         setTimeout(() => {
           setIsUploading(false)
@@ -210,10 +240,10 @@ export function EditableHeroImage({
     setPosY(newY)
   }, [isDragging, dragStart, dragStartPos, scale])
 
-  const handleMouseUp = useCallback(() => {
+  const handleMouseUp = useCallback(async () => {
     if (isDragging) {
       setIsDragging(false)
-      saveSettings()
+      await saveSettings()
     }
   }, [isDragging, saveSettings])
 
@@ -228,13 +258,39 @@ export function EditableHeroImage({
     setScale(newScale)
   }, [scale])
 
-  const handleReset = useCallback(() => {
+  const handleReset = useCallback(async () => {
     setScale(1.5)
     setPosX(50)
     setPosY(50)
-    localStorage.removeItem(`${contentKey}-scale`)
-    localStorage.removeItem(`${contentKey}-posX`)
-    localStorage.removeItem(`${contentKey}-posY`)
+    
+    // Save reset values to database
+    try {
+      const supabase = createClient()
+      const { data: currentData } = await supabase
+        .from('site_content')
+        .select('content')
+        .eq('content_key', contentKey)
+        .eq('content_type', 'image')
+        .single()
+      
+      if (currentData?.content) {
+        const content = currentData.content as { url?: string; alt?: string }
+        await supabase
+          .from('site_content')
+          .update({
+            content: {
+              ...content,
+              scale: 1.5,
+              posX: 50,
+              posY: 50,
+            }
+          })
+          .eq('content_key', contentKey)
+          .eq('content_type', 'image')
+      }
+    } catch (err) {
+      console.error('Error resetting position:', err)
+    }
   }, [contentKey])
 
   const hasValidImage = currentSrc && (currentSrc.startsWith('http') || currentSrc.startsWith('/'))
@@ -353,9 +409,9 @@ export function EditableHeroImage({
               Reset
             </button>
             <button
-              onClick={(e) => {
+              onClick={async (e) => {
                 e.stopPropagation()
-                saveSettings()
+                await saveSettings()
                 setIsRepositioning(false)
               }}
               className="px-8 py-3 rounded-full bg-accent text-white font-semibold hover:opacity-90 transition-opacity shadow-lg"
