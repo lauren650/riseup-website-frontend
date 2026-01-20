@@ -78,30 +78,36 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SPUB-01 | TBD | Pending |
-| SPUB-02 | TBD | Pending |
-| SPUB-03 | TBD | Pending |
-| SPUB-04 | TBD | Pending |
-| SINV-01 | TBD | Pending |
-| SINV-02 | TBD | Pending |
-| SINV-03 | TBD | Pending |
-| SINV-04 | TBD | Pending |
-| SINV-05 | TBD | Pending |
-| SINV-06 | TBD | Pending |
-| SINV-07 | TBD | Pending |
-| SAUT-01 | TBD | Pending |
-| SAUT-02 | TBD | Pending |
-| SAUT-03 | TBD | Pending |
-| SAUT-04 | TBD | Pending |
-| SDAT-01 | TBD | Pending |
-| SDAT-02 | TBD | Pending |
-| SDAT-03 | TBD | Pending |
+| SPUB-01 | Phase 5 | Pending |
+| SPUB-02 | Phase 5 | Pending |
+| SPUB-03 | Phase 5 | Pending |
+| SPUB-04 | Phase 5 | Pending |
+| SINV-01 | Phase 6 | Pending |
+| SINV-02 | Phase 6 | Pending |
+| SINV-03 | Phase 6 | Pending |
+| SINV-04 | Phase 6 | Pending |
+| SINV-05 | Phase 6 | Pending |
+| SINV-06 | Phase 6 | Pending |
+| SINV-07 | Phase 6 | Pending |
+| SAUT-01 | Phase 7 | Pending |
+| SAUT-02 | Phase 7 | Pending |
+| SAUT-03 | Phase 7 | Pending |
+| SAUT-04 | Phase 7 | Pending |
+| SDAT-01 | Phase 6 | Pending |
+| SDAT-02 | Phase 6 | Pending |
+| SDAT-03 | Phase 6 | Pending |
 
 **Coverage:**
 - v1.1 requirements: 18 total
-- Mapped to phases: 0
-- Unmapped: 18 (pending roadmap creation)
+- Mapped to phases: 18
+- Unmapped: 0
+
+**Phase Distribution:**
+- Phase 4 (Foundation & Schema): 0 direct requirements (enables all others)
+- Phase 5 (Public Sponsorship Page): 4 requirements (SPUB-01 to SPUB-04)
+- Phase 6 (Invoice Management): 10 requirements (SINV-01 to SINV-07, SDAT-01 to SDAT-03)
+- Phase 7 (Payment Automation): 4 requirements (SAUT-01 to SAUT-04)
 
 ---
 *Requirements defined: 2026-01-20*
-*Last updated: 2026-01-20 after initial definition*
+*Last updated: 2026-01-20 after roadmap creation*
