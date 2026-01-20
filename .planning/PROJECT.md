@@ -8,11 +8,23 @@ A modern website for RiseUp Youth Football League featuring an AI-powered CMS th
 
 Non-technical administrators can update website content instantly using natural language commands — no code, no training, no complex interfaces.
 
+## Current Milestone: v1.1 Sponsorship Packages
+
+**Goal:** Enable marketing admins to manage sponsorship packages and send Stripe invoices directly from the admin panel, with automated post-payment workflows.
+
+**Target features:**
+- Public "Become a Sponsor" page with tier table (linked from Partners)
+- Sponsor interest/inquiry form
+- Admin invoice creation UI (Stripe as processor, not dashboard)
+- Stripe webhook for payment detection
+- Automated email with upload form link after payment
+- Tier tracking in database (for future display options)
+
 ## Current State (v1 Shipped)
 
 **Shipped:** 2026-01-18
 **Codebase:** 8,043 LOC TypeScript, Next.js 16 + Supabase + Anthropic Claude
-**Status:** Ready for production deployment and content population
+**Status:** Production ready, v1.1 in development
 
 **What's Working:**
 - 8-page responsive public website with dark cinematic theme
@@ -28,6 +40,7 @@ Non-technical administrators can update website content instantly using natural 
 - Database migrations (001_sponsors.sql, 002_content_cms.sql, 003_images.sql)
 - Admin user in Supabase Auth
 - ANTHROPIC_API_KEY for AI chat
+- Stripe API keys (v1.1)
 
 ## Requirements
 
@@ -62,7 +75,14 @@ Non-technical administrators can update website content instantly using natural 
 
 ### Active
 
-(None — all v1 requirements shipped)
+- "Become a Sponsor" page linked from Partners with sponsorship tier table — v1.1
+- Sponsor interest/inquiry form for prospective sponsors — v1.1
+- Admin-configurable sponsorship tiers (name, price, benefits) — v1.1
+- Marketing admin role can create Stripe invoices from admin panel — v1.1
+- Invoice creation from sponsor inquiry OR from scratch — v1.1
+- Stripe webhook detects payment completion — v1.1
+- Automated email sends upload form link after payment — v1.1
+- Sponsor tier stored in database for future display options — v1.1
 
 ### Deferred to v2
 
@@ -119,8 +139,8 @@ Non-technical administrators can update website content instantly using natural 
 - **Budget**: Under $5,000 — using free/freemium tiers (Vercel, Supabase, AI ~$50-100/month)
 - **Tech Stack**: Next.js 16, TypeScript, Tailwind v4, Supabase, Anthropic Claude
 - **Hosting**: Vercel (frontend), Supabase (backend)
-- **External Dependencies**: GiveButter (donations), external registration system (links only)
-- **No Payment Processing**: All payments handled by GiveButter or external systems
+- **External Dependencies**: GiveButter (donations), Stripe (sponsor invoicing), external registration system (links only)
+- **Payment Processing**: Stripe for sponsor invoices only; donations via GiveButter
 
 ## Key Decisions
 
@@ -138,4 +158,4 @@ Non-technical administrators can update website content instantly using natural 
 | Inline editing + AI chat | Two content editing modes serve different user preferences | Good |
 
 ---
-*Last updated: 2026-01-18 after v1 milestone*
+*Last updated: 2026-01-20 after starting v1.1 milestone*
