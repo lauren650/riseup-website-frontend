@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-20)
 
 **Core value:** Non-technical administrators can update website content instantly using natural language commands
-**Current focus:** v1.1 Sponsorship Packages - Phase 4 Foundation & Schema
+**Current focus:** v1.1 Sponsorship Packages - Phase 5 Public Sponsorship Page
 
 ## Current Position
 
-Phase: 4 of 7 (Foundation & Schema)
-Plan: 1 of 1 complete
-Status: Phase 4 complete
-Last activity: 2026-01-20 - Completed 04-01-PLAN.md
+Phase: 5 of 7 (Public Sponsorship Page)
+Plan: 1 of 2 complete
+Status: In progress
+Last activity: 2026-01-20 - Completed 05-01-PLAN.md
 
-Progress: [████░░░░░░] 50% (Phase 4 complete, ready for Phase 5)
+Progress: [█████░░░░░] 56% (Phase 5 Plan 1 complete)
 
 ## Milestone Summary
 
@@ -28,6 +28,7 @@ Progress: [████░░░░░░] 50% (Phase 4 complete, ready for Phas
 - 4 phases planned (4-7)
 - 18 requirements to satisfy
 - Phase 4: Foundation & Schema - COMPLETE
+- Phase 5: Public Sponsorship Page - Plan 1 COMPLETE
 
 See: .planning/MILESTONES.md
 
@@ -61,6 +62,12 @@ From research (SUMMARY.md):
 - RLS: public read for packages, authenticated write for invoices
 - Webhook idempotency via pre-processing check of webhook_events table
 
+### Phase 5 Decisions
+
+- reCAPTCHA graceful degradation (skip if not configured)
+- Email failures do not fail form submission
+- Sponsor interest form uses dual email pattern (prospect + admin)
+
 ### Tech Debt (minor)
 
 - Duplicate admin routes (src/app/admin/ and src/app/(admin)/) — Next.js 16 route group workaround
@@ -73,6 +80,6 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-20
-Stopped at: Completed Phase 4 Plan 1 (Foundation Schema)
+Stopped at: Completed Phase 5 Plan 1 (Foundation & Server Action)
 Resume file: None
-Next step: /gsd:plan-phase 5
+Next step: /gsd:execute-phase 05-02
