@@ -66,10 +66,11 @@ Plans:
   2. User can view sponsorship tier table with names, prices, and benefits
   3. User can submit sponsor interest form with contact info and preferred tier
   4. User receives confirmation message after submitting interest form
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 05-01: TBD
+- [ ] 05-01-PLAN.md — Schema migration for display fields, validation schema, and server action
+- [ ] 05-02-PLAN.md — Pricing table, interest form, confirmation modal, and page assembly
 
 #### Phase 6: Invoice Management
 **Goal**: Marketing admins can create, view, and manage Stripe invoices from admin panel
@@ -116,6 +117,6 @@ Phases execute in numeric order: 4 → 5 → 6 → 7
 | 2. Content Management System | v1.0 | 3/3 | Complete | 2026-01-18 |
 | 3. Public Website & Sponsor Portal | v1.0 | 3/3 | Complete | 2026-01-18 |
 | 4. Foundation & Schema | v1.1 | 1/1 | Complete | 2026-01-20 |
-| 5. Public Sponsorship Page | v1.1 | 0/TBD | Not started | - |
+| 5. Public Sponsorship Page | v1.1 | 0/2 | Not started | - |
 | 6. Invoice Management | v1.1 | 0/TBD | Not started | - |
 | 7. Payment Automation | v1.1 | 0/TBD | Not started | - |
