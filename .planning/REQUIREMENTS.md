@@ -10,10 +10,10 @@ Requirements for sponsorship packages milestone. Each maps to roadmap phases.
 
 ### Public Sponsorship Page
 
-- [ ] **SPUB-01**: User can access "Become a Sponsor" page from Partners page link
-- [ ] **SPUB-02**: User can view sponsorship tier table with tier names, prices, and benefits
-- [ ] **SPUB-03**: User can submit sponsor interest form with contact info and preferred tier
-- [ ] **SPUB-04**: User receives confirmation after submitting interest form
+- [x] **SPUB-01**: User can access "Become a Sponsor" page from Partners page link
+- [x] **SPUB-02**: User can view sponsorship tier table with tier names, prices, and benefits
+- [x] **SPUB-03**: User can submit sponsor interest form with contact info and preferred tier
+- [x] **SPUB-04**: User receives confirmation after submitting interest form
 
 ### Admin Invoice Management
 
@@ -78,10 +78,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SPUB-01 | Phase 5 | Pending |
-| SPUB-02 | Phase 5 | Pending |
-| SPUB-03 | Phase 5 | Pending |
-| SPUB-04 | Phase 5 | Pending |
+| SPUB-01 | Phase 5 | Complete |
+| SPUB-02 | Phase 5 | Complete |
+| SPUB-03 | Phase 5 | Complete |
+| SPUB-04 | Phase 5 | Complete |
 | SINV-01 | Phase 6 | Pending |
 | SINV-02 | Phase 6 | Pending |
 | SINV-03 | Phase 6 | Pending |
