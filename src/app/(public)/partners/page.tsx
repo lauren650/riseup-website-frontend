@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Link from "next/link";
 import { Suspense } from "react";
 import { SponsorGrid } from "@/components/sponsors/sponsor-grid";
 import { SponsorForm } from "@/components/sponsors/sponsor-form";
@@ -76,6 +77,14 @@ export default function PartnersPage() {
               including logo placement, event recognition, and community engagement
               opportunities.
             </p>
+
+            {/* Link to Become a Sponsor page */}
+            <Link
+              href="/become-a-sponsor"
+              className="mt-6 inline-block rounded-full bg-accent px-8 py-4 text-lg font-semibold text-white transition-opacity hover:opacity-90"
+            >
+              View Sponsorship Packages
+            </Link>
           </div>
 
           {/* Sponsor Submission Form */}
