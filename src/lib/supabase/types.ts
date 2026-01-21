@@ -245,6 +245,8 @@ export type Database = {
           closing_date: string | null;
           total_slots: number;
           available_slots: number;
+          description: string | null;
+          benefits: string[] | null;
           created_at: string;
           updated_at: string;
         };
@@ -255,6 +257,8 @@ export type Database = {
           closing_date?: string | null;
           total_slots: number;
           available_slots: number;
+          description?: string | null;
+          benefits?: string[] | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -265,6 +269,8 @@ export type Database = {
           closing_date?: string | null;
           total_slots?: number;
           available_slots?: number;
+          description?: string | null;
+          benefits?: string[] | null;
           created_at?: string;
           updated_at?: string;
         };
