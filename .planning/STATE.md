@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-20)
 ## Current Position
 
 Phase: 4 of 7 (Foundation & Schema)
-Plan: Ready to plan
-Status: Ready to plan
-Last activity: 2026-01-20 — Roadmap created for v1.1 milestone
+Plan: 1 of 1 complete
+Status: Phase 4 complete
+Last activity: 2026-01-20 - Completed 04-01-PLAN.md
 
-Progress: [███░░░░░░░] 43% (v1.0 complete, v1.1 starting)
+Progress: [████░░░░░░] 50% (Phase 4 complete, ready for Phase 5)
 
 ## Milestone Summary
 
@@ -25,9 +25,9 @@ Progress: [███░░░░░░░] 43% (v1.0 complete, v1.1 starting)
 - 30/30 requirements satisfied
 
 **v1.1 Sponsorship Packages:** In progress
-- 4 phases planned
+- 4 phases planned (4-7)
 - 18 requirements to satisfy
-- Starting Phase 4: Foundation & Schema
+- Phase 4: Foundation & Schema - COMPLETE
 
 See: .planning/MILESTONES.md
 
@@ -51,9 +51,15 @@ Decisions logged in PROJECT.md Key Decisions table. Key technical choices:
 
 From research (SUMMARY.md):
 - Webhook-only database updates to prevent race conditions
-- Idempotency guards required (processed_webhook_events table)
-- Stripe SDK v20.2.0 is only new dependency needed
-- Next.js 16 native req.text() eliminates need for micro package
+- Idempotency guards required (webhook_events table) - IMPLEMENTED
+- Stripe SDK v20.2.0 is only new dependency needed - INSTALLED
+- Next.js 16 native req.text() eliminates need for micro package - USED
+
+### Phase 4 Decisions
+
+- Stripe API version 2025-12-15.clover (SDK default)
+- RLS: public read for packages, authenticated write for invoices
+- Webhook idempotency via pre-processing check of webhook_events table
 
 ### Tech Debt (minor)
 
@@ -67,6 +73,6 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-20
-Stopped at: Roadmap created for v1.1
-Resume file: None needed
-Next step: /gsd:plan-phase 4
+Stopped at: Completed Phase 4 Plan 1 (Foundation Schema)
+Resume file: None
+Next step: /gsd:plan-phase 5
