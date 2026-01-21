@@ -237,9 +237,132 @@ export type Database = {
         };
         Relationships: [];
       };
+      sponsorship_packages: {
+        Row: {
+          id: string;
+          name: string;
+          cost: number;
+          closing_date: string | null;
+          total_slots: number;
+          available_slots: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          cost: number;
+          closing_date?: string | null;
+          total_slots: number;
+          available_slots: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          cost?: number;
+          closing_date?: string | null;
+          total_slots?: number;
+          available_slots?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      invoices: {
+        Row: {
+          id: string;
+          stripe_invoice_id: string;
+          package_id: string | null;
+          package_name: string;
+          package_cost: number;
+          customer_email: string;
+          customer_name: string;
+          status: "draft" | "open" | "paid" | "void" | "uncollectible";
+          created_at: string;
+          finalized_at: string | null;
+          paid_at: string | null;
+          voided_at: string | null;
+          created_by: string | null;
+        };
+        Insert: {
+          id?: string;
+          stripe_invoice_id: string;
+          package_id?: string | null;
+          package_name: string;
+          package_cost: number;
+          customer_email: string;
+          customer_name: string;
+          status?: "draft" | "open" | "paid" | "void" | "uncollectible";
+          created_at?: string;
+          finalized_at?: string | null;
+          paid_at?: string | null;
+          voided_at?: string | null;
+          created_by?: string | null;
+        };
+        Update: {
+          id?: string;
+          stripe_invoice_id?: string;
+          package_id?: string | null;
+          package_name?: string;
+          package_cost?: number;
+          customer_email?: string;
+          customer_name?: string;
+          status?: "draft" | "open" | "paid" | "void" | "uncollectible";
+          created_at?: string;
+          finalized_at?: string | null;
+          paid_at?: string | null;
+          voided_at?: string | null;
+          created_by?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "invoices_package_id_fkey";
+            columns: ["package_id"];
+            referencedRelation: "sponsorship_packages";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "invoices_created_by_fkey";
+            columns: ["created_by"];
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      webhook_events: {
+        Row: {
+          id: string;
+          stripe_event_id: string;
+          event_type: string;
+          processed_at: string;
+          payload: Record<string, unknown>;
+        };
+        Insert: {
+          id?: string;
+          stripe_event_id: string;
+          event_type: string;
+          processed_at?: string;
+          payload: Record<string, unknown>;
+        };
+        Update: {
+          id?: string;
+          stripe_event_id?: string;
+          event_type?: string;
+          processed_at?: string;
+          payload?: Record<string, unknown>;
+        };
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      decrement_package_slots: {
+        Args: { package_uuid: string };
+        Returns: number;
+      };
+    };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
   };
