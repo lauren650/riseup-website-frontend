@@ -52,11 +52,10 @@ Plans:
   2. Stripe SDK is installed and initialized with proper environment variables
   3. Sponsorship tier configuration can be stored and retrieved from database
   4. Webhook endpoint exists and can verify Stripe signatures
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 04-01: TBD
-- [ ] 04-02: TBD
+- [ ] 04-01-PLAN.md — Database migration, Stripe SDK setup, and webhook endpoint
 
 #### Phase 5: Public Sponsorship Page
 **Goal**: Prospective sponsors can view tiers and submit interest forms
@@ -116,7 +115,7 @@ Phases execute in numeric order: 4 → 5 → 6 → 7
 | 1. Project Foundation | v1.0 | 3/3 | Complete | 2026-01-18 |
 | 2. Content Management System | v1.0 | 3/3 | Complete | 2026-01-18 |
 | 3. Public Website & Sponsor Portal | v1.0 | 3/3 | Complete | 2026-01-18 |
-| 4. Foundation & Schema | v1.1 | 0/TBD | Not started | - |
+| 4. Foundation & Schema | v1.1 | 0/1 | Planned | - |
 | 5. Public Sponsorship Page | v1.1 | 0/TBD | Not started | - |
 | 6. Invoice Management | v1.1 | 0/TBD | Not started | - |
 | 7. Payment Automation | v1.1 | 0/TBD | Not started | - |
