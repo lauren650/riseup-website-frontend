@@ -40,3 +40,16 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Recovery and rollback documentation files (temporary)
+CHECK_TABLE_SCHEMA.sql
+COMPLETE_ROLLBACK_OPTIONS.md
+COMPLETE_SETUP.sql
+DATABASE_RECOVERY.sql
+DATABASE_RECOVERY_REPORT.md
+DATA_RECOVERY_GUIDE.md
+QUICK_RECOVERY_STEPS.md
+RECOVERY_STATUS_UPDATED.md
+RESTORE_SEED_DATA.sql
+ROLLBACK_COMPLETE.md
+ROLLBACK_SUMMARY.md
