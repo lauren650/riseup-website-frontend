@@ -19,6 +19,7 @@ interface PhotoContentBlockEditableProps {
   imageHeight?: string;
   rounded?: boolean;
   wideImage?: boolean;
+  contentAlign?: 'center' | 'start';
 }
 
 export function PhotoContentBlockEditable({
