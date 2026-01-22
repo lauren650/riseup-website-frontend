@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { useEditMode } from "@/contexts/edit-mode-context";
 import { saveInlineImage } from "@/lib/actions/inline-content";
 import { createClient } from "@/lib/supabase/client";
+import { cn } from "@/lib/utils";
 
 // Check if a URL is a valid uploadable image (not a local placeholder)
 const isValidImageUrl = (url: string) => {
@@ -60,7 +61,110 @@ export function EditableImage({
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const [objectPosition, setObjectPosition] = useState({ x: 50, y: 50 }); // Center by default
+  const [isDragging, setIsDragging] = useState(false);
+  const [hasDragged, setHasDragged] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Fetch saved image from database on mount
+  useEffect(() => {
+    async function fetchSavedImage() {
+      try {
+        const supabase = createClient();
+        const { data } = await supabase
+          .from("site_content")
+          .select("content")
+          .eq("content_key", contentKey)
+          .eq("content_type", "image")
+          .single();
+
+        if (data?.content?.url) {
+          setCurrentSrc(data.content.url as string);
+          // Load saved position if available
+          if (data.content.position) {
+            setObjectPosition(data.content.position as { x: number; y: number });
+          }
+        }
+      } catch (err) {
+        // Silently fail - use default src
+        console.error("Failed to fetch saved image:", err);
+      }
+    }
+
+    fetchSavedImage();
+  }, [contentKey]);
+
+  // Handle image position dragging
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!isEditMode || isUploading) return;
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+    setHasDragged(false);
+    setDragStart({ x: e.clientX, y: e.clientY });
+  };
+
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (!isDragging || !containerRef.current) return;
+    
+    const container = containerRef.current;
+    const rect = container.getBoundingClientRect();
+    const deltaX = ((e.clientX - dragStart.x) / rect.width) * 100;
+    const deltaY = ((e.clientY - dragStart.y) / rect.height) * 100;
+    
+    // If moved more than 3px, consider it a drag
+    if (Math.abs(e.clientX - dragStart.x) > 3 || Math.abs(e.clientY - dragStart.y) > 3) {
+      setHasDragged(true);
+    }
+    
+    setObjectPosition(prev => ({
+      x: Math.max(0, Math.min(100, prev.x + deltaX)),
+      y: Math.max(0, Math.min(100, prev.y + deltaY)),
+    }));
+    setDragStart({ x: e.clientX, y: e.clientY });
+  }, [isDragging, dragStart]);
+
+  const handleMouseUp = useCallback(async () => {
+    if (isDragging) {
+      setIsDragging(false);
+      // Save position to database
+      try {
+        const supabase = createClient();
+        const { data: existing } = await supabase
+          .from("site_content")
+          .select("content")
+          .eq("content_key", contentKey)
+          .single();
+
+        if (existing) {
+          await supabase
+            .from("site_content")
+            .update({
+              content: {
+                ...existing.content,
+                position: objectPosition,
+              },
+            })
+            .eq("content_key", contentKey);
+        }
+      } catch (err) {
+        console.error("Failed to save image position:", err);
+      }
+    }
+  }, [isDragging, objectPosition, contentKey]);
+
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
+      return () => {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mouseup', handleMouseUp);
+      };
+    }
+  }, [isDragging, handleMouseMove, handleMouseUp]);
 
   // Handle file selection
   const handleFileSelect = useCallback(
@@ -164,14 +268,21 @@ export function EditableImage({
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (isEditMode && !isUploading && fileInputRef.current) {
+    // Only trigger upload if we didn't just drag
+    if (!hasDragged && isEditMode && !isUploading && fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
 
-  // Common image props
+  // Common image props with object position
   const imageProps = fill
-    ? { fill: true, style: { objectFit } }
+    ? { 
+        fill: true, 
+        style: { 
+          objectFit, 
+          objectPosition: `${objectPosition.x}% ${objectPosition.y}%` 
+        } 
+      }
     : { width: width || 400, height: height || 300 };
 
   const hasValidImage = isValidImageUrl(currentSrc);
@@ -195,8 +306,15 @@ export function EditableImage({
   // In edit mode - show with overlay or upload prompt
   return (
     <div
-      className="relative inline-block"
-      style={{ minWidth: width || 120, minHeight: height || 48 }}
+      ref={containerRef}
+      className={cn(
+        "relative",
+        fill ? "w-full h-full" : "inline-block"
+      )}
+      style={{ 
+        minWidth: fill ? undefined : (width || 120), 
+        minHeight: fill ? undefined : (height || 48) 
+      }}
     >
       {/* Hidden file input */}
       <input
@@ -209,52 +327,52 @@ export function EditableImage({
 
       {hasValidImage ? (
         <>
-          <Image
-            src={currentSrc}
-            alt={alt}
-            className={`${className} ${isUploading ? "opacity-50" : ""}`}
-            priority={priority}
-            {...imageProps}
-          />
-
-          {/* Upload overlay */}
-          <div
-            onClick={handleClick}
-            className={`
-              absolute inset-0 flex cursor-pointer flex-col items-center justify-center
-              bg-black/50 transition-opacity
-              ${isUploading ? "opacity-100" : "opacity-0 hover:opacity-100"}
-            `}
+          <div 
+            className="relative w-full h-full"
+            onMouseDown={handleMouseDown}
+            style={{ 
+              cursor: isDragging ? 'grabbing' : 'grab',
+              ...(fill ? { position: 'absolute', inset: 0 } : {})
+            }}
           >
-            {isUploading ? (
-              <div className="text-center">
-                <div className="mb-2 h-1 w-24 overflow-hidden rounded-full bg-white/30">
-                  <div
-                    className="h-full bg-accent transition-all duration-300"
-                    style={{ width: `${uploadProgress}%` }}
-                  />
-                </div>
-                <span className="text-sm text-white">Uploading... {uploadProgress}%</span>
-              </div>
-            ) : (
-              <>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-                  <circle cx="12" cy="13" r="4" />
-                </svg>
-              </>
-            )}
+            <Image
+              src={currentSrc}
+              alt={alt}
+              className={`${className} ${isUploading ? "opacity-50" : ""} pointer-events-none select-none`}
+              priority={priority}
+              draggable={false}
+              {...imageProps}
+            />
+            
+            {/* Repositioning hint overlay (shows on hover, doesn't block drag) */}
+            <div
+              className="absolute top-2 left-2 rounded bg-black/70 px-2 py-1 text-xs text-white opacity-0 transition-opacity hover:opacity-100 pointer-events-none"
+            >
+              Drag to reposition
+            </div>
           </div>
+
+          {/* Upload button - separate from drag area */}
+          <button
+            onClick={handleClick}
+            className="absolute bottom-2 right-2 z-10 flex items-center gap-2 rounded-lg bg-accent px-3 py-2 text-xs font-semibold text-white shadow-lg transition-opacity hover:opacity-90"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+              <circle cx="12" cy="13" r="4" />
+            </svg>
+            {isUploading ? `${uploadProgress}%` : 'Upload'}
+          </button>
         </>
       ) : (
         /* No image yet - show upload button */

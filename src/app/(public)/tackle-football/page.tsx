@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SubNavigation } from '@/components/ui/sub-navigation';
 import { ParentTestimonials } from '@/components/sections/parent-testimonials';
-import { PhotoContentBlock } from '@/components/sections/photo-content-block';
+import { PhotoContentBlockEditable } from '@/components/sections/photo-content-block-editable';
 import { QuickReference, Timeline } from '@/components/ui/quick-reference';
 import { EditableHeroImage } from '@/components/sections/editable-hero-image';
 import { EditableText } from '@/components/editable/editable-text';
@@ -42,63 +42,69 @@ const parentTestimonials = [
 
 const keyDates = [
   {
-    date: 'May 1, 2025',
+    date: 'May 1, 2026',
     title: 'Last Day for Full Refund',
     description:
       'Full refund available (minus processing fees) if you need to withdraw before this date.',
     important: false,
   },
   {
-    date: 'June 1, 2025',
+    date: 'July 1, 2026',
     title: 'Sports Physical Deadline',
     description:
       'All physical exams must be uploaded by this date. Registration closes for 9-10 and 11-12 divisions.',
     important: true,
   },
   {
-    date: 'July 1, 2025',
+    date: 'July 15, 2026',
     title: 'Last Day for Partial Refund',
     description:
       'Partial refund available (minus processing and equipment fees) until this date.',
     important: false,
   },
   {
-    date: 'July 28, 2025',
-    title: 'Waitlist Registration Closes',
-    description: 'Final day to join the waitlist for 9-10 and 11-12 divisions.',
-    important: false,
-  },
-  {
-    date: 'July 30-31, Aug 1',
+    date: 'July 29-31, 2026',
     title: 'Equipment Check-Out',
     description:
       'Team-by-team equipment distribution at RiseUp Storage. Check your team schedule.',
     important: true,
   },
   {
-    date: 'August 2, 2025',
+    date: 'August 1, 2026',
     title: 'Season Practices Begin',
     description:
       'First practice! Monday, Tuesday, Thursday 5:30-7:30 PM, Saturday 9 AM.',
     important: true,
   },
   {
-    date: 'August 22, 2025',
-    title: '13-14 Registration Closes',
-    description: 'Final day to register for the Elite Division.',
-    important: false,
-  },
-  {
-    date: 'August 23, 2025',
+    date: 'August 22, 2026',
     title: 'Season Jamboree',
     description: 'Scrimmage event to prepare teams before the regular season.',
     important: true,
   },
   {
-    date: 'September 6, 2025',
-    title: 'First Game Day',
-    description: 'Regular season begins! 6 games played on Saturdays.',
+    date: 'August 29, 2026',
+    title: 'Game 1',
+    description: 'First regular season game!',
     important: true,
+  },
+  {
+    date: 'September 5, 2026',
+    title: 'Labor Day - Off',
+    description: 'No games scheduled. Enjoy the holiday!',
+    important: false,
+  },
+  {
+    date: 'Sept 12, 19, 26',
+    title: 'Games 2-4',
+    description: 'Regular season continues.',
+    important: false,
+  },
+  {
+    date: 'October 3, 10',
+    title: 'Games 5-6',
+    description: 'Final regular season games.',
+    important: false,
   },
 ];
 
@@ -125,12 +131,11 @@ export default function TackleFootballPage() {
       {/* Sub Navigation */}
       <SubNavigation 
         items={subNavItems} 
-        showRegisterButton={true}
-        registerLink="https://riseupmoore.leagueapps.com/"
+        showRegisterButton={false}
       />
 
       {/* Overview Section */}
-      <section id="overview" className="py-16 md:py-24">
+      <section id="overview" className="pt-12 pb-16 md:pt-16 md:pb-24">
         <div className="mx-auto max-w-7xl px-6">
           <h2 className="mb-12 text-center text-3xl font-bold text-white md:text-4xl">
             <EditableText
@@ -139,7 +144,7 @@ export default function TackleFootballPage() {
               page="tackle-football"
               section="overview"
             >
-              2025 Season Overview
+              2026 Season Overview
             </EditableText>
           </h2>
 
@@ -183,9 +188,17 @@ export default function TackleFootballPage() {
                     section="overview"
                   >
                     Our program follows USA Football rules, regulations, and policies
-                    for 2025, ensuring the highest standards of play and safety. All
+                    for 2026, ensuring the highest standards of play and safety. All
                     coaches are certified in Heads Up Football techniques, emphasizing
                     proper form and player protection.
+                  </EditableText>
+                  <EditableText
+                    contentKey="tackle.overview.usa_football_regulations"
+                    as="p"
+                    page="tackle-football"
+                    section="overview"
+                  >
+                    2026 USA Football Regulations and RiseUp Tackle Football policies will be available not later than June 15th, 2026.
                   </EditableText>
                   <EditableText
                     contentKey="tackle.overview.usa_football_p2"
@@ -216,11 +229,20 @@ export default function TackleFootballPage() {
               <EditableText
                 contentKey="tackle.overview.age_note"
                 as="p"
-                className="mb-6 text-sm text-muted-foreground"
+                className="mb-3 text-sm text-muted-foreground"
                 page="tackle-football"
                 section="overview"
               >
-                Age as of August 31, 2025
+                Age as of August 31, 2026
+              </EditableText>
+              <EditableText
+                contentKey="tackle.overview.team_structure"
+                as="p"
+                className="mb-6 text-sm font-bold text-white"
+                page="tackle-football"
+                section="overview"
+              >
+                Each division will have 4 teams of 30 players. When a division reaches capacity, a waitlist will open.
               </EditableText>
               <div className="space-y-4">
                 <div className="rounded-xl border border-white/10 bg-white/5 p-6">
@@ -231,18 +253,9 @@ export default function TackleFootballPage() {
                       page="tackle-football"
                       section="overview"
                     >
-                      9-10
+                      9/10 years old
                     </EditableText>
                   </h4>
-                  <EditableText
-                    contentKey="tackle.divisions.junior.name"
-                    as="p"
-                    className="mt-2 text-lg text-white"
-                    page="tackle-football"
-                    section="overview"
-                  >
-                    Junior Division
-                  </EditableText>
                   <EditableText
                     contentKey="tackle.divisions.junior.description"
                     as="p"
@@ -261,18 +274,9 @@ export default function TackleFootballPage() {
                       page="tackle-football"
                       section="overview"
                     >
-                      11-12
+                      11/12 years old
                     </EditableText>
                   </h4>
-                  <EditableText
-                    contentKey="tackle.divisions.varsity.name"
-                    as="p"
-                    className="mt-2 text-lg text-white"
-                    page="tackle-football"
-                    section="overview"
-                  >
-                    Varsity Division
-                  </EditableText>
                   <EditableText
                     contentKey="tackle.divisions.varsity.description"
                     as="p"
@@ -291,18 +295,9 @@ export default function TackleFootballPage() {
                       page="tackle-football"
                       section="overview"
                     >
-                      13-14
+                      13/14 years old
                     </EditableText>
                   </h4>
-                  <EditableText
-                    contentKey="tackle.divisions.elite.name"
-                    as="p"
-                    className="mt-2 text-lg text-white"
-                    page="tackle-football"
-                    section="overview"
-                  >
-                    Elite Division
-                  </EditableText>
                   <EditableText
                     contentKey="tackle.divisions.elite.description"
                     as="p"
@@ -320,7 +315,7 @@ export default function TackleFootballPage() {
       </section>
 
       {/* Registration Section */}
-      <section id="registration" className="bg-white/5 py-16 md:py-24">
+      <section id="registration" className="bg-white/5 pt-12 pb-16 md:pt-16 md:pb-24">
         <div className="mx-auto max-w-7xl px-6">
           <h2 className="mb-8 text-center text-3xl font-bold text-white md:text-4xl">
             <EditableText
@@ -333,7 +328,7 @@ export default function TackleFootballPage() {
             </EditableText>
           </h2>
 
-          <div className="mb-12 space-y-8">
+          <div className="mb-6 space-y-8">
             <div className="rounded-xl border border-white/10 bg-background p-6 md:p-8">
               <h3 className="mb-4 text-xl font-bold text-white">
                 <EditableText
@@ -345,6 +340,19 @@ export default function TackleFootballPage() {
                   Registration Status
                 </EditableText>
               </h3>
+              
+              <div className="mb-6 rounded-lg border border-accent/30 bg-accent/5 p-4">
+                <EditableText
+                  contentKey="tackle.registration.team_structure"
+                  as="p"
+                  className="text-sm font-bold text-white"
+                  page="tackle-football"
+                  section="registration"
+                >
+                  Each division will have 4 teams of 30 players. When a division reaches capacity, a waitlist will open.
+                </EditableText>
+              </div>
+              
               <div className="space-y-4 text-muted-foreground">
                 <EditableText
                   contentKey="tackle.registration.status_junior"
@@ -393,7 +401,7 @@ export default function TackleFootballPage() {
                     section="registration"
                   >
                     All players must have a current sports physical on file by{' '}
-                    <strong className="text-white">June 1, 2026</strong>.
+                    <strong className="text-white">July 1, 2026</strong>.
                   </EditableText>
                   <a
                     href="https://www.nchsaa.org/wp-content/uploads/2023/09/2025-2026_PPE-English.pdf"
@@ -414,11 +422,25 @@ export default function TackleFootballPage() {
               </div>
             </div>
 
-            <PhotoContentBlock
+            {/* Team Assignments */}
+            <div className="rounded-xl border border-white/10 bg-white/5 p-6 md:p-8">
+              <h3 className="mb-2 text-xl font-bold text-white md:text-2xl">Team Assignments</h3>
+              <p className="mb-6 text-base md:text-lg text-accent font-semibold">
+                Teams will be assigned in June.
+              </p>
+            </div>
+
+            <PhotoContentBlockEditable
+              contentKey="tackle.registration.how_to_image"
               imageSrc="/images/registration-day.jpg"
               imageAlt="Families at registration"
               title="How to Register"
               imagePosition="right"
+              page="tackle-football"
+              section="registration"
+              imageHeight="h-[400px] md:min-h-[500px]"
+              rounded={false}
+              wideImage={true}
             >
               <EditableText
                 contentKey="tackle.registration.how_to_p1"
@@ -434,12 +456,11 @@ export default function TackleFootballPage() {
                 page="tackle-football"
                 section="registration"
               >
-                You have until <strong className="text-white">June 1st</strong>{' '}
-                to upload a current sports physical and measurements. To edit
+                You have until July 1, 2026 to upload a current sports physical and measurements. To edit
                 your registration after submitting, visit the registration
                 portal.
               </EditableText>
-            </PhotoContentBlock>
+            </PhotoContentBlockEditable>
 
             <div
               id="scholarship"
@@ -482,28 +503,6 @@ export default function TackleFootballPage() {
                 </a>{' '}
                 <strong className="text-white">before completing registration</strong>.
               </EditableText>
-              <div className="mt-6 border-t border-white/10 pt-6">
-                <EditableText
-                  contentKey="tackle.registration.sponsor_question"
-                  as="p"
-                  className="mb-2 text-sm font-semibold text-white"
-                  page="tackle-football"
-                  section="registration"
-                >
-                  Want to sponsor a player?
-                </EditableText>
-                <EditableText
-                  contentKey="tackle.registration.sponsor_info"
-                  as="p"
-                  className="text-sm text-muted-foreground"
-                  page="tackle-football"
-                  section="registration"
-                >
-                  Donate via Venmo to{' '}
-                  <span className="font-semibold text-accent">@riseupmoore</span>{' '}
-                  - all donation amounts welcome!
-                </EditableText>
-              </div>
             </div>
 
             <div className="rounded-xl border border-white/10 bg-background p-6 md:p-8">
@@ -524,7 +523,7 @@ export default function TackleFootballPage() {
                   page="tackle-football"
                   section="registration"
                 >
-                  <strong className="text-white">Before May 1, 2025:</strong>{' '}
+                  <strong className="text-white">Before May 1, 2026:</strong>{' '}
                   Full refund (minus processing fees)
                 </EditableText>
                 <EditableText
@@ -534,7 +533,7 @@ export default function TackleFootballPage() {
                   section="registration"
                 >
                   <strong className="text-white">
-                    May 1 - July 1, 2025:
+                    May 1 - July 15, 2026:
                   </strong>{' '}
                   Partial refund (minus processing fees and equipment fees)
                 </EditableText>
@@ -544,7 +543,7 @@ export default function TackleFootballPage() {
                   page="tackle-football"
                   section="registration"
                 >
-                  <strong className="text-white">After July 1, 2025:</strong>{' '}
+                  <strong className="text-white">After July 15, 2026:</strong>{' '}
                   No refunds available
                 </EditableText>
               </div>
@@ -555,7 +554,7 @@ export default function TackleFootballPage() {
       </section>
 
       {/* Equipment Section */}
-      <section id="equipment" className="py-16 md:py-24">
+      <section id="equipment" className="pt-12 pb-16 md:pt-16 md:pb-24">
         <div className="mx-auto max-w-7xl px-6">
           <h2 className="mb-8 text-center text-3xl font-bold text-white md:text-4xl">
             <EditableText
@@ -569,11 +568,17 @@ export default function TackleFootballPage() {
           </h2>
 
           <div className="mb-12">
-            <PhotoContentBlock
+            <PhotoContentBlockEditable
+              contentKey="tackle.equipment.provides_image"
               imageSrc="/images/equipment-fitting.jpg"
               imageAlt="Coach fitting helmet on player"
               title="What RiseUp Provides"
               imagePosition="left"
+              page="tackle-football"
+              section="equipment"
+              imageHeight="h-[400px] md:min-h-[500px]"
+              rounded={false}
+              wideImage={true}
             >
               <EditableText
                 contentKey="tackle.equipment.provides_intro"
@@ -636,7 +641,7 @@ export default function TackleFootballPage() {
                   </EditableText>
                 </li>
               </ul>
-            </PhotoContentBlock>
+            </PhotoContentBlockEditable>
           </div>
 
           <div className="rounded-xl border border-white/10 bg-white/5 p-6 md:p-8 mb-12">
@@ -685,31 +690,50 @@ export default function TackleFootballPage() {
               </strong>
             </EditableText>
 
-            {/* July 30 */}
+            {/* July 29 */}
             <div className="mb-6">
               <h4 className="mb-3 text-lg font-bold text-accent">
-                July 30, 2025
+                July 29, 2026
               </h4>
               <div className="grid gap-2 text-sm md:grid-cols-2">
                 <div className="rounded border border-white/10 bg-background p-3">
-                  <span className="font-semibold text-white">5:00 PM</span> -
-                  12U Cowboys
+                  <span className="font-semibold text-white">5:00 PM</span> - TBA
                 </div>
                 <div className="rounded border border-white/10 bg-background p-3">
-                  <span className="font-semibold text-white">5:30 PM</span> -
-                  12U Vikings
+                  <span className="font-semibold text-white">5:30 PM</span> - TBA
                 </div>
                 <div className="rounded border border-white/10 bg-background p-3">
-                  <span className="font-semibold text-white">6:00 PM</span> -
-                  12U Falcons
+                  <span className="font-semibold text-white">6:00 PM</span> - TBA
                 </div>
                 <div className="rounded border border-white/10 bg-background p-3">
-                  <span className="font-semibold text-white">6:30 PM</span> -
-                  12U Seahawks
+                  <span className="font-semibold text-white">6:30 PM</span> - TBA
                 </div>
                 <div className="rounded border border-white/10 bg-background p-3">
-                  <span className="font-semibold text-white">7:00 PM</span> -
-                  12U Rams
+                  <span className="font-semibold text-white">7:00 PM</span> - TBA
+                </div>
+              </div>
+            </div>
+
+            {/* July 30 */}
+            <div className="mb-6">
+              <h4 className="mb-3 text-lg font-bold text-accent">
+                July 30, 2026
+              </h4>
+              <div className="grid gap-2 text-sm md:grid-cols-2">
+                <div className="rounded border border-white/10 bg-background p-3">
+                  <span className="font-semibold text-white">5:00 PM</span> - TBA
+                </div>
+                <div className="rounded border border-white/10 bg-background p-3">
+                  <span className="font-semibold text-white">5:30 PM</span> - TBA
+                </div>
+                <div className="rounded border border-white/10 bg-background p-3">
+                  <span className="font-semibold text-white">6:00 PM</span> - TBA
+                </div>
+                <div className="rounded border border-white/10 bg-background p-3">
+                  <span className="font-semibold text-white">6:30 PM</span> - TBA
+                </div>
+                <div className="rounded border border-white/10 bg-background p-3">
+                  <span className="font-semibold text-white">7:00 PM</span> - TBA
                 </div>
               </div>
             </div>
@@ -717,45 +741,14 @@ export default function TackleFootballPage() {
             {/* July 31 */}
             <div className="mb-6">
               <h4 className="mb-3 text-lg font-bold text-accent">
-                July 31, 2025
+                July 31, 2026
               </h4>
               <div className="grid gap-2 text-sm md:grid-cols-2">
                 <div className="rounded border border-white/10 bg-background p-3">
-                  <span className="font-semibold text-white">5:00 PM</span> -
-                  12U Panthers
+                  <span className="font-semibold text-white">5:00 PM</span> - TBA
                 </div>
                 <div className="rounded border border-white/10 bg-background p-3">
-                  <span className="font-semibold text-white">5:30 PM</span> -
-                  10U Bengals
-                </div>
-                <div className="rounded border border-white/10 bg-background p-3">
-                  <span className="font-semibold text-white">6:00 PM</span> -
-                  10U Jets
-                </div>
-                <div className="rounded border border-white/10 bg-background p-3">
-                  <span className="font-semibold text-white">6:30 PM</span> -
-                  10U Chiefs
-                </div>
-                <div className="rounded border border-white/10 bg-background p-3">
-                  <span className="font-semibold text-white">7:00 PM</span> -
-                  10U Steelers
-                </div>
-              </div>
-            </div>
-
-            {/* August 1 */}
-            <div className="mb-6">
-              <h4 className="mb-3 text-lg font-bold text-accent">
-                August 1, 2025
-              </h4>
-              <div className="grid gap-2 text-sm md:grid-cols-2">
-                <div className="rounded border border-white/10 bg-background p-3">
-                  <span className="font-semibold text-white">5:00 PM</span> -
-                  14U Tarheels
-                </div>
-                <div className="rounded border border-white/10 bg-background p-3">
-                  <span className="font-semibold text-white">5:30 PM</span> -
-                  14U Wolfpack
+                  <span className="font-semibold text-white">5:30 PM</span> - TBA
                 </div>
                 <div className="rounded border border-accent/30 bg-accent/5 p-3">
                   <span className="font-semibold text-accent">
@@ -829,7 +822,7 @@ export default function TackleFootballPage() {
       </section>
 
       {/* Schedule Section */}
-      <section id="schedule" className="bg-white/5 py-16 md:py-24">
+      <section id="schedule" className="bg-white/5 pt-12 pb-16 md:pt-16 md:pb-24">
         <div className="mx-auto max-w-7xl px-6">
           <h2 className="mb-8 text-center text-3xl font-bold text-white md:text-4xl">
             <EditableText
@@ -843,11 +836,17 @@ export default function TackleFootballPage() {
           </h2>
 
           <div className="mb-12">
-            <PhotoContentBlock
+            <PhotoContentBlockEditable
+              contentKey="tackle.schedule.practice_image"
               imageSrc="/images/practice-action.jpg"
               imageAlt="Team practicing plays"
               title="Weekly Practice Schedule"
               imagePosition="right"
+              page="tackle-football"
+              section="schedule"
+              imageHeight="h-[400px] md:min-h-[500px]"
+              rounded={false}
+              wideImage={true}
             >
               <EditableText
                 contentKey="tackle.schedule.practice_start"
@@ -856,10 +855,10 @@ export default function TackleFootballPage() {
                 page="tackle-football"
                 section="schedule"
               >
-                Practices begin <strong className="text-white">August 2, 2025</strong>{' '}
+                Practices begin <strong className="text-white">August 1, 2026</strong>{' '}
                 and run through the season.
               </EditableText>
-              <div className="space-y-3">
+              <div className="grid gap-3 md:grid-cols-2">
                 <div className="rounded-lg border border-white/10 bg-background p-4">
                   <EditableText
                     contentKey="tackle.schedule.before_games_title"
@@ -905,7 +904,7 @@ export default function TackleFootballPage() {
                   </EditableText>
                 </div>
               </div>
-            </PhotoContentBlock>
+            </PhotoContentBlockEditable>
           </div>
 
           <div className="mb-12">
@@ -933,7 +932,7 @@ export default function TackleFootballPage() {
                   page="tackle-football"
                   section="schedule"
                 >
-                  August 23, 2025
+                  August 22, 2026
                 </EditableText>
               </h3>
               <h4 className="mb-2 text-lg font-semibold text-white">
@@ -965,7 +964,7 @@ export default function TackleFootballPage() {
                   page="tackle-football"
                   section="schedule"
                 >
-                  September 6, 2025
+                  August 29, 2026
                 </EditableText>
               </h3>
               <h4 className="mb-2 text-lg font-semibold text-white">
@@ -975,7 +974,7 @@ export default function TackleFootballPage() {
                   page="tackle-football"
                   section="schedule"
                 >
-                  First Game Day
+                  Game 1
                 </EditableText>
               </h4>
               <EditableText
@@ -985,8 +984,7 @@ export default function TackleFootballPage() {
                 page="tackle-football"
                 section="schedule"
               >
-                Regular season begins! 6 games will be played on Saturdays
-                throughout September and October.
+                First regular season game! Games 2-6 will be played September 12, 19, 26; October 3, 10. Labor Day weekend is off.
               </EditableText>
             </div>
           </div>
@@ -994,7 +992,7 @@ export default function TackleFootballPage() {
       </section>
 
       {/* Mandatory Parent Meetings */}
-      <section id="parent-meetings" className="py-16 md:py-24">
+      <section id="parent-meetings" className="pt-12 pb-16 md:pt-16 md:pb-24">
         <div className="mx-auto max-w-7xl px-6">
           <h2 className="mb-4 text-center text-3xl font-bold text-white md:text-4xl">
             <EditableText
@@ -1014,7 +1012,8 @@ export default function TackleFootballPage() {
             section="parent-meetings"
           >
             RiseUp President Andy Davis will meet with each team's parents at
-            their practice locations.{' '}
+            their practice locations.
+            <br />
             <strong className="text-accent">
               This is a mandatory 30-minute meeting for every family.
             </strong>
@@ -1023,11 +1022,11 @@ export default function TackleFootballPage() {
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             <div className="rounded-xl border border-white/10 bg-white/5 p-6">
               <div className="mb-2 text-sm font-semibold text-accent">
-                August 2
+                August 1
               </div>
               <div className="text-lg font-bold text-white">9:00 AM</div>
               <div className="mt-2 text-muted-foreground">
-                Vikings &amp; Tarheels
+                Team TBA &amp; Team TBA
               </div>
             </div>
 
@@ -1037,7 +1036,7 @@ export default function TackleFootballPage() {
               </div>
               <div className="text-lg font-bold text-white">5:30 PM</div>
               <div className="mt-2 text-muted-foreground">
-                Chiefs &amp; Panthers
+                Team TBA &amp; Team TBA
               </div>
             </div>
 
@@ -1047,7 +1046,7 @@ export default function TackleFootballPage() {
               </div>
               <div className="text-lg font-bold text-white">5:30 PM</div>
               <div className="mt-2 text-muted-foreground">
-                Rams &amp; Wolfpack
+                Team TBA &amp; Team TBA
               </div>
             </div>
 
@@ -1057,17 +1056,17 @@ export default function TackleFootballPage() {
               </div>
               <div className="text-lg font-bold text-white">5:30 PM</div>
               <div className="mt-2 text-muted-foreground">
-                Seahawks &amp; Steelers
+                Team TBA &amp; Team TBA
               </div>
             </div>
 
             <div className="rounded-xl border border-white/10 bg-white/5 p-6">
               <div className="mb-2 text-sm font-semibold text-accent">
-                August 9
+                August 8
               </div>
               <div className="text-lg font-bold text-white">9:00 AM</div>
               <div className="mt-2 text-muted-foreground">
-                Jets &amp; Falcons
+                Team TBA &amp; Team TBA
               </div>
             </div>
 
@@ -1077,139 +1076,16 @@ export default function TackleFootballPage() {
               </div>
               <div className="text-lg font-bold text-white">5:30 PM</div>
               <div className="mt-2 text-muted-foreground">
-                Cowboys &amp; Bengals
+                Team TBA &amp; Team TBA
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Quick Reference Section */}
-      <section id="quick-reference" className="bg-white/5 py-16 md:py-24">
-        <div className="mx-auto max-w-7xl px-6">
-          <h2 className="mb-12 text-center text-3xl font-bold text-white md:text-4xl">
-            <EditableText
-              contentKey="tackle.quick_reference.title"
-              as="span"
-              page="tackle-football"
-              section="quick-reference"
-            >
-              Quick Reference Guide
-            </EditableText>
-          </h2>
-
-          <div className="space-y-8">
-            <QuickReference
-              title="Team Assignments"
-              columns={3}
-              items={[
-                { label: '10U Teams', value: 'Bengals, Jets, Chiefs, Steelers' },
-                {
-                  label: '12U Teams',
-                  value: 'Cowboys, Vikings, Falcons, Seahawks, Rams, Panthers',
-                },
-                { label: '14U Teams', value: 'Tarheels, Wolfpack' },
-              ]}
-            />
-
-            <QuickReference
-              title="Important Contacts"
-              columns={2}
-              items={[
-                {
-                  label: 'General Inquiries',
-                  value: (
-                    <a
-                      href="mailto:admin@riseupmoore.com"
-                      className="text-accent underline hover:text-accent/80"
-                    >
-                      admin@riseupmoore.com
-                    </a>
-                  ),
-                },
-                {
-                  label: 'Registration Portal',
-                  value: (
-                    <a
-                      href="https://riseupmoore.leagueapps.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-accent underline hover:text-accent/80"
-                    >
-                      riseupmoore.leagueapps.com
-                    </a>
-                  ),
-                },
-                {
-                  label: 'Donations (Venmo)',
-                  value: '@riseupmoore',
-                  highlight: true,
-                },
-                {
-                  label: 'Physical Form',
-                  value: (
-                    <a
-                      href="https://www.nchsaa.org/sites/default/files/2024-25%20PPE%20Form.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-accent underline hover:text-accent/80"
-                    >
-                      NCHSAA Form (PDF)
-                    </a>
-                  ),
-                },
-              ]}
-            />
-
-            <QuickReference
-              title="What to Remember"
-              columns={2}
-              items={[
-                {
-                  label: 'Physical Deadline',
-                  value: 'June 1, 2025',
-                  highlight: true,
-                },
-                {
-                  label: 'Equipment Check-Out',
-                  value: 'July 30, 31, Aug 1',
-                  highlight: true,
-                },
-                {
-                  label: 'First Practice',
-                  value: 'August 2, 2025',
-                  highlight: true,
-                },
-                {
-                  label: 'First Game',
-                  value: 'September 6, 2025',
-                  highlight: true,
-                },
-                {
-                  label: 'Practice Times (Pre-Season)',
-                  value: 'M/T/Th 5:30-7:30 PM, Sat 9 AM',
-                },
-                {
-                  label: 'Practice Times (In-Season)',
-                  value: 'M/T/Th 5:30-7:30 PM',
-                },
-                {
-                  label: 'Players Bring',
-                  value: 'Cleats, mouth guard, water bottle',
-                },
-                {
-                  label: 'RiseUp Provides',
-                  value: 'Helmet, pads, pants, jerseys',
-                },
-              ]}
-            />
-          </div>
-        </div>
-      </section>
-
       {/* Final CTA Section */}
-      <section className="py-16 md:py-24">
-        <div className="mx-auto max-w-3xl px-6 text-center">
+      <section className="pt-12 pb-16 md:pt-16 md:pb-24">
+        <div className="mx-auto max-w-5xl px-6 text-center">
           <h2 className="mb-4 text-3xl font-bold text-white md:text-4xl">
             <EditableText
               contentKey="tackle.cta.title"
@@ -1231,11 +1107,9 @@ export default function TackleFootballPage() {
             football experience.
           </EditableText>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link
-              href="https://riseupmoore.leagueapps.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block rounded-full bg-accent px-8 py-4 text-lg font-semibold text-white transition-opacity hover:opacity-90"
+            <button
+              disabled
+              className="inline-block rounded-full bg-accent/50 px-8 py-4 text-lg font-semibold text-white cursor-not-allowed opacity-50"
             >
               <EditableText
                 contentKey="tackle.cta.register_button"
@@ -1245,20 +1119,7 @@ export default function TackleFootballPage() {
               >
                 Register Now
               </EditableText>
-            </Link>
-            <Link
-              href="mailto:admin@riseupmoore.com"
-              className="inline-block rounded-full border border-white px-8 py-4 text-lg font-semibold text-white transition-all hover:bg-white/10"
-            >
-              <EditableText
-                contentKey="tackle.cta.contact_button"
-                as="span"
-                page="tackle-football"
-                section="cta"
-              >
-                Contact Us
-              </EditableText>
-            </Link>
+            </button>
           </div>
         </div>
       </section>

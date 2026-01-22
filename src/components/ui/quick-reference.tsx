@@ -8,6 +8,8 @@ interface InfoItem {
 
 interface QuickReferenceProps {
   title: string;
+  subtitle?: string;
+  subtitleAccent?: boolean;
   items: InfoItem[];
   className?: string;
   columns?: 1 | 2 | 3;
@@ -15,6 +17,8 @@ interface QuickReferenceProps {
 
 export function QuickReference({
   title,
+  subtitle,
+  subtitleAccent = false,
   items,
   className,
   columns = 2,
@@ -26,7 +30,14 @@ export function QuickReference({
         className
       )}
     >
-      <h3 className="mb-6 text-xl font-bold text-white md:text-2xl">{title}</h3>
+      <h3 className="mb-2 text-xl font-bold text-white md:text-2xl">{title}</h3>
+      {subtitle && (
+        <p className={cn(
+          "mb-6 text-base md:text-lg",
+          subtitleAccent ? "text-accent font-semibold" : "text-muted-foreground"
+        )}>{subtitle}</p>
+      )}
+      {!subtitle && <div className="mb-6" />}
       <div
         className={cn(
           'grid gap-4',

@@ -1,0 +1,5 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#121126"/>
+  <text x="50%" y="50%" font-family="Arial" font-size="32" fill="#b72031" text-anchor="middle" dominant-baseline="middle">Practice Action</text>
+  <text x="50%" y="60%" font-family="Arial" font-size="18" fill="#ffffff" opacity="0.6" text-anchor="middle" dominant-baseline="middle">Upload your image in admin mode</text>
+</svg>
