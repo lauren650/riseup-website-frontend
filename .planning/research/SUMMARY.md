@@ -1,299 +1,265 @@
-# Research Summary: v1.1 Sponsorship Packages
+# Research Summary: Sponsor Management v1.2
 
-**Project:** RiseUp Youth Football League - Sponsorship Invoicing
-**Domain:** Nonprofit invoice management with payment automation
-**Researched:** 2026-01-20
-**Overall Confidence:** HIGH
+**Milestone:** v1.2 Sponsor Management Redesign
+**Research Date:** 2026-01-23
+**Research Files:** STACK.md, FEATURES.md, ARCHITECTURE.md, PITFALLS.md
+
+---
 
 ## Executive Summary
 
-Sponsorship invoice systems in 2026 are built on a streamlined workflow: admin creates invoice via Stripe API, Stripe sends payment link, payment triggers webhook, automated actions follow. The recommended approach for RiseUp is **webhook-driven architecture with Stripe as payment processor and minimal UI overhead**. This leverages the existing Next.js 16 App Router + Supabase + Resend stack without requiring additional dependencies beyond the Stripe Node.js SDK.
+The v1.2 milestone redesigns sponsor management with a complete invoice-driven workflow that adds Google Drive/Sheets integration, automated upload forms, and a comprehensive marketing dashboard. This builds on v1.1's Stripe infrastructure while adding significant external integrations.
 
-The core technical approach is straightforward: use Next.js server actions for admin invoice creation, store minimal invoice metadata in Supabase for fast queries, and use Stripe webhooks as the single source of truth for payment status updates. This avoids the most common pitfall in Stripe integrations: race conditions between eager database writes and webhook processing. The key architectural decision is to **only write to Supabase from webhook handlers**, never from invoice creation endpoints.
+**Scope:** NEW features only - v1.1 already has Stripe invoicing foundation, database schema, and webhook infrastructure in place.
 
-**Critical risks:** Webhook signature verification failures (security vulnerability), race conditions from dual database updates (data corruption), and missing idempotency guards (duplicate emails/credits). All three are preventable with proper Phase 1 architecture decisions. The recommended implementation follows official Stripe patterns proven across thousands of production integrations.
+---
 
 ## Key Findings
 
-### Recommended Stack
+### Stack Additions
 
-Adding Stripe invoicing requires **only one new dependency**: the official Stripe Node.js SDK v20.2.0. Next.js 16 App Router eliminated the need for legacy packages like `micro` (for raw body parsing) by providing native `req.text()` for webhook signature verification. This integration fits cleanly into the existing architecture patterns.
+**New Dependency:**
+- `googleapis@140+` (Google's official Node.js client) - **ONLY new package needed**
 
-**Core technologies:**
-- **Stripe SDK v20.2.0**: Invoice creation, customer management, webhook verification — Latest stable release with full TypeScript support, industry-standard payment processing
-- **Next.js 16 App Router**: Native webhook handling via `req.text()` — Eliminates need for custom body parser middleware, cleaner than Pages Router approach
-- **Supabase**: Invoice metadata storage, status tracking — Enables fast admin queries without hitting Stripe API on every page load
-- **Resend**: Post-payment email notifications — Already integrated, reuse existing patterns for payment confirmations
+**No Changes Needed:**
+- Stripe SDK ✓ (already installed in v1.1)
+- Next.js 16 ✓
+- Supabase ✓
+- Resend ✓
 
-**No additional packages needed.** The `micro` package used in older Next.js examples is obsolete. App Router handles raw request bodies natively.
+**Authentication Method:** Service Account (not OAuth)
+- Server-side only, no user consent prompts
+- JSON key file stored in environment variables
+- Scopes: `drive.file` + `spreadsheets`
 
-### Expected Features
-
-The research identified a clear feature hierarchy for nonprofit sponsorship invoice systems. The focus is on **automation to reduce manual admin work** while maintaining **clear payment visibility**.
-
-**Must have (table stakes):**
-- Invoice creation UI in admin panel — Admins expect to create invoices without leaving their system
-- Invoice status tracking (draft/open/paid/void) — Standard invoice lifecycle visibility
-- Automated payment confirmation email — 60% more likely to get timely payment with clear confirmation
-- Payment link in invoice email — One-click payment is standard; manual instructions are outdated
-- Payment method flexibility (card, ACH) — Sponsors expect multiple payment options
-- Invoice PDF generation — Sponsors need downloadable receipts for accounting (Stripe handles automatically)
-
-**Should have (competitive differentiators):**
-- Auto-send upload form link after payment — Reduces admin manual work; sponsor gets immediate next steps (RiseUp's key differentiator)
-- Invoice creation from sponsor inquiry — Pre-populate from interest form data
-- Tier-based invoice templates — Pre-configured amounts per sponsorship tier
-- Payment received notification to sponsor — Thank-you email reinforces relationship
-
-**Defer to v2+ (anti-features for v1):**
-- Subscription/recurring billing — Over-engineered for annual sponsorships; one-time invoices are simpler
-- Invoice editing after finalization — Stripe doesn't support; void and recreate instead
-- Multi-currency support — RiseUp is local; USD only
-- Payment plans/installments — Adds complexity for small amounts
-- Late fee automation — Damages sponsor relationships; manual follow-up preferred
-
-### Architecture Approach
-
-The architecture follows a clean **event-driven pattern with webhook-based state synchronization**. Admin creates invoice via server action → Stripe sends payment link → sponsor pays → webhook updates database → emails triggered. This avoids race conditions by making webhooks the single source of truth for payment state.
-
-**Major components:**
-
-1. **Admin Invoice Creation** (`/src/lib/actions/invoices.ts`) — Server actions create Stripe customers, draft invoices, add line items, finalize and send. Follows existing pattern from `sponsors.ts`. No database writes during creation; webhooks handle persistence.
-
-2. **Webhook Handler** (`/app/api/webhooks/stripe/route.ts`) — Receives Stripe events, verifies signatures using `req.text()`, returns 200 immediately, processes asynchronously. Handles `invoice.finalized`, `invoice.paid`, `invoice.payment_failed`, `invoice.voided`. Single source of truth for invoice status.
-
-3. **Database Schema** — New `invoices` table stores Stripe invoice metadata (ID, customer, amount, status, URLs). Extends `sponsors` table with `stripe_customer_id` column. Enables fast admin queries without Stripe API calls.
-
-4. **Email Integration** — Resend triggers on `invoice.paid` webhook. Sends payment confirmation and upload form link. Stripe's built-in invoice emails disabled to prevent duplicates.
-
-**Key pattern:** Webhook-only database updates. Invoice creation endpoint calls Stripe API but doesn't write to Supabase. The `invoice.finalized` webhook creates the database record. This eliminates race conditions.
-
-### Critical Pitfalls
-
-From PITFALLS.md analysis, these five failures cause the most severe production issues:
-
-1. **Webhook signature verification disabled/broken** — Attackers send fake payment events, granting unauthorized access. Prevention: Always use `stripe.webhooks.constructEvent()` with raw body from `req.text()`. Verify `STRIPE_WEBHOOK_SECRET` matches Stripe Dashboard. Test by sending unsigned POST (should fail with 400).
-
-2. **Race conditions from dual database writes** — Admin creates invoice and writes to Supabase; webhook also writes; last-write-wins causes lost data. Prevention: **Webhook-only updates**. Invoice creation calls Stripe API only. The `invoice.finalized` webhook creates database record. Avoids all race conditions.
-
-3. **Missing idempotency protection** — Stripe retries webhooks on timeout/network issues. Without deduplication, duplicate emails sent and duplicate credits granted. Prevention: Create `processed_webhook_events` table with unique constraint on `stripe_event_id`. Check before processing.
-
-4. **Environment variable exposure** — Using `NEXT_PUBLIC_STRIPE_SECRET_KEY` exposes secret in client JavaScript bundle. Prevention: Never prefix Stripe secrets with `NEXT_PUBLIC_`. Only `STRIPE_PUBLISHABLE_KEY` is safe to expose.
-
-5. **Webhook timeout from synchronous processing** — Sending emails and updating database before returning 200 takes >5 seconds. Stripe times out and retries. Prevention: Return 200 immediately, process asynchronously. For small scale (<100 invoices/month), simple async processing sufficient.
-
-**Additional operational pitfall:** Test mode vs production mode confusion. Deploying with `sk_test_*` keys in production means no real payments accepted. Prevention: Startup validation checks for test keys in production environment, fails fast with clear error.
-
-## Implications for Roadmap
-
-Based on dependency analysis and risk mitigation priorities, suggested phase structure:
-
-### Phase 1: Foundation & Schema
-**Rationale:** Establish database schema, Stripe client, and environment configuration before any feature code. Zero risk to existing features.
-
-**Delivers:**
-- Supabase migration adding `invoices` table and `sponsors.stripe_customer_id` column
-- Stripe SDK installed and client initialized (`/src/lib/stripe.ts`)
-- Environment variables documented in `.env.local.example`
-- Email templates extracted to `/src/lib/email/templates.ts`
-
-**Addresses:** Pitfall #8 (Stripe customer ID storage), establishes foundation for all subsequent phases
-
-**Avoids:** Schema changes mid-development, allows testing server actions in isolation
-
-**Research flag:** Standard schema design, no deeper research needed
+**Environment Variables:**
+```bash
+GOOGLE_SERVICE_ACCOUNT_EMAIL=
+GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY=
+GOOGLE_DRIVE_ROOT_FOLDER_ID=
+GOOGLE_SPREADSHEET_ID=
+```
 
 ---
 
-### Phase 2: Server Actions & Invoice Creation
-**Rationale:** Implement invoice creation logic before UI exists. Enables isolated testing with Stripe test mode.
+### New Feature Table Stakes
 
-**Delivers:**
-- `/src/lib/actions/invoices.ts` with `createInvoice`, `listInvoices`, `voidInvoice` functions
-- Authentication verification (admin-only access)
-- Stripe customer creation/lookup logic with caching
-- Invoice workflow: draft → add items → finalize → send
-- Validation schemas for invoice data
+**Must implement for v1.2:**
 
-**Uses:** Stripe SDK, Supabase client, existing auth patterns from `sponsors.ts`
+1. **Invoice Management (Enhanced)**
+   - Manual invoice creation with package selection
+   - List view with status filters (draft/open/paid/void)
+   - Void unpaid invoices
+   - Tag Stripe metadata as "sponsorship"
 
-**Implements:** Admin Invoice Creation component from ARCHITECTURE.md
+2. **Post-Payment Upload Workflow**
+   - Generate secure upload form link (unique token per invoice)
+   - Public upload form (no login required)
+   - Accept logo file (PNG/JPG/SVG, max 2MB) + website URL
+   - Form validation and success confirmation
 
-**Addresses:** Table stakes features (invoice creation, status tracking)
+3. **Google Drive Integration**
+   - Create folder structure by package type
+   - Upload sponsor logo to appropriate folder
+   - Folder naming: `{Company Name} - {Invoice ID}`
+   - Store folder ID in database
 
-**Avoids:** Pitfall #6 (admin authentication bypass), Pitfall #11 (invoice finalization before items)
+4. **Google Sheets Integration**
+   - Append row on invoice creation
+   - Columns: Company, Package, Invoice ID, Payment Date, Upload Status, Drive Folder, Website URL
+   - Update row on payment and upload completion
 
-**Research flag:** Standard CRUD operations, no deeper research needed
+5. **Conditional Sponsor Display**
+   - Show on Partners page ONLY if:
+     - Invoice status = "paid" AND
+     - Package includes website benefit
+   - Display logo + company name + website link
 
----
-
-### Phase 3: Webhook Handler & Payment Detection
-**Rationale:** Webhook handler must be rock-solid before production. Stripe CLI enables local testing.
-
-**Delivers:**
-- `/app/api/webhooks/stripe/route.ts` with signature verification
-- Event handlers for `invoice.finalized`, `invoice.paid`, `invoice.payment_failed`, `invoice.voided`
-- Idempotency guards with `processed_webhook_events` table
-- Immediate 200 response with async processing
-- Database updates from webhook events only
-
-**Uses:** Stripe webhook SDK, Next.js `req.text()`, Supabase upserts
-
-**Implements:** Webhook Handler component from ARCHITECTURE.md
-
-**Addresses:** Core payment detection (table stakes), post-payment automation (differentiator)
-
-**Avoids:** Pitfall #1 (signature verification), Pitfall #2 (race conditions), Pitfall #3 (idempotency), Pitfall #5 (timeouts), Pitfall #14 (event ordering)
-
-**Research flag:** **Needs deeper research** — Idempotency strategies, async queue options (Vercel Queue vs simple async), event ordering edge cases. Recommend `/gsd:research-phase` for webhook reliability patterns.
+6. **Marketing Dashboard**
+   - Package status widget (available slots, closing dates)
+   - Invoice tracking widget (status counts, revenue)
+   - Upload completion widget (pending/completed counts)
+   - Recent activity feed (last 10 events)
 
 ---
 
-### Phase 4: Admin UI
-**Rationale:** UI is lowest risk once server actions are stable. Follows existing admin panel patterns.
+### Architecture Highlights
 
-**Delivers:**
-- `/app/admin/dashboard/invoices/page.tsx` (list view with filters)
-- `/app/admin/dashboard/invoices/new/page.tsx` (create form)
-- "Invoices" navigation link in admin header
-- Sponsor dropdown populated from approved sponsors
-- Invoice status display with color coding
-- Loading states and error handling
+**Data Flow:**
+```
+Admin creates invoice
+  → Stripe invoice created + DB insert + Sheets append
 
-**Implements:** Admin Panel Integration from ARCHITECTURE.md
+Sponsor pays
+  → Webhook detects payment
+  → Create Google Drive folder
+  → Generate upload token
+  → Update Sheets (payment status)
+  → Email upload link
 
-**Addresses:** Table stakes (admin invoice UI), should-have (tier-based templates)
+Sponsor uploads logo
+  → Save to Google Drive
+  → Update Sheets (completion status)
+  → Mark token as used
+  → Send confirmation emails
 
-**Avoids:** Standard UI patterns, no unique pitfalls
+Public page loads
+  → Query: paid invoices with website benefit
+  → Fetch cached logo URLs (not live Drive API)
+  → Render sponsor grid
+```
 
-**Research flag:** Standard Next.js UI patterns, no deeper research needed
+**New Database Table:**
+```sql
+CREATE TABLE sponsor_uploads (
+  id UUID PRIMARY KEY,
+  invoice_id UUID REFERENCES invoices(id),
+  upload_token TEXT UNIQUE,
+  google_drive_folder_id TEXT,
+  google_sheet_row_index INTEGER,
+  logo_uploaded BOOLEAN DEFAULT false,
+  website_url TEXT,
+  upload_completed_at TIMESTAMPTZ,
+  token_expires_at TIMESTAMPTZ DEFAULT NOW() + INTERVAL '90 days'
+);
+```
 
----
+**Extends Existing:**
+- Stripe webhook handler → ADD Drive/Sheets logic on `invoice.paid`
+- `/partners` page → ADD conditional display query
+- `/admin/dashboard` → ADD new widgets
 
-### Phase 5: Email Notifications
-**Rationale:** Emails enhance UX but aren't critical path. Add after core flow validated.
-
-**Delivers:**
-- Payment confirmation email template
-- Upload form link in confirmation email (key differentiator)
-- Admin notification on payment received
-- Payment failed notification to admin
-
-**Uses:** Resend SDK (already integrated), email templates from Phase 1
-
-**Implements:** Email Integration component from ARCHITECTURE.md
-
-**Addresses:** Table stakes (payment confirmation), differentiator (auto-send upload link)
-
-**Avoids:** Pitfall #13 (duplicate emails — disable Stripe's built-in emails), Pitfall #3 (idempotency for email sends)
-
-**Research flag:** Standard transactional email patterns, no deeper research needed
-
----
-
-### Phase 6: Production Deployment
-**Rationale:** Final validation in production environment after all components tested in isolation.
-
-**Delivers:**
-- Production webhook endpoint registered in Stripe Dashboard
-- Live API keys configured in Vercel environment variables
-- Database migration run in production Supabase
-- End-to-end test with real Stripe payment (refunded)
-- Production validation checklist completed
-
-**Addresses:** Pitfall #10 (test vs production mode confusion)
-
-**Avoids:** All critical pitfalls via deployment checklist validation
-
-**Research flag:** **Needs validation** — Production webhook delivery, email deliverability testing, error monitoring setup. Not deep research, but operational validation.
+**Replaces:**
+- `/admin/dashboard/sponsors` (old self-service approval) → NEW invoice management UI
 
 ---
 
-### Phase Ordering Rationale
+### Critical Pitfalls to Avoid
 
-- **Database first** (Phase 1) — Enables server action development without blocking on UI
-- **Server actions before UI** (Phase 2 → Phase 4) — Testable in isolation via Stripe CLI, reduces feedback loop
-- **Webhooks before emails** (Phase 3 → Phase 5) — Core payment detection must be reliable before enhancement features
-- **Production as final phase** (Phase 6) — All components validated in test mode before real money involved
+**Top 5 Risks:**
 
-**Dependency chain:** Phase 1 → Phase 2 → Phase 3 → Phase 4/5 (parallel) → Phase 6
+1. **Google Drive Rate Limits**
+   - ⚠️ Fetch logos on every page load = 403 errors
+   - ✅ Cache logo URLs in database, use Supabase Storage as CDN
 
-**Risk mitigation:** Phases 1-2 are zero-risk foundation. Phase 3 is highest risk (webhooks) and gets dedicated testing with Stripe CLI. Phase 6 catches environment configuration issues before launch.
+2. **Service Account Permissions**
+   - ⚠️ Forgot to share Drive folder/Spreadsheet with service account email
+   - ✅ Validate permissions at startup, log service account email
 
-### Research Flags
+3. **Webhook Idempotency**
+   - ⚠️ Duplicate events create multiple folders/emails
+   - ✅ Check `webhook_events` table before processing (already exists in v1.1)
 
-**Phases needing deeper research during planning:**
-- **Phase 3 (Webhook Handler):** Complex integration with idempotency, async processing, and event ordering edge cases. Recommend `/gsd:research-phase` to investigate queue options (Vercel Queue vs Inngest vs simple async), advanced idempotency patterns, and webhook retry strategies.
+4. **Upload Token Security**
+   - ⚠️ Predictable tokens, no expiration, reusable
+   - ✅ Crypto-secure UUIDs, 90-day expiration, mark as used after upload
 
-**Phases with standard patterns (skip research-phase):**
-- **Phase 1:** Schema migrations are well-documented in Supabase docs
-- **Phase 2:** Server actions follow existing patterns in codebase (`sponsors.ts`, `contact.ts`)
-- **Phase 4:** Admin UI follows established Next.js + TailwindCSS patterns in existing admin panel
-- **Phase 5:** Transactional emails follow existing Resend patterns in codebase
-
-## Confidence Assessment
-
-| Area | Confidence | Notes |
-|------|------------|-------|
-| Stack | HIGH | Official Stripe Node.js SDK v20.2.0 docs, Next.js 16 App Router verified patterns, existing Supabase/Resend integration proven |
-| Features | MEDIUM | Industry best practices from multiple sources (Stripe docs, nonprofit tooling articles), but limited RiseUp-specific sponsor feedback |
-| Architecture | HIGH | Stripe's official webhook-driven pattern, Next.js App Router documented extensively, existing codebase patterns match recommendations |
-| Pitfalls | HIGH | Verified from official Stripe documentation, real-world production failures documented in community sources, phase-specific assignments validated |
-
-**Overall confidence:** HIGH
-
-The technical implementation is well-documented with official sources. The only medium-confidence area is feature prioritization, which depends on sponsor preferences not fully validated. However, table stakes features (invoice creation, payment detection, confirmation emails) are universally expected and low-risk to implement.
-
-### Gaps to Address
-
-**Invoice customization (branding, logos):**
-- Research identified Stripe supports custom branding in Dashboard settings
-- Gap: Whether RiseUp wants custom branding or default Stripe appearance
-- Handle: Add to Phase 1 if needed, defer to v2 if not critical
-
-**Payment method selection (credit card vs ACH vs wire):**
-- Research shows Stripe supports ACH and wire transfers
-- Gap: Which payment methods sponsors prefer (ACH has lower fees but longer settlement)
-- Handle: Start with credit card only (default), add ACH in Phase 2 if requested
-
-**Invoice numbering scheme:**
-- Stripe auto-generates invoice numbers
-- Gap: Whether RiseUp accounting requires specific format (e.g., "INV-2026-001")
-- Handle: Use Stripe default for v1, add custom numbering in v2 if accounting requires
-
-**Webhook async processing strategy:**
-- Multiple options: Vercel Queue, Inngest, simple async, BullMQ
-- Gap: Which strategy for current scale (<100 invoices/month)
-- Handle: Start with simple async (return 200 immediately, don't await processing). Upgrade to queue if webhook processing exceeds 2 seconds.
-
-**Email strategy (Stripe vs Resend):**
-- Both can send invoice emails
-- Gap: Which system should send (avoid duplicates)
-- Handle: Disable Stripe's invoice emails, use only Resend for consistent branding and upload form link inclusion
-
-## Sources
-
-### Primary (HIGH confidence)
-- [Stripe Node.js SDK v20.2.0](https://github.com/stripe/stripe-node/releases) — Latest version verification
-- [Stripe Invoicing Integration Quickstart](https://docs.stripe.com/invoicing/integration/quickstart) — Invoice creation workflow
-- [Stripe API Reference - Invoices](https://docs.stripe.com/api/invoices) — API endpoints and parameters
-- [Stripe Webhooks Documentation](https://docs.stripe.com/webhooks) — Webhook verification and best practices
-- [Next.js with Stripe Webhook Example](https://github.com/vercel/next.js/blob/canary/examples/with-stripe-typescript/app/api/webhooks/route.ts) — Official pattern verification
-- [Stripe Invoice Status Transitions](https://docs.stripe.com/invoicing/integration/workflow-transitions) — Event ordering and lifecycle
-
-### Secondary (MEDIUM confidence)
-- [Stripe Webhooks Guide 2026](https://www.magicbell.com/blog/stripe-webhooks-guide) — Event type comparisons and idempotency patterns
-- [Next.js 15 Stripe Webhook Tutorial](https://medium.com/@gragson.john/stripe-checkout-and-webhook-in-a-next-js-15-2025-925d7529855e) — App Router `req.text()` pattern verification
-- [Stripe Webhook Race Conditions](https://dev.to/belazy/the-race-condition-youre-probably-shipping-right-now-with-stripe-webhooks-mj4) — Real-world pitfall documentation
-- [Sponsorship Management Best Practices](https://www.optimy.com/blog-optimy/sponsorship-management-software) — Feature expectations for 2026
-- [Nonprofit Invoice Management Guide](https://www.artsyltech.com/invoice-management) — Workflow automation insights
-
-### Tertiary (LOW confidence)
-- Community discussions on sponsorship tier management — Used for differentiator features, not core workflow
+5. **Email Delivery Failures**
+   - ⚠️ Sponsor pays but never gets upload link
+   - ✅ Log all email attempts, show upload link in admin dashboard, build "resend" button
 
 ---
 
-**Research completed:** 2026-01-20
-**Ready for roadmap:** Yes
+### Suggested Build Order
 
-All four research files (STACK.md, FEATURES.md, ARCHITECTURE.md, PITFALLS.md) completed with high confidence. Clear phase structure identified with dependency chain validated. One phase (Phase 3: Webhook Handler) flagged for deeper research during planning due to idempotency complexity.
+**6 phases, dependencies managed:**
+
+1. **Phase 1:** Database & Core Services
+   - Create `sponsor_uploads` table
+   - Build Google Drive/Sheets clients
+   - Validate service account permissions
+
+2. **Phase 2:** Invoice Management UI (can parallel with Phase 3)
+   - `/admin/dashboard/invoices` page
+   - Create/list/filter/void invoices
+
+3. **Phase 3:** Payment Webhook Enhancement (can parallel with Phase 2)
+   - Enhance `/api/webhooks/stripe` for `invoice.paid`
+   - Create Drive folder, generate token, update Sheets, send email
+
+4. **Phase 4:** Upload Form (depends on Phase 3)
+   - `/upload/[token]` public route
+   - File upload validation
+   - Save to Drive, update Sheets, send confirmations
+
+5. **Phase 5:** Conditional Display (depends on Phase 4)
+   - Update `/partners` page query
+   - Cache logos, render with tier-aware sizing
+
+6. **Phase 6:** Marketing Dashboard (can start after Phase 1)
+   - Add widgets to `/admin/dashboard`
+   - Aggregate queries for stats
+
+---
+
+## Recommendations
+
+### What to Build
+
+**This milestone (v1.2):**
+- All 6 categories of table stakes features (see above)
+- Basic tier-based logo sizing (DISPLAY-06)
+- Stripe metadata tag (INV-08)
+- Upload deadline display (UPLOAD-08)
+
+**Future milestone (v1.3):**
+- Search invoices by company/email (INV-10)
+- Re-upload capability (UPLOAD-09)
+- Folder permission sharing (GDRIVE-06)
+- Color-coded Sheets rows (GSHEET-06)
+- Revenue charts (DASH-06)
+- Overdue upload alerts (DASH-08)
+
+### What NOT to Build
+
+**Explicit anti-features:**
+- Multi-file upload (just logo)
+- Drag-and-drop interface
+- Real-time dashboard updates (periodic refresh is fine)
+- Two-way sync (Sheets → Database)
+- Sponsor profile pages
+- Export to CSV (query database directly)
+
+---
+
+## Complexity Estimate
+
+**Database:** 1 new table, migration straightforward
+**API Integration:** Moderate - googleapis is well-documented, service account auth is simple
+**UI Components:** 6-8 new components, mostly CRUD forms + data tables
+**Testing Surface:** Webhook idempotency, token security, file validation, conditional display logic
+
+**Estimated Effort:** 8-12 phases (plans), 4-6 hours build time
+
+---
+
+## Open Questions for Requirements Definition
+
+1. **Package benefit flag:** Add explicit `includes_website_benefit` boolean to database, or match package names containing "website"?
+   - **Recommendation:** Add boolean flag (cleaner, no hardcoded strings)
+
+2. **Historical sponsors:** How to handle existing sponsors from old `sponsors` table workflow?
+   - **Recommendation:** Display both (union query), mark source as "legacy" vs "v1.2"
+
+3. **Logo caching strategy:** Copy to Supabase Storage after Drive upload, or store Drive URLs in database and serve via redirect?
+   - **Recommendation:** Copy to Supabase Storage (CDN, faster, no Drive API rate limits)
+
+4. **Upload token expiration:** 30 days, 60 days, or 90 days?
+   - **Recommendation:** 90 days (gives sponsors time, can always extend manually)
+
+5. **Email retry logic:** Immediate retry, or queue for background job?
+   - **Recommendation:** Immediate 3x retry with exponential backoff (simpler, no queue infrastructure)
+
+---
+
+## Next Steps
+
+Proceed to **Phase 8: Define Requirements**
+- Use FEATURES.md categories to structure requirements
+- Scope each category with user
+- Generate REQUIREMENTS.md with REQ-IDs
+- Map to phases in roadmap
+
+---
+
+*Research synthesis complete - ready for requirements definition*
