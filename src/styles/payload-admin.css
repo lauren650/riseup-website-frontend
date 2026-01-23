@@ -1,0 +1,295 @@
+/**
+ * RiseUp CMS Admin Panel Custom Styling
+ * Applies RiseUp brand colors to the Payload admin interface
+ */
+
+:root {
+  /* RiseUp Brand Colors */
+  --theme-bg: #000000;
+  --theme-elevation-50: #0a0a0a;
+  --theme-elevation-100: #121126;
+  --theme-elevation-150: #1a1a2e;
+  --theme-elevation-200: #232342;
+  --theme-elevation-250: #2d2d4d;
+  --theme-elevation-300: #363658;
+  --theme-elevation-400: #424263;
+  --theme-elevation-500: #4e4e6e;
+  
+  /* RiseUp Signature Red Accent */
+  --theme-success-500: #b72031;
+  --theme-success-600: #a01c2a;
+  --theme-success-700: #891823;
+  
+  /* Text Colors */
+  --theme-text: #ffffff;
+  --theme-text-dim: rgba(255, 255, 255, 0.6);
+  
+  /* Interactive Elements */
+  --theme-input-bg: rgba(255, 255, 255, 0.05);
+  --theme-input-border: rgba(255, 255, 255, 0.1);
+  --theme-input-border-focus: #b72031;
+  
+  /* Buttons */
+  --theme-button-primary-bg: #b72031;
+  --theme-button-primary-text: #ffffff;
+  --theme-button-primary-hover: #a01c2a;
+  
+  /* Shadows */
+  --theme-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --theme-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  --theme-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+}
+
+/* Global Admin Panel Styling */
+.payload-admin {
+  background-color: var(--theme-bg);
+  color: var(--theme-text);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Header/Nav */
+.payload-admin__nav {
+  background-color: var(--theme-elevation-100);
+  border-right: 1px solid var(--theme-input-border);
+}
+
+/* Logo Area */
+.payload-admin__logo {
+  padding: 1.5rem 1rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--theme-text);
+  border-bottom: 1px solid var(--theme-input-border);
+}
+
+/* Primary Buttons */
+.btn--style-primary,
+button[type="submit"] {
+  background-color: var(--theme-button-primary-bg) !important;
+  color: var(--theme-button-primary-text) !important;
+  border: none !important;
+  border-radius: 9999px !important; /* Pill shape */
+  padding: 0.5rem 1.5rem !important;
+  font-weight: 600 !important;
+  transition: all 200ms ease-in-out !important;
+}
+
+.btn--style-primary:hover,
+button[type="submit"]:hover {
+  background-color: var(--theme-button-primary-hover) !important;
+  opacity: 0.9;
+}
+
+/* Secondary Buttons */
+.btn--style-secondary {
+  background-color: var(--theme-input-bg) !important;
+  color: var(--theme-text) !important;
+  border: 1px solid var(--theme-input-border) !important;
+  border-radius: 9999px !important;
+  padding: 0.5rem 1.5rem !important;
+  transition: all 200ms ease-in-out !important;
+}
+
+.btn--style-secondary:hover {
+  background-color: var(--theme-elevation-200) !important;
+}
+
+/* Form Inputs */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+textarea,
+select {
+  background-color: var(--theme-input-bg) !important;
+  border: 1px solid var(--theme-input-border) !important;
+  color: var(--theme-text) !important;
+  border-radius: 0.5rem !important;
+  transition: all 200ms ease-in-out !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--theme-input-border-focus) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(183, 32, 49, 0.1) !important;
+}
+
+/* Cards */
+.card {
+  background-color: var(--theme-elevation-100) !important;
+  border: 1px solid var(--theme-input-border) !important;
+  border-radius: 0.75rem !important;
+  box-shadow: var(--theme-shadow-sm) !important;
+}
+
+/* Tables */
+.table {
+  background-color: var(--theme-elevation-50);
+}
+
+.table th {
+  background-color: var(--theme-elevation-100);
+  color: var(--theme-text);
+  font-weight: 600;
+  border-bottom: 1px solid var(--theme-input-border);
+}
+
+.table td {
+  color: var(--theme-text-dim);
+  border-bottom: 1px solid var(--theme-input-border);
+}
+
+.table tr:hover {
+  background-color: var(--theme-elevation-100);
+}
+
+/* Status Badges */
+.pill--style-success {
+  background-color: rgba(34, 197, 94, 0.2) !important;
+  color: #22c55e !important;
+}
+
+.pill--style-warning {
+  background-color: rgba(251, 191, 36, 0.2) !important;
+  color: #fbbf24 !important;
+}
+
+.pill--style-error {
+  background-color: rgba(239, 68, 68, 0.2) !important;
+  color: #ef4444 !important;
+}
+
+/* Sidebar Navigation Links */
+.nav__link {
+  color: var(--theme-text-dim) !important;
+  transition: all 200ms ease-in-out !important;
+  border-radius: 0.5rem !important;
+  margin: 0.25rem 0.5rem !important;
+}
+
+.nav__link:hover,
+.nav__link--active {
+  color: var(--theme-text) !important;
+  background-color: var(--theme-elevation-200) !important;
+}
+
+.nav__link--active {
+  border-left: 3px solid var(--theme-button-primary-bg) !important;
+}
+
+/* Tooltips */
+.tooltip {
+  background-color: var(--theme-elevation-300) !important;
+  color: var(--theme-text) !important;
+  border: 1px solid var(--theme-input-border) !important;
+  border-radius: 0.5rem !important;
+  box-shadow: var(--theme-shadow-md) !important;
+}
+
+/* Modals */
+.modal {
+  background-color: var(--theme-elevation-100) !important;
+  border: 1px solid var(--theme-input-border) !important;
+  border-radius: 0.75rem !important;
+  box-shadow: var(--theme-shadow-lg) !important;
+}
+
+.modal__overlay {
+  background-color: rgba(0, 0, 0, 0.75) !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+/* Dashboard Stats Cards */
+.dashboard__card {
+  background-color: var(--theme-elevation-100) !important;
+  border: 1px solid var(--theme-input-border) !important;
+  border-radius: 0.75rem !important;
+  padding: 1.5rem !important;
+  transition: all 200ms ease-in-out !important;
+}
+
+.dashboard__card:hover {
+  border-color: rgba(183, 32, 49, 0.5) !important;
+  background-color: var(--theme-elevation-150) !important;
+}
+
+/* Loading Spinner */
+.spinner {
+  border-color: var(--theme-input-border) !important;
+  border-top-color: var(--theme-button-primary-bg) !important;
+}
+
+/* Focus Rings */
+*:focus-visible {
+  outline: 2px solid var(--theme-button-primary-bg) !important;
+  outline-offset: 2px !important;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--theme-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--theme-elevation-300);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--theme-elevation-400);
+}
+
+/* Rich Text Editor */
+.lexical-editor {
+  background-color: var(--theme-input-bg) !important;
+  border: 1px solid var(--theme-input-border) !important;
+  border-radius: 0.5rem !important;
+  color: var(--theme-text) !important;
+}
+
+.lexical-toolbar {
+  background-color: var(--theme-elevation-100) !important;
+  border-bottom: 1px solid var(--theme-input-border) !important;
+}
+
+/* File Upload Area */
+.upload__wrap {
+  background-color: var(--theme-input-bg) !important;
+  border: 2px dashed var(--theme-input-border) !important;
+  border-radius: 0.75rem !important;
+  transition: all 200ms ease-in-out !important;
+}
+
+.upload__wrap:hover {
+  border-color: var(--theme-button-primary-bg) !important;
+  background-color: var(--theme-elevation-100) !important;
+}
+
+/* Success Messages */
+.toast--success {
+  background-color: rgba(34, 197, 94, 0.1) !important;
+  border-left: 4px solid #22c55e !important;
+  color: var(--theme-text) !important;
+}
+
+/* Error Messages */
+.toast--error {
+  background-color: rgba(239, 68, 68, 0.1) !important;
+  border-left: 4px solid #ef4444 !important;
+  color: var(--theme-text) !important;
+}
+
+/* Custom RiseUp Logo Area (if you want to add custom branding) */
+.payload-admin__logo::before {
+  content: '🏈 ';
+  margin-right: 0.5rem;
+}

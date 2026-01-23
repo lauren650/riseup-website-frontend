@@ -103,12 +103,12 @@ export async function submitSponsorInterest(
       await resend.emails.send({
         from: "RiseUp Website <onboarding@resend.dev>",
         to: data.email,
-        subject: "Sponsor Interest Received - RiseUp Youth Football",
+        subject: "Partner Interest Received - RiseUp Youth Football",
         html: `
-          <h2>Thank you for your interest in sponsoring RiseUp Youth Football!</h2>
+          <h2>Thank you for your interest in partnering with RiseUp Youth Football!</h2>
           <p>Hi ${data.name},</p>
-          <p>We've received your sponsorship inquiry for <strong>${data.companyName}</strong>.</p>
-          <p>A member of our team will reach out within 2-3 business days to discuss sponsorship opportunities and answer any questions you may have.</p>
+          <p>We've received your partnership inquiry for <strong>${data.companyName}</strong>.</p>
+          <p>A member of our team will reach out within 2-3 business days to discuss partnership opportunities and answer any questions you may have.</p>
           <p>We're excited about the possibility of partnering with you to support youth football in our community!</p>
           <br>
           <p>Best regards,<br>RiseUp Youth Football</p>
@@ -133,15 +133,15 @@ export async function submitSponsorInterest(
       await resend.emails.send({
         from: "RiseUp Website <onboarding@resend.dev>",
         to: adminEmail,
-        subject: `New Sponsor Interest: ${data.companyName}`,
+        subject: `New Partner Interest: ${data.companyName}`,
         html: `
-          <h2>New Sponsorship Interest Submission</h2>
+          <h2>New Partnership Interest Submission</h2>
           <p><strong>Company:</strong> ${data.companyName}</p>
           <p><strong>Contact Name:</strong> ${data.name}</p>
           <p><strong>Email:</strong> <a href="mailto:${data.email}">${data.email}</a></p>
           <p><strong>Phone:</strong> ${data.phone}</p>
           <br>
-          <p><em>Follow up with this potential sponsor to discuss available packages.</em></p>
+          <p><em>Follow up with this potential partner to discuss available packages.</em></p>
         `,
         replyTo: data.email,
       });
@@ -155,6 +155,6 @@ export async function submitSponsorInterest(
   return {
     success: true,
     message:
-      "Thank you for your interest! We'll be in touch within 2-3 business days to discuss sponsorship opportunities.",
+      "Thank you for your interest! We'll be in touch within 2-3 business days to discuss partnership opportunities.",
   };
 }

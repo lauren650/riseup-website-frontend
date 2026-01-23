@@ -5,7 +5,7 @@ import { ContactForm } from "@/components/sections/contact-form";
 export const metadata: Metadata = {
   title: "Contact Us | RiseUp Youth Football League",
   description:
-    "Get in touch with RiseUp Youth Football League. Contact us about registration, sponsorship, volunteering, or any questions about our programs.",
+    "Get in touch with RiseUp Youth Football League. Contact us about registration, partnerships, volunteering, or any questions about our programs.",
 };
 
 const contactInfo = [

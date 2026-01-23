@@ -16,11 +16,11 @@ export async function HeroSection() {
       posterSrc={heroPoster.url}
       videoContentKey="hero.video"
     >
-      <div className="text-center max-w-7xl mx-auto px-4">
+      <div className="text-center max-w-7xl mx-auto px-4 sm:px-6">
         <EditableText
           contentKey="hero.headline"
           as="h1"
-          className="text-6xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight mb-4 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] whitespace-nowrap"
+          className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight mb-4 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] leading-tight"
           page="homepage"
           section="hero"
         >
@@ -28,7 +28,7 @@ export async function HeroSection() {
         </EditableText>
 
         {/* Donation Form */}
-        <div className="mt-0">
+        <div className="mt-6 sm:mt-8">
           <DonationFormHorizontal />
         </div>
       </div>

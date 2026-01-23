@@ -7,7 +7,7 @@ import { SponsorForm } from "@/components/sponsors/sponsor-form";
 export const metadata: Metadata = {
   title: "Partners | RiseUp Youth Football League",
   description:
-    "Meet the sponsors and partners who make RiseUp Youth Football League possible. Learn how your organization can support youth athletics.",
+    "Meet the partners who make RiseUp Youth Football League possible. Learn how your organization can support youth athletics.",
 };
 
 function SponsorGridSkeleton() {
@@ -43,7 +43,7 @@ export default function PartnersPage() {
       <section className="py-16 md:py-24">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <p className="text-lg leading-relaxed text-muted-foreground md:text-xl">
-            Our partners and sponsors play a vital role in making youth football
+            Our partners play a vital role in making youth football
             accessible to all. Their generous support helps provide equipment,
             scholarships, and programming that benefits hundreds of young athletes
             each year.
@@ -55,7 +55,7 @@ export default function PartnersPage() {
       <section className="bg-white/5 py-16 md:py-24">
         <div className="mx-auto max-w-6xl px-6">
           <h2 className="mb-12 text-center text-3xl font-bold text-white md:text-4xl">
-            Our Sponsors
+            Our Partners
           </h2>
 
           <Suspense fallback={<SponsorGridSkeleton />}>
@@ -73,39 +73,39 @@ export default function PartnersPage() {
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
               Partner with RiseUp Youth Football League and make a lasting impact in
-              our community. We offer various sponsorship levels with benefits
+              our community. We offer various partnership levels with benefits
               including logo placement, event recognition, and community engagement
               opportunities.
             </p>
 
-            {/* Link to Become a Sponsor page */}
+            {/* Link to Become a Partner page */}
             <Link
-              href="/become-a-sponsor"
+              href="/become-a-partner"
               className="mt-6 inline-block rounded-full bg-accent px-8 py-4 text-lg font-semibold text-white transition-opacity hover:opacity-90"
             >
-              View Sponsorship Packages
+              View Partnership Packages
             </Link>
           </div>
 
-          {/* Sponsor Submission Form */}
+          {/* Partner Submission Form */}
           <div className="mt-12 rounded-xl border border-white/10 bg-white/5 p-8">
             <h3 className="mb-2 text-xl font-semibold text-white">
               Already a partner? Submit your information
             </h3>
             <p className="mb-6 text-sm text-muted-foreground">
               Submit your company information and logo below. After review, your
-              logo will appear in our sponsors section above.
+              logo will appear in our partners section above.
             </p>
             <SponsorForm />
           </div>
         </div>
       </section>
 
-      {/* Sponsorship Levels */}
+      {/* Partnership Levels */}
       <section className="bg-white/5 py-16 md:py-24">
         <div className="mx-auto max-w-6xl px-6">
           <h2 className="mb-12 text-center text-3xl font-bold text-white md:text-4xl">
-            Sponsorship Levels
+            Partnership Levels
           </h2>
           <div className="grid gap-6 md:grid-cols-3">
             <div className="rounded-xl border border-white/10 bg-background p-8 text-center">

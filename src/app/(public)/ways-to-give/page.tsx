@@ -5,7 +5,7 @@ import { GivebutterWidget } from "@/components/donations/givebutter-widget";
 export const metadata: Metadata = {
   title: "Ways to Give | RiseUp Youth Football League",
   description:
-    "Support RiseUp Youth Football League through donations, volunteering, or corporate sponsorship. Every contribution helps young athletes succeed.",
+    "Support RiseUp Youth Football League through donations, volunteering, or corporate partnerships. Every contribution helps young athletes succeed.",
 };
 
 export default function WaysToGivePage() {
@@ -57,14 +57,14 @@ export default function WaysToGivePage() {
               </Link>
             </div>
 
-            {/* Corporate Sponsorship */}
+            {/* Corporate Partnership */}
             <div className="rounded-xl border border-white/10 bg-white/5 p-8">
               <h3 className="text-xl font-bold text-white">
-                Corporate Sponsorship
+                Corporate Partnership
               </h3>
               <p className="mt-4 text-muted-foreground">
                 Partner with RiseUp and showcase your company&apos;s commitment to
-                youth development. Multiple sponsorship levels available.
+                youth development. Multiple partnership levels available.
               </p>
               <Link
                 href="/partners"

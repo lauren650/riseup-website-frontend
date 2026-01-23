@@ -20,7 +20,7 @@ export default async function AdminSponsorsPage() {
     return (
       <div className="rounded-xl border border-red-500/20 bg-red-500/10 p-6">
         <h2 className="text-lg font-semibold text-red-400">
-          Error loading sponsors
+          Error loading partners
         </h2>
         <p className="text-sm text-red-400/80">{error.message}</p>
       </div>
@@ -33,12 +33,12 @@ export default async function AdminSponsorsPage() {
 
   return (
     <div>
-      <h1 className="mb-2 text-3xl font-bold text-white">Sponsor Management</h1>
+      <h1 className="mb-2 text-3xl font-bold text-white">Partner Management</h1>
       <p className="mb-8 text-muted-foreground">
-        Review and approve sponsor submissions
+        Review and approve partner submissions
       </p>
 
-      {/* Pending Sponsors Section */}
+      {/* Pending Partners Section */}
       <section className="mb-12">
         <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold text-white">
           <span className="inline-block h-3 w-3 rounded-full bg-amber-400"></span>
@@ -48,7 +48,7 @@ export default async function AdminSponsorsPage() {
         {pendingSponsors.length === 0 ? (
           <div className="rounded-xl border border-white/10 bg-white/5 p-8 text-center">
             <p className="text-muted-foreground">
-              No pending sponsor submissions
+              No pending partner submissions
             </p>
           </div>
         ) : (
@@ -116,7 +116,7 @@ export default async function AdminSponsorsPage() {
         )}
       </section>
 
-      {/* Approved Sponsors Section */}
+      {/* Approved Partners Section */}
       <section>
         <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold text-white">
           <span className="inline-block h-3 w-3 rounded-full bg-green-400"></span>
@@ -125,7 +125,7 @@ export default async function AdminSponsorsPage() {
 
         {approvedSponsors.length === 0 ? (
           <div className="rounded-xl border border-white/10 bg-white/5 p-8 text-center">
-            <p className="text-muted-foreground">No approved sponsors yet</p>
+            <p className="text-muted-foreground">No approved partners yet</p>
           </div>
         ) : (
           <div className="space-y-4">

@@ -820,10 +820,7 @@ export default function FlagFootballPage() {
             Join the RiseUp Moore Girls Flag Football League and be part of the fastest-growing youth sport in America!
           </EditableText>
           <div className="flex flex-wrap justify-center gap-4">
-            <button
-              disabled
-              className="inline-block rounded-full bg-accent/50 px-8 py-4 text-lg font-semibold text-white cursor-not-allowed opacity-50"
-            >
+            <div className="inline-block rounded-full bg-accent/50 px-8 py-4 text-lg font-semibold text-white cursor-not-allowed opacity-50">
               <EditableText
                 contentKey="flag.cta.register_button"
                 as="span"
@@ -832,7 +829,7 @@ export default function FlagFootballPage() {
               >
                 Register Now
               </EditableText>
-            </button>
+            </div>
           </div>
         </div>
       </section>

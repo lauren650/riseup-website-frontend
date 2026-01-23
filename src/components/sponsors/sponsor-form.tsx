@@ -231,7 +231,7 @@ export function SponsorForm() {
         disabled={isPending || !logoUrl}
         className="w-full rounded-full bg-accent px-8 py-4 text-lg font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
       >
-        {isPending ? "Submitting..." : "Submit Sponsorship"}
+        {isPending ? "Submitting..." : "Submit Partnership"}
       </button>
 
       <p className="text-center text-xs text-muted-foreground">

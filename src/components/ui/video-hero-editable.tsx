@@ -255,7 +255,7 @@ export function VideoHeroEditable({
       <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60" />
 
       {/* Content */}
-      <div className="relative z-10 flex h-full flex-col items-center justify-center px-4">
+      <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 sm:px-6 py-safe">
         {children}
       </div>
     </section>

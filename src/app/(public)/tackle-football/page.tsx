@@ -1107,10 +1107,7 @@ export default function TackleFootballPage() {
             football experience.
           </EditableText>
           <div className="flex flex-wrap justify-center gap-4">
-            <button
-              disabled
-              className="inline-block rounded-full bg-accent/50 px-8 py-4 text-lg font-semibold text-white cursor-not-allowed opacity-50"
-            >
+            <div className="inline-block rounded-full bg-accent/50 px-8 py-4 text-lg font-semibold text-white cursor-not-allowed opacity-50">
               <EditableText
                 contentKey="tackle.cta.register_button"
                 as="span"
@@ -1119,7 +1116,7 @@ export default function TackleFootballPage() {
               >
                 Register Now
               </EditableText>
-            </button>
+            </div>
           </div>
         </div>
       </section>
