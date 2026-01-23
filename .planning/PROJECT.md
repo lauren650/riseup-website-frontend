@@ -8,23 +8,23 @@ A modern website for RiseUp Youth Football League featuring an AI-powered CMS th
 
 Non-technical administrators can update website content instantly using natural language commands — no code, no training, no complex interfaces.
 
-## Current Milestone: v1.1 Sponsorship Packages
+## Current Milestone: v1.2 Sponsor Management Redesign
 
-**Goal:** Enable marketing admins to manage sponsorship packages and send Stripe invoices directly from the admin panel, with automated post-payment workflows.
+**Goal:** Complete redesign of sponsor management workflow with invoice creation, Google Drive integration, automated upload processing, and comprehensive marketing dashboard.
 
 **Target features:**
-- Public "Become a Sponsor" page with tier table (linked from Partners)
-- Sponsor interest/inquiry form
-- Admin invoice creation UI (Stripe as processor, not dashboard)
-- Stripe webhook for payment detection
-- Automated email with upload form link after payment
-- Tier tracking in database (for future display options)
+- Marketing admin creates invoices for sponsorship packages (manual, based on offline conversations)
+- Google Drive integration - uploads organized by package type
+- Post-payment upload form (sponsors submit logo + website info)
+- Conditional sponsor display - show on Partners page if paid AND package includes website benefit
+- Marketing dashboard with package status (slots, closing dates), invoice tracking, and upload completion status
+- Automated dual email flow: payment receipt + upload form link
 
 ## Current State (v1 Shipped)
 
 **Shipped:** 2026-01-18
 **Codebase:** 8,043 LOC TypeScript, Next.js 16 + Supabase + Anthropic Claude
-**Status:** Production ready, v1.1 in development
+**Status:** Production ready, v1.2 in development
 
 **What's Working:**
 - 8-page responsive public website with dark cinematic theme
@@ -37,10 +37,11 @@ Non-technical administrators can update website content instantly using natural 
 **User Setup Required:**
 - reCAPTCHA keys, Resend API key, GiveButter widget ID
 - Supabase Storage buckets (sponsor-logos, site-images)
-- Database migrations (001_sponsors.sql, 002_content_cms.sql, 003_images.sql)
+- Database migrations (001_sponsors.sql, 002_content_cms.sql, 003_images.sql, 005_invoicing.sql)
 - Admin user in Supabase Auth
 - ANTHROPIC_API_KEY for AI chat
-- Stripe API keys (v1.1)
+- Stripe API keys (v1.1+)
+- Google Drive API credentials and folder structure (v1.2)
 
 ## Requirements
 
@@ -72,17 +73,23 @@ Non-technical administrators can update website content instantly using natural 
 - Page load under 3 seconds — v1
 - Contact form spam protection (reCAPTCHA) — v1
 - Protected admin panel — v1
+- "Become a Sponsor" page linked from Partners with sponsorship tier table — v1.1
+- Sponsor interest/inquiry form for prospective sponsors — v1.1
+- Sponsorship packages database with slot tracking — v1.1
+- Invoice schema and webhook infrastructure — v1.1
 
 ### Active
 
-- "Become a Sponsor" page linked from Partners with sponsorship tier table — v1.1
-- Sponsor interest/inquiry form for prospective sponsors — v1.1
-- Admin-configurable sponsorship tiers (name, price, benefits) — v1.1
-- Marketing admin role can create Stripe invoices from admin panel — v1.1
-- Invoice creation from sponsor inquiry OR from scratch — v1.1
-- Stripe webhook detects payment completion — v1.1
-- Automated email sends upload form link after payment — v1.1
-- Sponsor tier stored in database for future display options — v1.1
+- Marketing admin creates Stripe invoices for sponsorship packages (manual workflow) — v1.2
+- Invoice metadata flags transactions as sponsorship in Stripe — v1.2
+- Dual email automation: payment receipt + upload form link — v1.2
+- Post-payment upload form (sponsors submit logo + website URL) — v1.2
+- Google Drive integration - uploads organized by package type — v1.2
+- Google Sheets integration - sponsor information tracking — v1.2
+- Conditional sponsor display on Partners page (paid + website benefit check) — v1.2
+- Marketing dashboard: package status (slots, closing dates) — v1.2
+- Marketing dashboard: invoice tracking (status, amounts) — v1.2
+- Marketing dashboard: upload completion status — v1.2
 
 ### Deferred to v2
 
@@ -158,4 +165,4 @@ Non-technical administrators can update website content instantly using natural 
 | Inline editing + AI chat | Two content editing modes serve different user preferences | Good |
 
 ---
-*Last updated: 2026-01-20 after starting v1.1 milestone*
+*Last updated: 2026-01-23 after starting v1.2 milestone*
