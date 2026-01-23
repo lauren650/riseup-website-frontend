@@ -1,224 +1,207 @@
-# Features Research: Sponsorship Invoicing
+# Features Research: Sponsor Management v1.2
 
-**Domain:** Nonprofit sponsorship invoice management
-**Researched:** 2026-01-20
-**Confidence:** MEDIUM (verified with Stripe official docs, cross-referenced with industry best practices)
+**Research Date:** 2026-01-23
+**Milestone:** v1.2 Sponsor Management Redesign
+**Focus:** Upload workflows, marketing dashboard, conditional display
 
-## Executive Summary
+## Existing Features (Already Built - v1.1)
 
-Sponsorship invoice systems in 2026 follow a streamlined workflow: admin creates invoice → system sends payment link → payment triggers automated actions → sponsor receives fulfillment instructions. The key shift from traditional invoicing is **automation of post-payment workflows** and **sponsor self-service expectations**.
+✅ **Do NOT re-research** these validated capabilities:
+- Public sponsorship package display
+- Sponsor interest form
+- Stripe invoice creation (basic)
+- Webhook payment detection
+- Email delivery (Resend)
 
-For RiseUp's context (small nonprofit, existing sponsor portal, volunteer admins), the focus should be on **minimizing manual touchpoints** while maintaining **clear payment status visibility**.
+## NEW Features for v1.2
 
-## Table Stakes
+### Category 1: Invoice Management (Enhanced)
 
-Features users expect. Missing = product feels incomplete.
+**Table Stakes:**
+- **INV-01:** Marketing admin creates invoice with manual data entry (company, email, package selection)
+- **INV-02:** Select package from dropdown (pre-populated from database)
+- **INV-03:** Invoice preview before sending to sponsor
+- **INV-04:** Send invoice via Stripe (sponsor receives payment link email)
+- **INV-05:** View all invoices in list view with status badges
+- **INV-06:** Filter invoices by status (draft, open, paid, void)
+- **INV-07:** Void unpaid invoices
 
-| Feature | Why Expected | Complexity | Notes |
-|---------|--------------|------------|-------|
-| **Invoice creation UI in admin panel** | Admins expect to create invoices without leaving their system | Medium | Stripe API integration required; draft → finalize flow |
-| **Invoice status tracking (draft/open/paid/void)** | Standard invoice lifecycle; admins need to know "has this been paid?" | Low | Stripe provides statuses; display in admin panel |
-| **Automated payment confirmation email** | 60% more likely to get timely payment with clear confirmation | Low | Triggered by `invoice.payment_succeeded` webhook |
-| **Payment link in invoice email** | One-click payment is standard; manual payment instructions are outdated | Low | Stripe generates hosted invoice page automatically |
-| **Sponsor tier association** | Invoice should be linked to sponsorship package purchased | Low | Database foreign key; enables future tier-based features |
-| **Invoice details (number, date, amount, due date)** | Required for tax compliance and financial reporting | Low | Stripe handles invoice numbering; expose in UI |
-| **Payment method flexibility (card, ACH, bank transfer)** | Sponsors expect multiple payment options | Medium | Stripe supports; configure allowed payment methods |
-| **Invoice PDF generation** | Sponsors need downloadable receipts for accounting | Low | Stripe generates PDFs automatically |
-| **Admin notification on payment received** | Admin needs to know when to follow up with sponsor fulfillment | Low | Email via Resend on webhook trigger |
-| **Clear payment terms and deadline** | Explicit payment terms increase on-time payment by 60% | Low | Set `days_until_due` on invoice creation |
+**Differentiators:**
+- **INV-08:** Tag invoice metadata in Stripe as "sponsorship" for accounting
+- **INV-09:** Auto-populate invoice from sponsor interest form (if exists)
+- **INV-10:** Search invoices by company name or email
 
-## Differentiators
+**Complexity Notes:**
+- INV-01 to INV-07: Medium complexity (Stripe API wrapper, form handling)
+- INV-08: Low complexity (metadata field in Stripe API)
+- INV-09: Low complexity (database join, pre-fill form)
+- INV-10: Low complexity (SQL search query)
 
-Features that set product apart. Not expected, but valued.
+**Dependencies:** Requires existing Stripe SDK (v1.1) and invoices table.
 
-| Feature | Value Proposition | Complexity | Notes |
-|---------|-------------------|------------|-------|
-| **Auto-send upload form link after payment** | Reduces admin manual work; sponsor gets immediate next steps | Low | RiseUp already has sponsor upload form; email template includes link |
-| **Invoice creation from sponsor inquiry** | Pre-populate invoice from interest form data | Medium | Requires inquiry form → invoice UI flow with data mapping |
-| **Sponsor payment dashboard** | Sponsors can view invoice status without contacting admin | Medium | Self-service portal extension; increases transparency by 78% (2026 trend) |
-| **Automated reminder emails (pre-due, overdue)** | Reduces payment delays; 25% decrease in payment disputes | Medium | Stripe supports scheduled sends; configure email templates |
-| **Tier-based invoice templates** | Pre-configured invoice line items per sponsorship tier | Low | Admin selects tier → auto-populate amount and description |
-| **Invoice voiding with reason tracking** | Audit trail for canceled invoices | Low | Stripe void API + reason field in database |
-| **Payment received notification to sponsor** | Thank-you email reinforces relationship | Low | Additional email on payment; includes next steps reminder |
-| **Multi-invoice sponsor view** | Sponsors who renew can see payment history | Medium | Requires sponsor login + invoice history query |
-| **Impact reporting in payment confirmation** | "Your sponsorship supports 50 kids" increases retention 80% | Low | Static messaging in email template; dynamic if tied to metrics |
+---
 
-## Anti-Features
+### Category 2: Post-Payment Upload Workflow
 
-Features to explicitly NOT build. Common mistakes in this domain.
+**Table Stakes:**
+- **UPLOAD-01:** Generate secure upload form link after payment (unique token per invoice)
+- **UPLOAD-02:** Sponsor accesses upload form via email link (no login required)
+- **UPLOAD-03:** Upload form accepts logo file (image validation: PNG/JPG/SVG, max 2MB)
+- **UPLOAD-04:** Upload form accepts website URL field
+- **UPLOAD-05:** Upload form shows sponsor's company name and package details (read-only)
+- **UPLOAD-06:** Form validation before submission (required fields, file type/size)
+- **UPLOAD-07:** Success confirmation after submission
 
-| Anti-Feature | Why Avoid | What to Do Instead |
-|--------------|-----------|-------------------|
-| **Complex invoice approval workflow** | Adds delay; admins are trusted; payment delays hurt nonprofits (NYC backlog: $861M unpaid invoices) | Admin creates invoice → immediately finalized and sent |
-| **Manual payment tracking outside Stripe** | Duplication of effort; source of truth should be payment processor | Use Stripe webhooks as source of truth; display status from Stripe API |
-| **Custom payment processing** | PCI compliance burden; reinventing Stripe's infrastructure | Use Stripe-hosted payment pages exclusively |
-| **Invoice editing after finalization** | Stripe doesn't support; creates confusion | Void incorrect invoice, create new one |
-| **Subscription/recurring billing for sponsors** | Over-engineered for annual sponsorships; one-time invoices are simpler | Manual invoice creation yearly; defer auto-renewal to v2 if needed |
-| **Late fee automation** | Damages sponsor relationships; nonprofits rely on goodwill | Send friendly reminders; manual follow-up for overdue invoices |
-| **Multi-currency support** | RiseUp is local; adds complexity with exchange rates and compliance | USD only; defer if national expansion happens |
-| **Invoice payment plans/installments** | Adds complexity for small amounts; sponsors expect single payment | Offer lower tiers if budget is concern; keep invoices simple |
-| **Custom invoice numbering schemes** | Stripe auto-generates; custom schemes cause tracking issues | Use Stripe's invoice numbering; store Stripe invoice ID |
-| **Email invoice directly from admin (bypass Stripe)** | Breaks payment link generation; sponsor can't pay | Always use Stripe's send invoice flow |
+**Differentiators:**
+- **UPLOAD-08:** Show upload deadline (e.g., "Please upload within 30 days")
+- **UPLOAD-09:** Allow re-upload if sponsor makes mistake (before admin approval)
+- **UPLOAD-10:** Preview uploaded logo before final submit
 
-## Feature Dependencies
+**Anti-features** (deliberately NOT building):
+- Multi-file upload (just logo) - reduces complexity
+- Drag-and-drop interface - nice-to-have, not critical
+- Progress bars for upload - files are small (<2MB)
 
-### Existing Features (Already Built)
-- Sponsor logo upload form → Used in post-payment workflow
-- Admin approval workflow → NOT needed for invoices; payments are pre-approved
-- Partners page → Future: display tier-based sponsor logos
-- Admin panel with auth → Invoice UI goes here
-- Email notifications via Resend → Payment confirmation emails
+**Complexity Notes:**
+- UPLOAD-01: Medium (secure token generation, expiration logic)
+- UPLOAD-02 to UPLOAD-07: Medium (public form, file handling, storage)
+- UPLOAD-08 to UPLOAD-10: Low (UI enhancements)
 
-### New Feature Dependencies
-```
-Sponsor Interest Form
-  ↓
-Admin Invoice Creation UI
-  ↓ (creates Stripe invoice)
-Stripe Invoice (draft → finalized)
-  ↓ (Stripe sends email with payment link)
-Sponsor Pays Invoice
-  ↓ (triggers webhook)
-invoice.payment_succeeded Webhook Handler
-  ├→ Update Database (mark invoice paid, store tier)
-  ├→ Send Confirmation Email (via Resend)
-  └→ Send Upload Form Link Email (via Resend)
-```
+**Dependencies:** Requires Supabase Storage (temp), Google Drive API (final destination).
 
-### External Dependencies
-- **Stripe API**: Invoice creation, payment processing, webhook delivery
-- **Resend API**: Email delivery for confirmations and upload form links
-- **Supabase**: Store invoice metadata, sponsor tier, payment status
+---
 
-## Invoice Lifecycle Flow
+### Category 3: Google Drive Integration
 
-Based on Stripe's standard invoice workflow:
+**Table Stakes:**
+- **GDRIVE-01:** Create folder structure organized by package type (e.g., `/Sponsors/Game Day Package/`)
+- **GDRIVE-02:** Upload sponsor logo to appropriate package folder
+- **GDRIVE-03:** Folder naming: `{Company Name} - {Invoice ID}` for uniqueness
+- **GDRIVE-04:** Store Google Drive folder ID in database for reference
 
-1. **Draft**: Admin creates invoice in UI → Stripe API creates draft
-   - Can edit amount, line items, due date, customer details
-   - Can delete if created in error
-   - NOT sent to sponsor yet
+**Differentiators:**
+- **GDRIVE-05:** Auto-create parent folders if missing (e.g., new package types)
+- **GDRIVE-06:** Set folder permissions (shared with marketing team)
 
-2. **Finalized (Open)**: Admin clicks "Send Invoice" → Stripe finalizes
-   - Status changes to `open`
-   - Stripe automatically emails sponsor with payment link
-   - Can NO LONGER edit (void and recreate instead)
+**Anti-features:**
+- Version history in Drive - Drive handles this natively
+- Backup/sync to other services - Drive is source of truth
+- File compression/optimization - upload as-is
 
-3. **Paid**: Sponsor completes payment → Stripe processes
-   - Status changes to `paid` (terminal state, cannot change)
-   - `invoice.payment_succeeded` webhook fires
-   - Automated emails triggered by webhook handler
+**Complexity Notes:**
+- GDRIVE-01 to GDRIVE-04: Medium (Google Drive API, folder management)
+- GDRIVE-05: Low (recursive folder creation)
+- GDRIVE-06: Medium (Drive sharing API)
 
-4. **Void**: Admin cancels invoice (if created in error)
-   - Status changes to `void` (terminal state)
-   - NOT automatically communicated to sponsor (admin must email)
-   - Use case: Wrong amount entered, duplicate invoice
+**Dependencies:** Requires `googleapis` package, service account credentials.
 
-5. **Uncollectible**: Invoice past due, sponsor not responding
-   - Manual status change for accounting/reporting
-   - Tracks bad debt without deleting invoice record
-   - RiseUp likely won't use this (relationship-based follow-up instead)
+---
 
-## Webhook Events to Handle
+### Category 4: Google Sheets Integration
 
-Based on Stripe documentation:
+**Table Stakes:**
+- **GSHEET-01:** Append new row to master spreadsheet when invoice is created
+- **GSHEET-02:** Spreadsheet columns: Company, Package, Invoice ID, Payment Date, Upload Status, Drive Folder Link, Website URL
+- **GSHEET-03:** Update row when upload is completed (Upload Status → "Complete")
+- **GSHEET-04:** Update Payment Date when invoice is paid
 
-| Event | When It Fires | Required Action |
-|-------|--------------|-----------------|
-| `invoice.payment_succeeded` | Payment completed successfully | Update database, send confirmation email, send upload form link |
-| `invoice.payment_failed` | Payment attempt failed (declined card, insufficient funds) | Send admin notification; manual follow-up with sponsor |
-| `invoice.finalized` | Invoice sent to sponsor | Optional: Update UI to show "sent" status |
-| `invoice.voided` | Admin cancels invoice | Optional: Update UI to show "voided" status |
+**Differentiators:**
+- **GSHEET-05:** Hyperlink Drive folder in spreadsheet (clickable)
+- **GSHEET-06:** Color-code rows by status (pending payment = yellow, uploaded = green)
 
-**Critical:** Webhook handler MUST return 200 immediately, then process actions asynchronously (Stripe will retry if timeout occurs).
+**Anti-features:**
+- Two-way sync (Sheets → Database) - Database is source of truth
+- Real-time updates - batch updates on webhook events are sufficient
+- Custom formulas/charts - user can add manually
 
-## Payment Workflow Expectations (2026 Standards)
+**Complexity Notes:**
+- GSHEET-01 to GSHEET-04: Medium (Sheets API, row updates)
+- GSHEET-05: Low (formula string in append)
+- GSHEET-06: Medium (conditional formatting API)
 
-### Admin Side
-- **Create invoice in <2 minutes**: Pre-filled templates, tier selection, minimal data entry
-- **Know payment status instantly**: Real-time webhook updates, no manual checking
-- **Automated post-payment tasks**: Zero manual "remember to email sponsor" steps
+**Dependencies:** Requires `googleapis` package, Sheets API scope.
 
-### Sponsor Side
-- **Receive invoice within minutes**: Stripe sends email immediately on finalize
-- **One-click payment**: No account creation, no login required (Stripe hosted page)
-- **Immediate confirmation**: Email confirmation within seconds of payment
-- **Next steps clear**: Upload form link included in confirmation email
+---
 
-### Industry Benchmarks
-- **Payment time**: 15-20% faster with clear payment links vs manual instructions
-- **Payment success rate**: 60% higher on-time payment with explicit terms and one-click links
-- **Admin time savings**: 80-90% reduction in manual invoicing tasks with automation
-- **Sponsor retention**: 78% use personalized engagement (tier-based benefits messaging)
+### Category 5: Conditional Sponsor Display
 
-## MVP Recommendation
+**Table Stakes:**
+- **DISPLAY-01:** Check if invoice is paid (status = "paid")
+- **DISPLAY-02:** Check if package includes website benefit (database flag or package name match)
+- **DISPLAY-03:** Only display on Partners page if BOTH conditions true
+- **DISPLAY-04:** Fetch sponsor logos from Google Drive (or cache in Supabase Storage)
+- **DISPLAY-05:** Display company name and link to website URL
 
-For v1.1 milestone, prioritize:
+**Differentiators:**
+- **DISPLAY-06:** Tier-based display sizing (higher tiers = larger logo)
+- **DISPLAY-07:** Sort by tier priority (higher tiers first)
+- **DISPLAY-08:** Fallback to default placeholder if logo missing
 
-### Must-Have (Table Stakes)
-1. **Admin invoice creation UI** (tier selection → draft invoice)
-2. **Stripe invoice finalize and send** (triggers email to sponsor)
-3. **Payment webhook handler** (`invoice.payment_succeeded`)
-4. **Automated confirmation email** (via Resend)
-5. **Automated upload form link email** (via Resend)
-6. **Invoice status display** (admin panel shows paid/unpaid)
-7. **Tier storage in database** (future-proofs display options)
+**Anti-features:**
+- Sponsor profile pages - just logo + link
+- Sponsor carousel/animation - static grid is sufficient
+- Sponsor testimonials - out of scope for v1.2
 
-### Nice-to-Have (Defer to v1.2)
-- Invoice creation from sponsor inquiry form (can manually copy data for now)
-- Payment failed webhook handling (manual follow-up acceptable initially)
-- Reminder emails for overdue invoices (manual follow-up acceptable initially)
-- Sponsor self-service invoice dashboard (not expected for v1)
+**Complexity Notes:**
+- DISPLAY-01 to DISPLAY-05: Medium (database query with joins, image optimization)
+- DISPLAY-06 to DISPLAY-08: Low (CSS sizing, sorting logic)
 
-### Explicitly Skip
-- Subscription/recurring billing
-- Invoice editing after finalization
-- Multi-currency support
-- Payment plans/installments
-- Complex approval workflows
+**Dependencies:** Requires invoices table, sponsor_uploads table, Google Drive API.
 
-## Complexity Assessment
+---
 
-| Feature Category | Overall Complexity | Reasoning |
-|-----------------|-------------------|-----------|
-| Invoice Creation UI | Medium | Stripe API integration straightforward; UI for tier selection and amount entry |
-| Webhook Integration | Low | Standard Next.js API route; Resend already integrated |
-| Email Automation | Low | Resend API already in use; template-based emails |
-| Status Tracking | Low | Stripe provides statuses; display in admin panel |
-| Tier Management | Low | Simple database table with name, price, benefits JSON |
+### Category 6: Marketing Dashboard
 
-**Total estimated effort:** 8-12 hours for experienced developer with Next.js + Stripe knowledge.
+**Table Stakes:**
+- **DASH-01:** Package status widget: show all packages with available slots, closing dates
+- **DASH-02:** Invoice tracking widget: count by status (draft, open, paid, void), total revenue
+- **DASH-03:** Upload completion widget: pending uploads count, completed uploads count
+- **DASH-04:** Recent activity feed: last 10 invoices created/paid/uploaded
+- **DASH-05:** Quick actions: "Create Invoice" button, "View All Invoices" link
 
-## Integration Points with Existing Features
+**Differentiators:**
+- **DASH-06:** Revenue chart by package type
+- **DASH-07:** Upload completion rate percentage
+- **DASH-08:** Overdue upload alerts (invoices paid >30 days ago, no upload)
 
-| Existing Feature | How Invoice System Uses It |
-|-----------------|---------------------------|
-| **Sponsor upload form** | Email link after payment; sponsor self-submits logo |
-| **Admin panel auth** | Invoice creation UI protected; only admins can create invoices |
-| **Resend email API** | Payment confirmation and upload form link emails |
-| **Supabase database** | Store invoice metadata, sponsor tier, payment timestamps |
-| **Partners page** | Future: Filter/display sponsors by tier (Gold/Silver/Bronze) |
+**Anti-features:**
+- Real-time websocket updates - periodic refresh is sufficient
+- Export to CSV - can query database directly
+- Custom dashboard builder - fixed layout is fine
 
-## Sources
+**Complexity Notes:**
+- DASH-01 to DASH-05: Medium (aggregate queries, component composition)
+- DASH-06 to DASH-08: Low (calculations, conditional alerts)
 
-### High Confidence (Official Documentation)
-- [Stripe API: Create an Invoice](https://docs.stripe.com/api/invoices/create)
-- [Stripe: Create and Send an Invoice Quickstart](https://docs.stripe.com/invoicing/integration/quickstart)
-- [Stripe: Invoice Status Transitions](https://docs.stripe.com/invoicing/integration/workflow-transitions)
-- [Stripe: Invoice Webhook Events](https://docs.stripe.com/api/events/types)
-- [Stripe: invoice.payment_succeeded Event](https://docs.stripe.com/billing/subscriptions/webhooks)
+**Dependencies:** Requires invoices table, sponsorship_packages table, sponsor_uploads table.
 
-### Medium Confidence (Industry Best Practices, 2026)
-- [Sponsorship Management: 10 Essential Features](https://www.optimy.com/blog-optimy/sponsorship-management-software)
-- [How Modern Nonprofits Run Sponsorship Programs in 2026](https://blog.helpyousponsor.com/how-modern-nonprofits-run-sponsorship-programs-2026/)
-- [Invoice Workflow Automation Guide for 2026](https://www.bluevine.com/blog/invoice-workflow-automation)
-- [Invoice Management Guide 2026](https://www.artsyltech.com/invoice-management)
-- [Nonprofit Sponsorship Payment Workflow Automation](https://blog.helpyousponsor.com/nonprofits-automation-manage-sponsorships/)
+---
 
-### Medium Confidence (Real-World Problems)
-- [NYC Council: Nonprofit Payment Delays (2025)](https://council.nyc.gov/press/2025/10/23/2993/) - $861M backlog context
-- [13 Common Invoicing Mistakes & How to Avoid Them in 2026](https://www.mooninvoice.com/blog/invoicing-mistakes/)
-- [Nonprofit Invoice Common Problems](https://comptroller.nyc.gov/reports/nonprofit-nonpayment/)
+## Feature Priority Summary
 
-### Low Confidence (General Trends)
-- WebSearch results on sponsor tier management and logo placement (used for differentiators section; not critical to core workflow)
+**MUST HAVE (This Milestone):**
+- Invoice management (INV-01 to INV-07)
+- Upload workflow (UPLOAD-01 to UPLOAD-07)
+- Google Drive integration (GDRIVE-01 to GDRIVE-04)
+- Google Sheets integration (GSHEET-01 to GSHEET-04)
+- Conditional display (DISPLAY-01 to DISPLAY-05)
+- Marketing dashboard (DASH-01 to DASH-05)
+
+**NICE TO HAVE (This Milestone):**
+- INV-08 (Stripe metadata tag)
+- UPLOAD-08 (upload deadline display)
+- GDRIVE-05 (auto-create parent folders)
+- GSHEET-05 (hyperlink Drive folder)
+- DISPLAY-06 (tier-based sizing)
+- DASH-07 (upload completion rate)
+
+**FUTURE MILESTONE:**
+- INV-09, INV-10 (search, auto-populate)
+- UPLOAD-09, UPLOAD-10 (re-upload, preview)
+- GDRIVE-06 (folder permissions)
+- GSHEET-06 (color-code rows)
+- DISPLAY-07, DISPLAY-08 (sorting, fallback)
+- DASH-06, DASH-08 (charts, alerts)
+
+---
+*Features research complete for v1.2 milestone*

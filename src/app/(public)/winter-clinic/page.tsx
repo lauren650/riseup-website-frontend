@@ -435,7 +435,7 @@ export default function WinterClinicPage() {
                 },
                 {
                   label: 'Sunscreen',
-                  value: 'We'll be outside - sun protection recommended',
+                  value: 'We\'ll be outside - sun protection recommended',
                 },
               ]}
             />

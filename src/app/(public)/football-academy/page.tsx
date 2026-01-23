@@ -9,7 +9,7 @@ import { EditableText } from '@/components/editable/editable-text';
 const subNavItems = [
   { id: 'overview', label: 'Overview' },
   { id: 'schedule', label: 'Schedule' },
-  { id: 'what-you-learn', label: 'What You'll Learn' },
+  { id: 'what-you-learn', label: 'What You\'ll Learn' },
   { id: 'program-notes', label: 'Program Notes' },
 ];
 
