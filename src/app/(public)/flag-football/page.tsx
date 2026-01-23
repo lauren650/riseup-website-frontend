@@ -75,7 +75,7 @@ export default function FlagFootballPage() {
               page="flag-football"
               section="overview"
             >
-              RiseUp Moore Girls Flag Football 2025 Season
+              RiseUp Moore Girls Flag Football 2026 Season
             </EditableText>
           </h2>
 
@@ -101,7 +101,16 @@ export default function FlagFootballPage() {
                   page="flag-football"
                   section="overview"
                 >
-                  We're proud to announce the launch of our Girls Flag Football League, officially aligned with the NFL FLAG program — the fastest-growing youth sport in America! This season, we're bringing the energy, excitement, and empowerment of flag football to girls across Moore County! Our league is designed to build confidence, competition, and community — all in a fun, supportive environment.
+                  We're proud to announce the launch of our Girls Flag Football League, officially aligned with the{' '}
+                  <a
+                    href="https://nflflag.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-accent underline hover:text-accent/80"
+                  >
+                    NFL FLAG program
+                  </a>
+                  {' '}— the fastest-growing youth sport in America! This season, we're bringing the energy, excitement, and empowerment of flag football to girls across Moore County! Our league is designed to build confidence, competition, and community — all in a fun, supportive environment.
                 </EditableText>
               </div>
 
@@ -246,6 +255,39 @@ export default function FlagFootballPage() {
             </div>
           </div>
 
+          {/* Action Image */}
+          <div className="mt-16 mb-16">
+            <PhotoContentBlockEditable
+              contentKey="flag.overview.action_image"
+              imageSrc="/images/girls-flag-action.jpg"
+              imageAlt="Girls playing flag football"
+              title="Empowering Girls Through Football"
+              imagePosition="right"
+              page="flag-football"
+              section="overview"
+              imageHeight="h-[400px] md:min-h-[500px]"
+              rounded={true}
+              wideImage={true}
+            >
+              <EditableText
+                contentKey="flag.overview.action_p1"
+                as="p"
+                page="flag-football"
+                section="overview"
+              >
+                Our Girls Flag Football program creates a supportive environment where young athletes can develop their skills, build confidence, and discover their love for the game.
+              </EditableText>
+              <EditableText
+                contentKey="flag.overview.action_p2"
+                as="p"
+                page="flag-football"
+                section="overview"
+              >
+                With certified coaches and a focus on positive development, every player gets the opportunity to shine on the field while learning valuable life lessons about teamwork, perseverance, and leadership.
+              </EditableText>
+            </PhotoContentBlockEditable>
+          </div>
+
           {/* Why Girls Flag Section */}
           <div className="mt-16">
             <h3 className="mb-8 text-center text-2xl font-bold text-white md:text-3xl">
@@ -326,93 +368,49 @@ export default function FlagFootballPage() {
             </EditableText>
           </h2>
 
-          <div className="mb-6 space-y-8">
-            <div className="rounded-xl border border-accent/30 bg-accent/5 p-6 md:p-8">
-              <h3 className="mb-4 text-2xl font-bold text-white text-center">
-                <EditableText
-                  contentKey="flag.registration.deadline_title"
-                  as="span"
-                  page="flag-football"
-                  section="registration"
-                >
-                  REGISTER NOW! LAST DAY FOR REGISTRATION IS AUGUST 31st!
-                </EditableText>
-              </h3>
-            </div>
-
-            <div className="rounded-xl border border-white/10 bg-background p-6 md:p-8">
-              <h3 className="mb-4 text-xl font-bold text-white">
-                <EditableText
-                  contentKey="flag.registration.jersey_title"
-                  as="span"
-                  page="flag-football"
-                  section="registration"
-                >
-                  Important: Jersey Sizing
-                </EditableText>
-              </h3>
-              <div className="space-y-4 text-muted-foreground">
-                <EditableText
-                  contentKey="flag.registration.jersey_warning"
-                  as="p"
-                  page="flag-football"
-                  section="registration"
-                >
-                  <strong className="text-accent">Please see NFL Sizing Guide below to properly select your jersey size!</strong> Jersey sizes cannot be changed once the registration is submitted.
-                </EditableText>
-                <EditableText
-                  contentKey="flag.registration.jersey_note"
-                  as="p"
-                  className="text-sm"
-                  page="flag-football"
-                  section="registration"
-                >
-                  *There are no Adult Small jerseys, you may consider Youth X-Large as an alternative*
-                </EditableText>
-              </div>
-            </div>
-
-            <div className="rounded-xl border border-white/10 bg-background p-6 md:p-8">
-              <h3 className="mb-4 text-xl font-bold text-white">
-                <EditableText
-                  contentKey="flag.registration.refund_title"
-                  as="span"
-                  page="flag-football"
-                  section="registration"
-                >
-                  Refund Policy
-                </EditableText>
-              </h3>
+          {/* Registration Image */}
+          <div className="mb-12">
+            <PhotoContentBlockEditable
+              contentKey="flag.registration.image"
+              imageSrc="/images/girls-flag-registration.jpg"
+              imageAlt="Girls registering for flag football"
+              title="Join Our Team"
+              imagePosition="left"
+              page="flag-football"
+              section="registration"
+              imageHeight="h-[400px] md:min-h-[450px]"
+              rounded={true}
+              wideImage={false}
+            >
               <EditableText
-                contentKey="flag.registration.refund_policy"
+                contentKey="flag.registration.image_p1"
                 as="p"
-                className="text-muted-foreground"
                 page="flag-football"
                 section="registration"
               >
-                <strong className="text-white">All registration fees are non-refundable, without exception.</strong> This policy is in place due to our contractual obligations with the NFL, which require full payment for each participant upon registration.
+                Registration for our Girls Flag Football program opens soon! We welcome all skill levels from beginners to experienced players.
               </EditableText>
-            </div>
-
-            <div className="rounded-xl border border-white/10 bg-white/5 p-6 md:p-8">
-              <h3 className="mb-4 text-xl font-bold text-white">
-                <EditableText
-                  contentKey="flag.registration.optional_title"
-                  as="span"
-                  page="flag-football"
-                  section="registration"
-                >
-                  Additional Purchases
-                </EditableText>
-              </h3>
               <EditableText
-                contentKey="flag.registration.optional_description"
+                contentKey="flag.registration.image_p2"
                 as="p"
-                className="text-muted-foreground"
                 page="flag-football"
                 section="registration"
               >
-                Please note that any additional purchases made during registration are optional and will be shipped in a bulk team order at the start of the season.
+                Each season offers girls the chance to learn, grow, and compete in a supportive, empowering environment designed specifically for female athletes.
+              </EditableText>
+            </PhotoContentBlockEditable>
+          </div>
+
+          <div className="mb-6 space-y-8">
+            <div className="rounded-xl border border-white/10 bg-background p-6 md:p-8 text-center">
+              <EditableText
+                contentKey="flag.registration.check_back"
+                as="p"
+                className="text-lg text-muted-foreground"
+                page="flag-football"
+                section="registration"
+              >
+                Check back for registration information.
               </EditableText>
             </div>
 
@@ -492,48 +490,25 @@ export default function FlagFootballPage() {
               <div className="space-y-6">
                 <div>
                   <div className="mb-2 text-sm font-semibold text-accent">
-                    Season Kickoff
+                    Season Dates
                   </div>
                   <EditableText
-                    contentKey="flag.schedule.kickoff_date"
+                    contentKey="flag.schedule.season_dates"
                     as="p"
                     className="text-lg text-white"
                     page="flag-football"
                     section="schedule"
                   >
-                    October 1, 2025
+                    TBD
                   </EditableText>
                   <EditableText
-                    contentKey="flag.schedule.kickoff_description"
+                    contentKey="flag.schedule.season_description"
                     as="p"
                     className="text-sm text-muted-foreground"
                     page="flag-football"
                     section="schedule"
                   >
-                    2 practices per week (Thursday evenings and Saturday mornings)
-                  </EditableText>
-                </div>
-                <div>
-                  <div className="mb-2 text-sm font-semibold text-accent">
-                    Game Dates
-                  </div>
-                  <EditableText
-                    contentKey="flag.schedule.game_dates"
-                    as="p"
-                    className="text-lg text-white"
-                    page="flag-football"
-                    section="schedule"
-                  >
-                    November 1, 8, 15, 22
-                  </EditableText>
-                  <EditableText
-                    contentKey="flag.schedule.game_description"
-                    as="p"
-                    className="text-sm text-muted-foreground"
-                    page="flag-football"
-                    section="schedule"
-                  >
-                    Four exciting game days throughout November
+                    Check back for updated schedule information
                   </EditableText>
                 </div>
               </div>
@@ -601,6 +576,39 @@ export default function FlagFootballPage() {
               What's Included
             </EditableText>
           </h2>
+
+          {/* Equipment Image */}
+          <div className="mb-12">
+            <PhotoContentBlockEditable
+              contentKey="flag.equipment.featured_image"
+              imageSrc="/images/girls-flag-equipment.jpg"
+              imageAlt="Girls with NFL FLAG jerseys and equipment"
+              title="Official NFL FLAG Gear"
+              imagePosition="right"
+              page="flag-football"
+              section="equipment"
+              imageHeight="h-[400px] md:min-h-[450px]"
+              rounded={true}
+              wideImage={false}
+            >
+              <EditableText
+                contentKey="flag.equipment.featured_p1"
+                as="p"
+                page="flag-football"
+                section="equipment"
+              >
+                Every player receives official NFL FLAG gear, including a jersey and flag belt. Our equipment meets the highest standards for quality and safety.
+              </EditableText>
+              <EditableText
+                contentKey="flag.equipment.featured_p2"
+                as="p"
+                page="flag-football"
+                section="equipment"
+              >
+                Players will feel like true athletes in their official uniforms, building pride and confidence as they represent RiseUp Moore on the field.
+              </EditableText>
+            </PhotoContentBlockEditable>
+          </div>
 
           <div className="grid gap-8 md:grid-cols-2 lg:gap-12">
             <div className="rounded-xl border border-white/10 bg-background p-6 md:p-8">
@@ -696,6 +704,39 @@ export default function FlagFootballPage() {
             </EditableText>
           </h2>
 
+          {/* Community Image */}
+          <div className="mb-12">
+            <PhotoContentBlockEditable
+              contentKey="flag.getinvolved.community_image"
+              imageSrc="/images/girls-flag-community.jpg"
+              imageAlt="Coaches and volunteers with girls flag football team"
+              title="Build Our Community"
+              imagePosition="left"
+              page="flag-football"
+              section="get-involved"
+              imageHeight="h-[400px] md:min-h-[450px]"
+              rounded={true}
+              wideImage={false}
+            >
+              <EditableText
+                contentKey="flag.getinvolved.community_p1"
+                as="p"
+                page="flag-football"
+                section="get-involved"
+              >
+                Our program thrives because of dedicated coaches, volunteers, and sponsors who believe in empowering young female athletes.
+              </EditableText>
+              <EditableText
+                contentKey="flag.getinvolved.community_p2"
+                as="p"
+                page="flag-football"
+                section="get-involved"
+              >
+                Whether you want to coach, volunteer your time, or support us as a sponsor, there are many ways to make a lasting impact on girls in our community.
+              </EditableText>
+            </PhotoContentBlockEditable>
+          </div>
+
           <div className="grid gap-6 md:grid-cols-2">
             <div className="rounded-xl border border-white/10 bg-white/5 p-6 md:p-8">
               <h3 className="mb-4 text-2xl font-bold text-accent">
@@ -745,12 +786,12 @@ export default function FlagFootballPage() {
               >
                 Partner with us to support girls in sports and get your brand in front of local families. Help us build a stronger community through athletics!
               </EditableText>
-              <a
-                href="mailto:girlsflag@riseupmoore.com?subject=Sponsorship%20Interest"
+              <Link
+                href="/become-a-sponsor"
                 className="inline-block rounded-full border border-white px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
               >
-                Email girlsflag@riseupmoore.com
-              </a>
+                Become a Sponsor
+              </Link>
             </div>
           </div>
         </div>
