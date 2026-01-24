@@ -3,7 +3,8 @@
 ## Milestones
 
 - ✅ **v1.0 MVP** - Phases 1-3 (shipped 2026-01-18)
-- 🚧 **v1.1 Sponsorship Packages** - Phases 4-7 (in progress)
+- ✅ **v1.1 Sponsorship Packages** - Phases 4-5 (partial, 2026-01-21)
+- 🚧 **v1.2 Sponsor Management Redesign** - Phases 8-13 (in progress)
 
 ## Phases
 
@@ -39,77 +40,149 @@ Plans:
 
 </details>
 
-### 🚧 v1.1 Sponsorship Packages (In Progress)
+<details>
+<summary>✅ v1.1 Sponsorship Packages (Phases 4-5) - PARTIAL</summary>
 
-**Milestone Goal:** Marketing admins can manage sponsorship packages and send Stripe invoices directly from admin panel, with automated post-payment workflows.
-
-#### Phase 4: Foundation & Schema
+### Phase 4: Foundation & Schema
 **Goal**: Database schema, Stripe SDK, and environment configuration ready for invoice features
-**Depends on**: Phase 3
-**Requirements**: Foundation for SINV, SAUT, SDAT features
-**Success Criteria** (what must be TRUE):
-  1. Database tables exist for invoices, sponsorship tiers, and webhook event tracking
-  2. Stripe SDK is installed and initialized with proper environment variables
-  3. Sponsorship tier configuration can be stored and retrieved from database
-  4. Webhook endpoint exists and can verify Stripe signatures
+**Status**: Complete (2026-01-20)
 **Plans**: 1 plan
 
 Plans:
-- [x] 04-01-PLAN.md — Database migration, Stripe SDK setup, and webhook endpoint
+- [x] 04-01: Database migration, Stripe SDK setup, and webhook endpoint
 
-#### Phase 5: Public Sponsorship Page
+### Phase 5: Public Sponsorship Page
 **Goal**: Prospective sponsors can view tiers and submit interest forms
-**Depends on**: Phase 4
-**Requirements**: SPUB-01, SPUB-02, SPUB-03, SPUB-04
-**Success Criteria** (what must be TRUE):
-  1. User can access "Become a Sponsor" page from Partners page link
-  2. User can view sponsorship tier table with names, prices, and benefits
-  3. User can submit sponsor interest form with contact info and preferred tier
-  4. User receives confirmation message after submitting interest form
+**Status**: Complete (2026-01-21)
 **Plans**: 2 plans
 
 Plans:
-- [x] 05-01-PLAN.md — Schema migration for display fields, validation schema, and server action
-- [x] 05-02-PLAN.md — Pricing table, interest form, confirmation modal, and page assembly
+- [x] 05-01: Schema migration for display fields, validation schema, and server action
+- [x] 05-02: Pricing table, interest form, confirmation modal, and page assembly
 
-#### Phase 6: Invoice Management
-**Goal**: Marketing admins can create, view, and manage Stripe invoices from admin panel
-**Depends on**: Phase 4
-**Requirements**: SINV-01, SINV-02, SINV-03, SINV-04, SINV-05, SINV-06, SINV-07, SDAT-01, SDAT-02, SDAT-03
+**Note:** v1.1 Phases 6-7 were superseded by v1.2 redesign.
+
+</details>
+
+### 🚧 v1.2 Sponsor Management Redesign
+
+**Milestone Goal:** Complete redesign of sponsor management workflow with invoice creation, Google Drive integration, automated upload processing, and comprehensive marketing dashboard.
+
+#### Phase 8: Database & Core Services
+**Goal**: Google Drive/Sheets integration foundation and database schema ready
+**Depends on**: Phase 5
+**Requirements**: GDRIVE-01, GDRIVE-02, GDRIVE-03, GDRIVE-04, GSHEET-01, GSHEET-02, GSHEET-03, GSHEET-04, DISPLAY-02
 **Success Criteria** (what must be TRUE):
-  1. Marketing admin can view list of all invoices with status filters (draft/open/paid/void)
-  2. Marketing admin can create invoice from sponsor inquiry with pre-filled data
-  3. Marketing admin can create invoice from scratch with manual entry
-  4. Marketing admin can select sponsorship tier to auto-populate invoice amount
-  5. Marketing admin can send invoice via Stripe (sponsor receives payment link email)
-  6. Marketing admin can void unpaid invoices
-  7. System stores sponsor tier in database for each invoice
+  1. `sponsor_uploads` table exists with all required columns
+  2. `sponsorship_packages` table has `includes_website_benefit` boolean flag
+  3. Google Drive client can authenticate via service account and create folders
+  4. Google Sheets client can authenticate and append/update rows
+  5. Service account permissions validated (can access Drive folder and Spreadsheet)
 **Plans**: TBD
 
 Plans:
-- [ ] 06-01: TBD
-- [ ] 06-02: TBD
+- [ ] 08-01: TBD
+- [ ] 08-02: TBD
 
-#### Phase 7: Payment Automation
-**Goal**: Automated payment detection and post-payment workflows via Stripe webhooks
-**Depends on**: Phase 4, Phase 6
-**Requirements**: SAUT-01, SAUT-02, SAUT-03, SAUT-04
+#### Phase 9: Invoice Management UI
+**Goal**: Marketing admins can create, view, filter, and void invoices from admin panel
+**Depends on**: Phase 8
+**Requirements**: INV-01, INV-02, INV-03, INV-04, INV-05
 **Success Criteria** (what must be TRUE):
-  1. System detects payment via Stripe webhook within seconds of sponsor payment
-  2. System updates invoice status in database when payment is received
-  3. System sends automated email to sponsor with upload form link after payment
-  4. System notifies admin when payment is received
-  5. Webhook handles duplicate events safely (idempotency protection)
+  1. Marketing admin can access invoice management page at `/admin/dashboard/invoices`
+  2. Marketing admin can create invoice by selecting package and entering sponsor details
+  3. Marketing admin can view all invoices in list view with status badges
+  4. Marketing admin can filter invoices by status (draft, open, paid, void)
+  5. Marketing admin can void unpaid invoices with one click
+  6. Invoice metadata in Stripe includes "sponsorship" tag
 **Plans**: TBD
 
 Plans:
-- [ ] 07-01: TBD
-- [ ] 07-02: TBD
+- [ ] 09-01: TBD
+- [ ] 09-02: TBD
+
+#### Phase 10: Payment Webhook Enhancement
+**Goal**: Automated post-payment workflow triggers Google Drive folder, upload token, and emails
+**Depends on**: Phase 8, Phase 9
+**Requirements**: UPLOAD-01, GSHEET-03
+**Success Criteria** (what must be TRUE):
+  1. Stripe webhook detects `invoice.paid` event within seconds of payment
+  2. System creates Google Drive folder organized by package type
+  3. System generates secure upload token (crypto-secure UUID, 90-day expiration)
+  4. System saves upload token to database with invoice reference and folder ID
+  5. System updates Google Sheets row with payment date and status
+  6. System sends email to sponsor with upload form link
+  7. Webhook handles duplicate events safely (idempotency via `webhook_events` table)
+**Plans**: TBD
+
+Plans:
+- [ ] 10-01: TBD
+- [ ] 10-02: TBD
+
+#### Phase 11: Upload Form
+**Goal**: Sponsors can access upload form and submit logo + website URL
+**Depends on**: Phase 10
+**Requirements**: UPLOAD-02, UPLOAD-03, UPLOAD-04, UPLOAD-05, UPLOAD-06, UPLOAD-07, GDRIVE-02, GDRIVE-03, GSHEET-04
+**Success Criteria** (what must be TRUE):
+  1. Sponsor can access upload form at `/upload/[token]` (public route, no login)
+  2. Upload form validates token (checks expiration, not already used)
+  3. Upload form displays sponsor's company name and package details (read-only)
+  4. Upload form accepts logo file with client-side validation (PNG/JPG/SVG, max 2MB)
+  5. Upload form accepts website URL with format validation
+  6. Upload form validates before submission (required fields, file size/type)
+  7. System uploads logo to Google Drive folder created in Phase 10
+  8. System updates Google Sheets row with upload completion status and Drive link
+  9. System marks upload token as used (prevents reuse)
+  10. Sponsor receives success confirmation message
+  11. System sends confirmation email to sponsor and notification email to admin
+**Plans**: TBD
+
+Plans:
+- [ ] 11-01: TBD
+- [ ] 11-02: TBD
+- [ ] 11-03: TBD
+
+#### Phase 12: Conditional Sponsor Display
+**Goal**: Partners page displays sponsors based on payment status and package benefits
+**Depends on**: Phase 11
+**Requirements**: DISPLAY-01, DISPLAY-03, DISPLAY-04, DISPLAY-05
+**Success Criteria** (what must be TRUE):
+  1. Partners page queries sponsors with JOIN on invoices and sponsor_uploads tables
+  2. Partners page filters to show only sponsors with paid invoices AND package includes website benefit
+  3. Partners page displays company name and logo for qualifying sponsors
+  4. Company name links to sponsor's website URL
+  5. Logos are fetched from Supabase Storage cache (not live Drive API calls)
+  6. Partners page handles missing logos gracefully (no broken images)
+  7. Historical sponsors from old `sponsors` table continue to display (union query)
+**Plans**: TBD
+
+Plans:
+- [ ] 12-01: TBD
+- [ ] 12-02: TBD
+
+#### Phase 13: Marketing Dashboard
+**Goal**: Marketing admins have visibility into packages, invoices, and upload status
+**Depends on**: Phase 8, Phase 9
+**Requirements**: DASH-01, DASH-02, DASH-03, DASH-04, DASH-05
+**Success Criteria** (what must be TRUE):
+  1. Dashboard displays package status widget with available slots and closing dates
+  2. Dashboard displays invoice tracking widget with status counts and total revenue
+  3. Dashboard displays upload completion widget with pending/completed counts
+  4. Dashboard displays recent activity feed showing last 10 invoice/upload events
+  5. Dashboard includes "Create Invoice" button linking to invoice creation form
+  6. Dashboard data updates on page refresh (30s auto-refresh optional)
+**Plans**: TBD
+
+Plans:
+- [ ] 13-01: TBD
+- [ ] 13-02: TBD
 
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 4 → 5 → 6 → 7
+Phases execute in numeric order: 8 → 9 → 10 → 11 → 12 → 13
+
+**Note:** Phase 13 (Marketing Dashboard) can be built in parallel with Phases 10-12 since it's read-only and depends only on Phase 8-9 data structures.
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -118,5 +191,9 @@ Phases execute in numeric order: 4 → 5 → 6 → 7
 | 3. Public Website & Sponsor Portal | v1.0 | 3/3 | Complete | 2026-01-18 |
 | 4. Foundation & Schema | v1.1 | 1/1 | Complete | 2026-01-20 |
 | 5. Public Sponsorship Page | v1.1 | 2/2 | Complete | 2026-01-21 |
-| 6. Invoice Management | v1.1 | 0/TBD | Not started | - |
-| 7. Payment Automation | v1.1 | 0/TBD | Not started | - |
+| 8. Database & Core Services | v1.2 | 0/TBD | Not started | - |
+| 9. Invoice Management UI | v1.2 | 0/TBD | Not started | - |
+| 10. Payment Webhook Enhancement | v1.2 | 0/TBD | Not started | - |
+| 11. Upload Form | v1.2 | 0/TBD | Not started | - |
+| 12. Conditional Sponsor Display | v1.2 | 0/TBD | Not started | - |
+| 13. Marketing Dashboard | v1.2 | 0/TBD | Not started | - |

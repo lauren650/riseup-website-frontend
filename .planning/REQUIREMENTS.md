@@ -118,18 +118,55 @@ Explicitly excluded. Documented to prevent scope creep.
 
 ## Traceability
 
-Which phases cover which requirements. Updated during roadmap creation.
+Which phases cover which requirements.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| *(To be filled by roadmapper)* | - | - |
+| INV-01 | Phase 9 | Pending |
+| INV-02 | Phase 9 | Pending |
+| INV-03 | Phase 9 | Pending |
+| INV-04 | Phase 9 | Pending |
+| INV-05 | Phase 9 | Pending |
+| UPLOAD-01 | Phase 10 | Pending |
+| UPLOAD-02 | Phase 11 | Pending |
+| UPLOAD-03 | Phase 11 | Pending |
+| UPLOAD-04 | Phase 11 | Pending |
+| UPLOAD-05 | Phase 11 | Pending |
+| UPLOAD-06 | Phase 11 | Pending |
+| UPLOAD-07 | Phase 11 | Pending |
+| GDRIVE-01 | Phase 8 | Pending |
+| GDRIVE-02 | Phase 8, Phase 11 | Pending |
+| GDRIVE-03 | Phase 8, Phase 11 | Pending |
+| GDRIVE-04 | Phase 8 | Pending |
+| GSHEET-01 | Phase 8 | Pending |
+| GSHEET-02 | Phase 8 | Pending |
+| GSHEET-03 | Phase 8, Phase 10 | Pending |
+| GSHEET-04 | Phase 8, Phase 11 | Pending |
+| DISPLAY-01 | Phase 12 | Pending |
+| DISPLAY-02 | Phase 8 | Pending |
+| DISPLAY-03 | Phase 12 | Pending |
+| DISPLAY-04 | Phase 12 | Pending |
+| DISPLAY-05 | Phase 12 | Pending |
+| DASH-01 | Phase 13 | Pending |
+| DASH-02 | Phase 13 | Pending |
+| DASH-03 | Phase 13 | Pending |
+| DASH-04 | Phase 13 | Pending |
+| DASH-05 | Phase 13 | Pending |
 
 ---
 
 **Coverage:**
 - v1.2 requirements: 31 total
-- Mapped to phases: (pending roadmap)
-- Unmapped: (pending roadmap)
+- Mapped to phases: 31
+- Unmapped: 0
+
+**Phase Distribution:**
+- Phase 8 (Database & Core Services): 9 requirements
+- Phase 9 (Invoice Management UI): 5 requirements
+- Phase 10 (Payment Webhook Enhancement): 2 requirements
+- Phase 11 (Upload Form): 9 requirements
+- Phase 12 (Conditional Sponsor Display): 5 requirements
+- Phase 13 (Marketing Dashboard): 5 requirements
 
 ---
 

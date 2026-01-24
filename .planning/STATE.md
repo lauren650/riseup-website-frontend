@@ -9,10 +9,10 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 
 ## Current Position
 
-Phase: Not started (defining requirements)
+Phase: 8 of 13 (Database & Core Services)
 Plan: —
-Status: Defining requirements
-Last activity: 2026-01-23 — Milestone v1.2 started
+Status: Ready to plan
+Last activity: 2026-01-23 — Roadmap created for v1.2
 
 ## Milestone Summary
 
