@@ -1,63 +1,103 @@
 # Requirements: RiseUp Youth Football League Website
 
-**Defined:** 2026-01-20
-**Milestone:** v1.1 Sponsorship Packages
+**Defined:** 2026-01-23
+**Milestone:** v1.2 Sponsor Management Redesign
 **Core Value:** Non-technical administrators can update website content instantly using natural language commands
 
-## v1.1 Requirements
+---
 
-Requirements for sponsorship packages milestone. Each maps to roadmap phases.
+## v1.2 Requirements
 
-### Public Sponsorship Page
+Requirements for sponsor management redesign milestone. Each maps to roadmap phases.
 
-- [x] **SPUB-01**: User can access "Become a Sponsor" page from Partners page link
-- [x] **SPUB-02**: User can view sponsorship tier table with tier names, prices, and benefits
-- [x] **SPUB-03**: User can submit sponsor interest form with contact info and preferred tier
-- [x] **SPUB-04**: User receives confirmation after submitting interest form
+### Invoice Management
 
-### Admin Invoice Management
+- [ ] **INV-01**: Marketing admin can create invoice with manual data entry (company name, email, package selection)
+- [ ] **INV-02**: Marketing admin can view all invoices in list view
+- [ ] **INV-03**: Marketing admin can filter invoices by status (draft, open, paid, void)
+- [ ] **INV-04**: Marketing admin can void unpaid invoices
+- [ ] **INV-05**: System tags invoice metadata in Stripe as "sponsorship" transaction type
 
-- [ ] **SINV-01**: Marketing admin can view list of all invoices with status filters
-- [ ] **SINV-02**: Marketing admin can create invoice from sponsor inquiry (pre-filled data)
-- [ ] **SINV-03**: Marketing admin can create invoice from scratch (manual entry)
-- [ ] **SINV-04**: Marketing admin can select sponsorship tier to set invoice amount
-- [ ] **SINV-05**: Marketing admin can send invoice via Stripe (sponsor receives payment link email)
-- [ ] **SINV-06**: Marketing admin can view invoice status (draft/open/paid/void)
-- [ ] **SINV-07**: Marketing admin can void unpaid invoices
+### Post-Payment Upload Workflow
 
-### Payment Automation
+- [ ] **UPLOAD-01**: System generates secure upload form link after payment (unique token, 90-day expiration)
+- [ ] **UPLOAD-02**: Sponsor can access upload form via email link (no login required)
+- [ ] **UPLOAD-03**: Upload form accepts logo file with validation (PNG/JPG/SVG, max 2MB)
+- [ ] **UPLOAD-04**: Upload form accepts website URL field
+- [ ] **UPLOAD-05**: Upload form displays sponsor's company name and package details (read-only)
+- [ ] **UPLOAD-06**: Upload form validates required fields and file type/size before submission
+- [ ] **UPLOAD-07**: Sponsor receives success confirmation after submission
 
-- [ ] **SAUT-01**: System detects payment via Stripe webhook
-- [ ] **SAUT-02**: System updates invoice status in database when paid
-- [ ] **SAUT-03**: System sends automated email to sponsor with upload form link after payment
-- [ ] **SAUT-04**: System notifies admin when payment is received
+### Google Drive Integration
 
-### Data & Integration
+- [ ] **GDRIVE-01**: System creates folder structure organized by package type
+- [ ] **GDRIVE-02**: System uploads sponsor logo to appropriate package folder
+- [ ] **GDRIVE-03**: System names folders using format: `{Company Name} - {Invoice ID}`
+- [ ] **GDRIVE-04**: System stores Google Drive folder ID in database for reference
 
-- [ ] **SDAT-01**: System stores sponsor tier in database for future display options
-- [ ] **SDAT-02**: System persists invoice history (ID, amount, status, dates)
-- [ ] **SDAT-03**: Admin-configurable sponsorship tiers (name, price, benefits description)
+### Google Sheets Integration
+
+- [ ] **GSHEET-01**: System appends new row to master spreadsheet when invoice is created
+- [ ] **GSHEET-02**: Spreadsheet includes columns: Company, Package, Invoice ID, Payment Date, Upload Status, Drive Folder Link, Website URL
+- [ ] **GSHEET-03**: System updates row when invoice is paid (Payment Date, status)
+- [ ] **GSHEET-04**: System updates row when upload is completed (Upload Status, Drive link, Website URL)
+
+### Conditional Sponsor Display
+
+- [ ] **DISPLAY-01**: System checks if invoice status is "paid"
+- [ ] **DISPLAY-02**: System checks if package includes website benefit (database flag)
+- [ ] **DISPLAY-03**: System displays sponsor on Partners page only if both conditions are true
+- [ ] **DISPLAY-04**: Public Partners page shows company name and links to website URL
+- [ ] **DISPLAY-05**: System fetches logos from cached source (not live Drive API on page load)
+
+### Marketing Dashboard
+
+- [ ] **DASH-01**: Dashboard displays package status widget (available slots, closing dates for each package)
+- [ ] **DASH-02**: Dashboard displays invoice tracking widget (counts by status, total revenue)
+- [ ] **DASH-03**: Dashboard displays upload completion widget (pending uploads count, completed uploads count)
+- [ ] **DASH-04**: Dashboard displays recent activity feed (last 10 invoices created/paid/uploaded)
+- [ ] **DASH-05**: Dashboard includes quick action button to create new invoice
+
+---
 
 ## Future Requirements
 
 Deferred to later milestones. Tracked but not in current roadmap.
 
-### Enhanced Sponsor Display
+### Enhanced Invoice Features
 
-- **SDISP-01**: Partners page displays sponsors differently based on tier (size, placement)
-- **SDISP-02**: Higher-tier sponsors appear more prominently
+- **INV-06**: Marketing admin can search invoices by company name or email
+- **INV-07**: System can auto-populate invoice from sponsor interest form (if exists)
 
-### Advanced Invoice Features
+### Enhanced Upload Features
 
-- **SINV-08**: Payment retry/reminder emails for overdue invoices
-- **SINV-09**: Invoice customization with RiseUp branding/logo
-- **SINV-10**: Custom invoice numbering scheme (INV-2026-001)
-- **SINV-11**: ACH/bank transfer payment option
+- **UPLOAD-08**: Upload form displays upload deadline message (e.g., "Please upload within 30 days")
+- **UPLOAD-09**: Sponsor can re-upload logo if mistake made (before admin approval)
+- **UPLOAD-10**: Upload form shows preview of uploaded logo before final submission
 
-### Sponsor Self-Service
+### Enhanced Google Drive Features
 
-- **SSELF-01**: Sponsor can view their invoice history
-- **SSELF-02**: Sponsor can download invoice PDFs
+- **GDRIVE-05**: System auto-creates parent folders if missing (new package types)
+- **GDRIVE-06**: System sets folder sharing permissions (shared with marketing team)
+
+### Enhanced Google Sheets Features
+
+- **GSHEET-05**: Spreadsheet includes hyperlinked Drive folder (clickable link)
+- **GSHEET-06**: Spreadsheet rows are color-coded by status (pending = yellow, complete = green)
+
+### Enhanced Display Features
+
+- **DISPLAY-06**: Partners page displays logos with tier-based sizing (higher tiers larger)
+- **DISPLAY-07**: Partners page sorts sponsors by tier priority (higher tiers first)
+- **DISPLAY-08**: Partners page shows placeholder if logo is missing
+
+### Enhanced Dashboard Features
+
+- **DASH-06**: Dashboard displays revenue chart by package type
+- **DASH-07**: Dashboard displays upload completion rate percentage
+- **DASH-08**: Dashboard displays overdue upload alerts (invoices paid >30 days ago, no upload)
+
+---
 
 ## Out of Scope
 
@@ -65,12 +105,16 @@ Explicitly excluded. Documented to prevent scope creep.
 
 | Feature | Reason |
 |---------|--------|
-| Subscription/recurring billing | Over-engineered for annual sponsorships; one-time invoices simpler |
-| Invoice editing after finalization | Stripe doesn't support; void and recreate instead |
-| Multi-currency support | RiseUp is local; USD only |
-| Payment plans/installments | Adds complexity for sponsorship amounts |
-| Late fee automation | Damages sponsor relationships; manual follow-up preferred |
-| Custom payment form | Stripe hosted pages handle PCI compliance |
+| Multi-file upload per sponsor | Single logo is sufficient; reduces complexity |
+| Drag-and-drop upload interface | Standard file input is adequate for target users |
+| Real-time dashboard updates | Periodic refresh (30s) is sufficient; no websocket infrastructure needed |
+| Two-way sync (Sheets → Database) | Database is source of truth; Sheets is reporting view only |
+| Sponsor profile pages | Just logo + link on Partners page; full profiles over-engineered |
+| CSV export from dashboard | Users can query database directly or use Sheets |
+| OAuth user authentication for Google | Service account handles server-side automation; simpler than OAuth |
+| Stripe subscription/recurring billing | One-time annual sponsorships; subscriptions add unnecessary complexity |
+
+---
 
 ## Traceability
 
@@ -78,36 +122,16 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SPUB-01 | Phase 5 | Complete |
-| SPUB-02 | Phase 5 | Complete |
-| SPUB-03 | Phase 5 | Complete |
-| SPUB-04 | Phase 5 | Complete |
-| SINV-01 | Phase 6 | Pending |
-| SINV-02 | Phase 6 | Pending |
-| SINV-03 | Phase 6 | Pending |
-| SINV-04 | Phase 6 | Pending |
-| SINV-05 | Phase 6 | Pending |
-| SINV-06 | Phase 6 | Pending |
-| SINV-07 | Phase 6 | Pending |
-| SAUT-01 | Phase 7 | Pending |
-| SAUT-02 | Phase 7 | Pending |
-| SAUT-03 | Phase 7 | Pending |
-| SAUT-04 | Phase 7 | Pending |
-| SDAT-01 | Phase 6 | Pending |
-| SDAT-02 | Phase 6 | Pending |
-| SDAT-03 | Phase 6 | Pending |
-
-**Coverage:**
-- v1.1 requirements: 18 total
-- Mapped to phases: 18
-- Unmapped: 0
-
-**Phase Distribution:**
-- Phase 4 (Foundation & Schema): 0 direct requirements (enables all others)
-- Phase 5 (Public Sponsorship Page): 4 requirements (SPUB-01 to SPUB-04)
-- Phase 6 (Invoice Management): 10 requirements (SINV-01 to SINV-07, SDAT-01 to SDAT-03)
-- Phase 7 (Payment Automation): 4 requirements (SAUT-01 to SAUT-04)
+| *(To be filled by roadmapper)* | - | - |
 
 ---
-*Requirements defined: 2026-01-20*
-*Last updated: 2026-01-20 after roadmap creation*
+
+**Coverage:**
+- v1.2 requirements: 31 total
+- Mapped to phases: (pending roadmap)
+- Unmapped: (pending roadmap)
+
+---
+
+*Requirements defined: 2026-01-23*
+*Last updated: 2026-01-23*
