@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { GivebutterWidget } from "@/components/donations/givebutter-widget";
+import { EditableText } from "@/components/editable/editable-text";
 
 export const metadata: Metadata = {
   title: "Ways to Give | RiseUp Youth Football League",
@@ -12,12 +13,21 @@ export default function WaysToGivePage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative flex h-[25vh] min-h-[200px] items-center justify-center bg-gradient-to-br from-accent/20 to-transparent pt-16">
+      <section className="relative flex min-h-[350px] items-center justify-center bg-gradient-to-br from-accent/20 to-transparent pt-16 pb-8">
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-        <div className="relative z-10 text-center">
-          <h1 className="text-4xl font-bold text-white md:text-5xl lg:text-6xl">
+        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+          <h1 className="text-4xl font-bold text-white md:text-5xl lg:text-6xl mb-4">
             Support RiseUp
           </h1>
+          <EditableText
+            contentKey="ways_to_give.hero.description"
+            as="p"
+            className="text-lg text-muted-foreground md:text-xl"
+            page="ways-to-give"
+            section="hero"
+          >
+            Your generosity empowers young athletes in underserved communities to rise up and reach their full potential. Every contribution helps us provide quality coaching, equipment, and opportunities that transform lives both on and off the field.
+          </EditableText>
         </div>
       </section>
 
