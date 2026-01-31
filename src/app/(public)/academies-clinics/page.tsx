@@ -3,6 +3,7 @@ import { SubNavigation } from "@/components/ui/sub-navigation";
 import { EditableHeroImage } from "@/components/sections/editable-hero-image";
 import { EditableText } from "@/components/editable/editable-text";
 import { QuickReference } from "@/components/ui/quick-reference";
+import { EditableButton } from "@/components/ui/editable-button";
 
 export const metadata: Metadata = {
   title: "Academies & Clinics | RiseUp Youth Football League",
@@ -141,6 +142,18 @@ export default function AcademiesClinicsPage() {
             >
               Sign up by <strong className="text-white">January 30th</strong> to guarantee your athlete receives a participant shirt and personalized name badge!
             </EditableText>
+          </div>
+
+          {/* Clinic Registration Button */}
+          <div className="mt-8 text-center">
+            <EditableButton
+              textKey="academies.clinic.register_button"
+              urlKey="academies.clinic.register_url"
+              defaultText="Register for Winter Clinic"
+              defaultUrl="https://example.com/clinic-registration"
+              page="academies-clinics"
+              section="clinic"
+            />
           </div>
         </div>
       </section>
@@ -336,6 +349,18 @@ export default function AcademiesClinicsPage() {
               </div>
             </div>
           </div>
+
+          {/* Tackle Academy Registration Button */}
+          <div className="mt-8 text-center">
+            <EditableButton
+              textKey="academies.tackle.register_button"
+              urlKey="academies.tackle.register_url"
+              defaultText="Register for Tackle Academy"
+              defaultUrl="https://example.com/tackle-academy-registration"
+              page="academies-clinics"
+              section="tackle-academy"
+            />
+          </div>
         </div>
       </section>
 
@@ -530,45 +555,17 @@ export default function AcademiesClinicsPage() {
               </div>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* CTA Section */}
-      <section className="bg-white/5 pt-12 pb-16 md:pt-16 md:pb-24">
-        <div className="mx-auto max-w-5xl px-6 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-white md:text-4xl">
-            <EditableText
-              contentKey="academies.cta.title"
-              as="span"
+          {/* Girls Flag Academy Registration Button */}
+          <div className="mt-8 text-center">
+            <EditableButton
+              textKey="academies.flag.register_button"
+              urlKey="academies.flag.register_url"
+              defaultText="Register for Girls Flag Academy"
+              defaultUrl="https://example.com/girls-flag-academy-registration"
               page="academies-clinics"
-              section="cta"
-            >
-              Ready to Take Your Skills to the Next Level?
-            </EditableText>
-          </h2>
-          <EditableText
-            contentKey="academies.cta.description"
-            as="p"
-            className="mb-8 text-lg text-muted-foreground"
-            page="academies-clinics"
-            section="cta"
-          >
-            Join one of our specialized training programs and develop your athletic potential.
-          </EditableText>
-          <div className="flex flex-wrap justify-center gap-4">
-            <button
-              disabled
-              className="inline-block rounded-full bg-accent/50 px-8 py-4 text-lg font-semibold text-white cursor-not-allowed opacity-50"
-            >
-              <EditableText
-                contentKey="academies.cta.register_button"
-                as="span"
-                page="academies-clinics"
-                section="cta"
-              >
-                Register Now
-              </EditableText>
-            </button>
+              section="girls-flag-academy"
+            />
           </div>
         </div>
       </section>
