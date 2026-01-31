@@ -31,11 +31,20 @@ export async function createDriveFolder(
   const drive = getDriveClient();
   const rootFolderId = process.env.GOOGLE_DRIVE_ROOT_FOLDER_ID;
 
-  const fileMetadata = {
+  const finalParentId = parentFolderId || rootFolderId;
+  
+  const fileMetadata: {
+    name: string;
+    mimeType: string;
+    parents?: string[];
+  } = {
     name: folderName,
     mimeType: 'application/vnd.google-apps.folder',
-    parents: [parentFolderId || rootFolderId],
   };
+
+  if (finalParentId) {
+    fileMetadata.parents = [finalParentId];
+  }
 
   try {
     const response = await drive.files.create({
