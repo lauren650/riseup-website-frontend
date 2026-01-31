@@ -85,18 +85,27 @@ export async function saveInlineImage(
   page?: string,
   section?: string
 ): Promise<SaveResult> {
-  const supabase = await createClient();
-
-  // Verify user is authenticated
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return { success: false, error: "Not authenticated" };
-  }
-
   try {
+    const supabase = await createClient();
+
+    // Verify user is authenticated
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
+    if (authError) {
+      console.error("Auth error:", authError);
+      return { success: false, error: `Authentication error: ${authError.message}` };
+    }
+
+    if (!user) {
+      console.error("No user found - not authenticated");
+      return { success: false, error: "Not authenticated. Please log in to the admin panel." };
+    }
+
+    console.log("Saving image for user:", user.email);
+
     // Upsert the content (insert or update on conflict)
     const { error } = await supabase.from("site_content").upsert(
       {
@@ -114,8 +123,10 @@ export async function saveInlineImage(
 
     if (error) {
       console.error("Error saving inline image:", error);
-      return { success: false, error: error.message };
+      return { success: false, error: `Database error: ${error.message}` };
     }
+
+    console.log("Image saved successfully:", contentKey);
 
     // Revalidate all public pages that might show this content
     revalidatePath("/", "layout");
@@ -123,7 +134,8 @@ export async function saveInlineImage(
     return { success: true };
   } catch (err) {
     console.error("Error in saveInlineImage:", err);
-    return { success: false, error: "Failed to save image" };
+    const errorMessage = err instanceof Error ? err.message : "Unknown error";
+    return { success: false, error: `Failed to save image: ${errorMessage}` };
   }
 }
 

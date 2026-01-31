@@ -8,7 +8,7 @@ import { useEditMode } from '@/contexts/edit-mode-context'
 import { cn } from '@/lib/utils'
 
 const navLinks = [
-  { href: '/flag-football', label: 'Flag Football' },
+  { href: '/flag-football', label: "Girl's Flag Football" },
   { href: '/tackle-football', label: 'Tackle Football' },
   { href: '/academies-clinics', label: 'Academies & Clinics' },
   { href: '/ways-to-give', label: 'Ways to Give' },

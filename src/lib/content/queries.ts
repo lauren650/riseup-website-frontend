@@ -28,7 +28,7 @@ export const DEFAULT_TEXT_CONTENT: Record<TextContentKey, string> = {
   "impact.title": "THE RISEUP EFFECT",
   "impact.stat_1_value": "500+",
   "impact.stat_1_label": "Athletes Trained",
-  "impact.stat_2_value": "12",
+  "impact.stat_2_value": "24",
   "impact.stat_2_label": "Teams Strong",
   "impact.stat_3_value": "95%",
   "impact.stat_3_label": "Return Rate",

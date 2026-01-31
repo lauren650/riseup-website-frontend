@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { CoachBio } from "./coach-bio";
 import { SafetySection } from "./safety-section";
+import { EditableHeroImage } from "./editable-hero-image";
+import { SubNavigation } from "@/components/ui/sub-navigation";
 import { cn } from "@/lib/utils";
 
 export interface AgeGroup {
@@ -28,6 +30,11 @@ export interface Coach {
   imageUrl: string;
 }
 
+export interface SubNavItem {
+  id: string;
+  label: string;
+}
+
 export interface ProgramPageProps {
   title: string;
   subtitle: string;
@@ -40,6 +47,9 @@ export interface ProgramPageProps {
   safetyProtocols?: string[];
   ctaText: string;
   ctaLink: string;
+  pageSlug: string; // For editable content keys
+  subNavItems?: SubNavItem[]; // Optional sub-navigation
+  showRegisterButton?: boolean; // Show register button in sub-nav
 }
 
 export function ProgramPage({
@@ -54,22 +64,86 @@ export function ProgramPage({
   safetyProtocols,
   ctaText,
   ctaLink,
+  pageSlug,
+  subNavItems,
+  showRegisterButton = false,
 }: ProgramPageProps) {
   return (
     <main>
       {/* Hero Section */}
-      <section
-        className="relative flex h-[40vh] min-h-[300px] items-end justify-center bg-cover bg-center"
-        style={{ backgroundImage: `url(${heroImage})` }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-        <div className="relative z-10 pb-12 text-center">
-          <h1 className="text-4xl font-bold text-white md:text-5xl lg:text-6xl">
-            {title}
-          </h1>
-          <p className="mt-4 text-lg text-muted-foreground md:text-xl">
-            {subtitle}
-          </p>
+      <section className="relative h-[60vh] min-h-[500px] overflow-hidden">
+        <EditableHeroImage
+          contentKey={`${pageSlug}.hero`}
+          src={heroImage}
+          alt={`${title} Hero Image`}
+          page={pageSlug}
+          section="hero"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/80 pointer-events-none" />
+        <div className="absolute inset-0 flex items-end justify-center">
+          <div className="relative z-10 pb-12 text-center">
+            <h1 className="text-4xl font-bold text-white md:text-5xl lg:text-6xl">
+              {title}
+            </h1>
+            <p className="mt-4 text-lg text-muted-foreground md:text-xl">
+              {subtitle}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Sub Navigation */}
+      {subNavItems && subNavItems.length > 0 && (
+        <SubNavigation 
+          items={subNavItems} 
+          showRegisterButton={showRegisterButton}
+        />
+      )}
+
+      {/* Schedule Section */}
+      <section className="bg-white/5 py-16 md:py-24">
+        <div className="mx-auto max-w-4xl px-6">
+          <h2 className="mb-12 text-center text-3xl font-bold text-white md:text-4xl">
+            Schedule
+          </h2>
+          <div className="overflow-hidden rounded-xl border border-white/10">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-white/10 bg-white/5">
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-white">
+                    Program
+                  </th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-white">
+                    Time
+                  </th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-white">
+                    Location
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {schedule.map((item, index) => (
+                  <tr
+                    key={index}
+                    className={cn(
+                      "border-b border-white/10 last:border-0",
+                      index % 2 === 1 && "bg-white/5"
+                    )}
+                  >
+                    <td className="px-6 py-4 font-semibold text-white">
+                      {item.day}
+                    </td>
+                    <td className="px-6 py-4 text-muted-foreground">
+                      {item.time}
+                    </td>
+                    <td className="px-6 py-4 text-muted-foreground">
+                      {item.location}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
 
@@ -99,53 +173,6 @@ export function ProgramPage({
                 <p className="mt-3 text-muted-foreground">{group.description}</p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Schedule Section */}
-      <section className="py-16 md:py-24">
-        <div className="mx-auto max-w-4xl px-6">
-          <h2 className="mb-12 text-center text-3xl font-bold text-white md:text-4xl">
-            Schedule
-          </h2>
-          <div className="overflow-hidden rounded-xl border border-white/10">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-white/10 bg-white/5">
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-white">
-                    Day
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-white">
-                    Time
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-white">
-                    Location
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {schedule.map((item, index) => (
-                  <tr
-                    key={index}
-                    className={cn(
-                      "border-b border-white/10 last:border-0",
-                      index % 2 === 1 && "bg-white/5"
-                    )}
-                  >
-                    <td className="px-6 py-4 text-muted-foreground">
-                      {item.day}
-                    </td>
-                    <td className="px-6 py-4 text-muted-foreground">
-                      {item.time}
-                    </td>
-                    <td className="px-6 py-4 text-muted-foreground">
-                      {item.location}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
           </div>
         </div>
       </section>

@@ -235,6 +235,7 @@ export function EditableImage({
         const result = await saveInlineImage(contentKey, publicUrl, alt, page, section);
 
         if (!result.success) {
+          console.error("Save image failed:", result.error);
           setError(result.error || "Failed to save image");
           setIsUploading(false);
           return;

@@ -74,15 +74,17 @@ Plans:
 **Requirements**: GDRIVE-01, GDRIVE-02, GDRIVE-03, GDRIVE-04, GSHEET-01, GSHEET-02, GSHEET-03, GSHEET-04, DISPLAY-02
 **Success Criteria** (what must be TRUE):
   1. `sponsor_uploads` table exists with all required columns
-  2. `sponsorship_packages` table has `includes_website_benefit` boolean flag
+  2. `sponsorship_packages` table has flexible package benefits (checkbox system)
   3. Google Drive client can authenticate via service account and create folders
   4. Google Sheets client can authenticate and append/update rows
   5. Service account permissions validated (can access Drive folder and Spreadsheet)
-**Plans**: TBD
+  6. Validation script passes all tests
+**Plans**: 3 plans
 
 Plans:
-- [ ] 08-01: TBD
-- [ ] 08-02: TBD
+- [ ] 08-01: Database schema & package benefits (migration 006)
+- [ ] 08-02: Google Drive & Sheets integration (googleapis clients)
+- [ ] 08-03: Setup validation & documentation (scripts + guides)
 
 #### Phase 9: Invoice Management UI
 **Goal**: Marketing admins can create, view, filter, and void invoices from admin panel
@@ -191,7 +193,7 @@ Phases execute in numeric order: 8 → 9 → 10 → 11 → 12 → 13
 | 3. Public Website & Sponsor Portal | v1.0 | 3/3 | Complete | 2026-01-18 |
 | 4. Foundation & Schema | v1.1 | 1/1 | Complete | 2026-01-20 |
 | 5. Public Sponsorship Page | v1.1 | 2/2 | Complete | 2026-01-21 |
-| 8. Database & Core Services | v1.2 | 0/TBD | Not started | - |
+| 8. Database & Core Services | v1.2 | 0/3 | Ready to start | - |
 | 9. Invoice Management UI | v1.2 | 0/TBD | Not started | - |
 | 10. Payment Webhook Enhancement | v1.2 | 0/TBD | Not started | - |
 | 11. Upload Form | v1.2 | 0/TBD | Not started | - |

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 const quickLinks = [
-  { href: '/flag-football', label: 'Flag Football' },
+  { href: '/flag-football', label: "Girl's Flag Football" },
   { href: '/tackle-football', label: 'Tackle Football' },
   { href: '/academies-clinics', label: 'Academies & Clinics' },
   { href: '/about', label: 'About Us' },
