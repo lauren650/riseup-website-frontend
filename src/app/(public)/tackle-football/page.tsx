@@ -418,7 +418,7 @@ export default function TackleFootballPage() {
                   section="registration"
                 >
                   <strong className="text-accent">9-10 Division:</strong>{' '}
-                  Registration opens February 9, closed when full. If filled, there will be a waitlist.
+                  Registration opens February 8th, closed when full. If filled, there will be a waitlist.
                 </EditableText>
                 <EditableText
                   contentKey="tackle.registration.status_varsity"
@@ -427,7 +427,7 @@ export default function TackleFootballPage() {
                   section="registration"
                 >
                   <strong className="text-accent">11-12 Division:</strong>{' '}
-                  Registration opens February 9, closed when full. If filled, there will be a waitlist.
+                  Registration opens February 8th, closed when full. If filled, there will be a waitlist.
                 </EditableText>
                 <EditableText
                   contentKey="tackle.registration.status_elite"
@@ -436,7 +436,7 @@ export default function TackleFootballPage() {
                   section="registration"
                 >
                   <strong className="text-accent">13-14 Division:</strong>{' '}
-                  Registration opens February 9, closed when full. If filled, there will be a waitlist.
+                  Registration opens February 8th, closed when full. If filled, there will be a waitlist.
                 </EditableText>
                 
                 <div className="mt-6 border-t border-white/10 pt-6">
