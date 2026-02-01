@@ -45,7 +45,7 @@ html {
 .gb-bubble,
 #gb-bubble {
   bottom: 150px !important;
-  right: 120px !important;
+  right: 50px !important;
 }
 
 /* Also target any Givebutter floating widget container */
@@ -53,5 +53,5 @@ html {
 [class*="givebutter"][class*="float"],
 .givebutter-widget-float {
   bottom: 150px !important;
-  right: 120px !important;
+  right: 50px !important;
 }
