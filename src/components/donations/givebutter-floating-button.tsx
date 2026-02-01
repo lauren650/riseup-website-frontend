@@ -35,12 +35,12 @@ interface GivebutterFloatingButtonProps {
     | "bottom-right";
   /**
    * Vertical offset from edge in pixels
-   * @default 80
+   * @default 150
    */
   verticalOffset?: number;
   /**
    * Horizontal offset from edge in pixels
-   * @default 60
+   * @default 120
    */
   horizontalOffset?: number;
 }
@@ -73,8 +73,8 @@ export function GivebutterFloatingButton({
   label = "Donate",
   backgroundColor = "#b72031", // RiseUp brand accent color
   location = "bottom-right",
-  verticalOffset = 80,
-  horizontalOffset = 60,
+  verticalOffset = 150,
+  horizontalOffset = 120,
 }: GivebutterFloatingButtonProps) {
   const initialized = useRef(false);
 
