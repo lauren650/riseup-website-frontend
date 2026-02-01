@@ -36,3 +36,22 @@ html {
   background: var(--accent);
   color: var(--background);
 }
+
+/* Givebutter floating button position override */
+/* Target the bubble element and force it higher and more to the left */
+.givebutter-bubble,
+#givebutter-bubble,
+[class*="givebutter"][class*="bubble"],
+.gb-bubble,
+#gb-bubble {
+  bottom: 150px !important;
+  right: 120px !important;
+}
+
+/* Also target any Givebutter floating widget container */
+.givebutter-float,
+[class*="givebutter"][class*="float"],
+.givebutter-widget-float {
+  bottom: 150px !important;
+  right: 120px !important;
+}
