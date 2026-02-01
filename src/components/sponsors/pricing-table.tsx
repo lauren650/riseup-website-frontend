@@ -28,6 +28,21 @@ export function PricingTable({ packages }: PricingTableProps) {
     }
   };
 
+  const formatDate = (dateString: string | null) => {
+    if (!dateString) return "Year-Round";
+    
+    // Parse date without timezone conversion by using the date parts directly
+    const [year, month, day] = dateString.split('T')[0].split('-');
+    const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+    
+    return date.toLocaleDateString("en-US", { 
+      month: "long", 
+      day: "numeric", 
+      year: "numeric",
+      timeZone: 'UTC'
+    });
+  };
+
   if (sortedPackages.length === 0) {
     return (
       <div className="text-center text-muted-foreground">
@@ -93,13 +108,7 @@ export function PricingTable({ packages }: PricingTableProps) {
                 Available Until
               </p>
               <p className="text-lg font-bold text-white">
-                {pkg.closing_date
-                  ? new Date(pkg.closing_date).toLocaleDateString("en-US", { 
-                      month: "long", 
-                      day: "numeric", 
-                      year: "numeric" 
-                    })
-                  : "Year-Round"}
+                {formatDate(pkg.closing_date)}
               </p>
             </div>
             <button
