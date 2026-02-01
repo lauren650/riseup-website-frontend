@@ -2,6 +2,7 @@
 
 import { EditModeProvider } from "@/contexts/edit-mode-context";
 import { EditModeToggle } from "@/components/admin/edit-mode-toggle";
+import { GivebutterFloatingButton } from "@/components/donations/givebutter-floating-button";
 import type { ReactNode } from "react";
 
 interface PublicLayoutClientProps {
@@ -17,6 +18,10 @@ export function PublicLayoutClient({ children, isAdmin }: PublicLayoutClientProp
   return (
     <EditModeProvider isAdmin={isAdmin}>
       {children}
+      
+      {/* Givebutter Floating Donate Button - always visible */}
+      <GivebutterFloatingButton />
+      
       {/* Edit Mode Toggle - only for admin users */}
       {isAdmin && (
         <div className="fixed bottom-6 right-6 z-50">
