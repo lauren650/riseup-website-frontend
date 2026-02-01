@@ -44,14 +44,14 @@ html {
 [class*="givebutter"][class*="bubble"],
 .gb-bubble,
 #gb-bubble {
-  bottom: 150px !important;
-  right: 50px !important;
+  bottom: 75px !important;
+  right: 25px !important;
 }
 
 /* Also target any Givebutter floating widget container */
 .givebutter-float,
 [class*="givebutter"][class*="float"],
 .givebutter-widget-float {
-  bottom: 150px !important;
-  right: 50px !important;
+  bottom: 75px !important;
+  right: 25px !important;
 }
