@@ -1,3 +1,5 @@
+'use client';
+
 import { Tables } from "@/lib/supabase/types";
 
 type SponsorshipPackage = Tables<"sponsorship_packages">;
@@ -19,6 +21,13 @@ export function PricingTable({ packages }: PricingTableProps) {
     (a, b) => a.cost - b.cost
   );
 
+  const handleContactClick = () => {
+    const formSection = document.getElementById('interest-form');
+    if (formSection) {
+      formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   if (sortedPackages.length === 0) {
     return (
       <div className="text-center text-muted-foreground">
@@ -33,32 +42,25 @@ export function PricingTable({ packages }: PricingTableProps) {
       {sortedPackages.map((pkg) => (
         <div
           key={pkg.id}
-          className="flex flex-col gap-6 rounded-xl border border-white/10 bg-background p-6 md:flex-row md:items-start md:p-8"
+          className="grid grid-cols-1 gap-6 rounded-xl border border-white/10 bg-background p-6 md:grid-cols-3 md:gap-8 md:p-8"
         >
-          {/* Left side: Package Name & Description */}
-          <div className="md:w-1/3">
-            {/* Package Name */}
-            <h3 className="text-2xl font-bold text-white">{pkg.name}</h3>
-
-            {/* Description */}
+          {/* Column 1: Package Name & Description */}
+          <div>
+            <h3 className="text-2xl font-bold text-white mb-3">{pkg.name}</h3>
             {pkg.description && (
-              <p className="mt-3 text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground">
                 {pkg.description}
               </p>
             )}
-
-            {/* Availability note */}
-            <p className="mt-4 text-sm text-muted-foreground">
-              {pkg.closing_date
-                ? `Available until ${new Date(pkg.closing_date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}`
-                : "Year-round"}
-            </p>
           </div>
 
-          {/* Right side: Benefits list */}
-          {pkg.benefits && pkg.benefits.length > 0 && (
-            <div className="md:w-2/3">
-              <ul className="grid gap-3 sm:grid-cols-2">
+          {/* Column 2: What's Included (Benefits) */}
+          <div>
+            <h4 className="text-sm font-semibold text-white mb-4 uppercase tracking-wide">
+              What's Included
+            </h4>
+            {pkg.benefits && pkg.benefits.length > 0 && (
+              <ul className="space-y-2">
                 {pkg.benefits.map((benefit, index) => (
                   <li
                     key={index}
@@ -81,8 +83,32 @@ export function PricingTable({ packages }: PricingTableProps) {
                   </li>
                 ))}
               </ul>
+            )}
+          </div>
+
+          {/* Column 3: Closing Date & Contact Button */}
+          <div className="flex flex-col items-start md:items-center justify-center gap-4">
+            <div className="text-center">
+              <p className="text-xs text-muted-foreground uppercase tracking-wide mb-2">
+                Available Until
+              </p>
+              <p className="text-lg font-bold text-white">
+                {pkg.closing_date
+                  ? new Date(pkg.closing_date).toLocaleDateString("en-US", { 
+                      month: "long", 
+                      day: "numeric", 
+                      year: "numeric" 
+                    })
+                  : "Year-Round"}
+              </p>
             </div>
-          )}
+            <button
+              onClick={handleContactClick}
+              className="w-full rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+            >
+              Contact for More Info
+            </button>
+          </div>
         </div>
       ))}
     </div>
