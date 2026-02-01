@@ -14,7 +14,7 @@ const navLinks = [
   { href: '/academies-clinics', label: 'Academies & Clinics' },
   { href: '/ways-to-give', label: 'Ways to Give' },
   { href: '/become-a-partner', label: 'Partners' },
-  { href: '/about', label: 'About' },
+  // { href: '/about', label: 'About' }, // Temporarily hidden
 ]
 
 export function MobileNav({ isOpen, onClose }: MobileNavProps) {
