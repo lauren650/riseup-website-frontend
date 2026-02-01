@@ -16,24 +16,28 @@ const subNavItems = [
 const parentTestimonials = [
   {
     quote:
-      'The Football Academy has been incredible for my son\'s development. Coach Metzger really knows how to push the athletes while keeping it fun.',
-    parentName: 'Jennifer Williams',
-    playerAge: '11-year-old',
-    location: 'Moore County, NC',
+      'My son has grown as a person and as an athlete and the positive, dedicated and passionate leadership of these coaches was a game changer! Top notch experience.',
+    parentName: 'RiseUp Parent',
   },
   {
     quote:
-      'My daughter has grown so much in her flag football skills. The focused training has made her a team leader.',
-    parentName: 'David Thompson',
-    playerAge: '13-year-old',
-    location: 'Southern Pines, NC',
+      'We LOVED Rise Up and cannot wait for next year. The coaches were excellent and kind. They were very good with the children.',
+    parentName: 'RiseUp Parent',
   },
   {
     quote:
-      'The monthly registration option is perfect for busy families. We can participate when it works for us.',
-    parentName: 'Amanda Garcia',
-    playerAge: '10-year-old',
-    location: 'Moore County, NC',
+      'We have participated with all Rise up activities since the start and will continue to with all of our children. It\'s an amazing organization.',
+    parentName: 'RiseUp Parent',
+  },
+  {
+    quote:
+      'This is the best run, most communicative, and most enriching youth sports program we have been a part of.',
+    parentName: 'RiseUp Parent',
+  },
+  {
+    quote:
+      'Sports are about team work, resilience, respect, giving back, and being the best version of yourself on and off the field. RiseUp is truly an example to follow.',
+    parentName: 'RiseUp Parent',
   },
 ];
 

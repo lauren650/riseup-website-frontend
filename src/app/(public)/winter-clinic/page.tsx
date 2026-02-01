@@ -15,24 +15,28 @@ const subNavItems = [
 const parentTestimonials = [
   {
     quote:
-      'The winter clinic was such a great way to keep our kids active and engaged during the off-season. My son loved it!',
-    parentName: 'Rachel Johnson',
-    playerAge: '8-year-old',
-    location: 'Moore County, NC',
+      'We love RiseUp. This league is something special, we hope as it grows, it continues to feel as safe and fun as it has been.',
+    parentName: 'RiseUp Parent',
   },
   {
     quote:
-      'What a fantastic event! The coaches were amazing and my daughter learned so much about speed and agility.',
-    parentName: 'Mark Peterson',
-    playerAge: '11-year-old',
-    location: 'Southern Pines, NC',
+      'This is the best run, most communicative, and most enriching youth sports program we have been a part of.',
+    parentName: 'RiseUp Parent',
   },
   {
     quote:
-      'The clinic is perfect for trying out multiple sports. My kids had a blast and came home exhausted in the best way!',
-    parentName: 'Lisa Martinez',
-    playerAge: '9-year-old twins',
-    location: 'Moore County, NC',
+      'We are so impressed with this league, and incredibly thankful for the time and effort you\'ve all put into it.',
+    parentName: 'RiseUp Parent',
+  },
+  {
+    quote:
+      'Our coaches were amazing. My son immediately felt connected and comfortable with them.',
+    parentName: 'RiseUp Parent',
+  },
+  {
+    quote:
+      'We thought it was amazing and are so thankful for this community and league.',
+    parentName: 'RiseUp Parent',
   },
 ];
 

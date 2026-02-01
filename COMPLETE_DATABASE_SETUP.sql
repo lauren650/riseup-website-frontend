@@ -405,53 +405,125 @@ INSERT INTO site_content (content_key, content_type, content, page, section) VAL
 ON CONFLICT (content_key) DO NOTHING;
 
 -- ============================================================================
--- SEED DATA: SPONSORSHIP PACKAGES (Migration 005 + 006)
+-- SEED DATA: SPONSORSHIP PACKAGES (Migration 005 + 006 + 008)
 -- ============================================================================
+-- Updated 2026-02-01: New sponsorship packages for 2026 season
+-- Total internal cost: $109,550
+-- Note: All sponsors receive social media shout-outs upon signup
 
 INSERT INTO sponsorship_packages (name, cost, closing_date, total_slots, available_slots, description, benefits) VALUES
-  ('T-shirt (tackle & flag), website, banner, golf tournament sign', 
-   350000, 
-   '2026-07-31', 
-   18, 
-   18,
-   'Premium visibility across all programs', 
-   ARRAY[
-     'Logo on tackle & flag t-shirts',
-     'Website logo placement',
-     'Banner at all games',
-     'Golf tournament sign'
-   ]),
-  ('Website only logo', 
-   60000, 
-   NULL, 
-   15, 
-   15,
-   'Digital presence for your brand', 
-   ARRAY[
-     'Logo on website sponsors section',
-     'Link to your website'
-   ]),
-  ('Game day package', 
-   75000, 
-   '2026-07-31', 
-   13, 
-   13,
-   'Game day brand exposure', 
-   ARRAY[
-     'Banner display at games',
-     'PA announcements',
-     'Social media mentions'
-   ]),
-  ('Rise Up Academy t-shirt', 
-   50000, 
-   '2026-02-18', 
-   18, 
-   18,
-   'Support youth development', 
-   ARRAY[
-     'Logo on Rise Up Academy t-shirts',
-     'Certificate of appreciation'
-   ])
+  (
+    'RiseUp Champion Sponsor',
+    500000, -- $5,000
+    '2026-07-31',
+    4,
+    4,
+    'Elite partnership for maximum visibility and engagement',
+    ARRAY[
+      'Logo on tackle & flag football t-shirts',
+      'Prominent website logo placement',
+      'Banner display at all games',
+      'Sign at golf tournament (sponsor hole)',
+      '4-person team for 2026 golf tournament',
+      'Exclusive sponsor for longest drive hole contest (4 contests available)'
+    ]
+  ),
+  (
+    'Jamboree Presenting Sponsor',
+    500000, -- $5,000
+    '2026-07-31',
+    1,
+    1,
+    'Exclusive presenting sponsor for season jamboree',
+    ARRAY[
+      'Logo on tackle & flag football t-shirts',
+      'Prominent website logo placement',
+      'Banner display at all games',
+      'T-sign at golf tournament',
+      'Exclusive "Jamboree Presenting Sponsor" title and recognition'
+    ]
+  ),
+  (
+    'Girls Flag Championship Title Sponsor',
+    500000, -- $5,000
+    '2026-07-31',
+    1,
+    1,
+    'Exclusive title sponsor for girls flag football championship',
+    ARRAY[
+      'Logo on tackle & flag football t-shirts',
+      'Prominent website logo placement',
+      'Banner display at all games',
+      'T-sign at golf tournament',
+      'Exclusive naming rights for Girls Flag Championship',
+      'Your company name featured on championship shirts'
+    ]
+  ),
+  (
+    'Blue Level Sponsor',
+    350000, -- $3,500
+    '2026-07-31',
+    12,
+    12,
+    'Premium visibility across programs and events',
+    ARRAY[
+      'Logo on tackle & flag football t-shirts',
+      'Website logo placement',
+      'Banner display at all games',
+      'Sign at golf tournament'
+    ]
+  ),
+  (
+    'Red Level Sponsor',
+    100000, -- $1,000
+    '2026-07-31',
+    8,
+    8,
+    'Core partnership with digital and apparel presence',
+    ARRAY[
+      'Logo on tackle & flag football t-shirts',
+      'Website logo placement'
+    ]
+  ),
+  (
+    'Digital Supporter Sponsor',
+    60000, -- $600
+    NULL, -- Year-round, can prorate
+    18,
+    18,
+    'Year-round digital presence for your brand',
+    ARRAY[
+      'Logo on website sponsors section',
+      'Link to your website or social media',
+      'Year-round visibility (can be prorated)'
+    ]
+  ),
+  (
+    'Game Day Sponsor',
+    75000, -- $750
+    '2026-07-31',
+    13,
+    13,
+    'Game day brand exposure and engagement',
+    ARRAY[
+      'Banner display at games',
+      'PA announcements during games',
+      'Social media recognition on game days'
+    ]
+  ),
+  (
+    'Academy Sponsor',
+    50000, -- $500
+    '2026-02-18',
+    18,
+    18,
+    'Support off-season youth development',
+    ARRAY[
+      'Logo on Rise Up Academy t-shirts',
+      'Recognition at academy sessions',
+      'Certificate of appreciation'
+    ]
+  )
 ON CONFLICT DO NOTHING;
 
 -- ============================================================================
@@ -498,7 +570,7 @@ BEGIN
     
     RAISE NOTICE '============================================';
     RAISE NOTICE 'All tables created successfully!';
-    RAISE NOTICE '4 sponsorship packages with descriptions and benefits';
+    RAISE NOTICE '8 sponsorship packages with descriptions and benefits (2026 season)';
     RAISE NOTICE '12 site content entries (hero, programs, donation)';
     RAISE NOTICE '============================================';
 END $$;

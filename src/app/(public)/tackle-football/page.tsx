@@ -19,24 +19,88 @@ const subNavItems = [
 const parentTestimonials = [
   {
     quote:
-      'RiseUp has been transformative for our son. The coaches truly care about developing character alongside athletic skills.',
-    parentName: 'Sarah Johnson',
-    playerAge: '10-year-old',
-    location: 'Moore County, NC',
+      'Overall experience was great, and we highly recommended to all of our friends and family. We are thankful that we were able to participate and we look forward to doing it again next year.',
+    parentName: 'RiseUp Parent',
   },
   {
     quote:
-      'The safety protocols and professional equipment give me peace of mind. My daughter loves being part of this community.',
-    parentName: 'Michael Chen',
-    playerAge: '12-year-old',
-    location: 'Southern Pines, NC',
+      'We love RiseUp. This league is something special, we hope as it grows, it continues to feel as safe and fun as it has been. We recommend it to everyone we know in the area!',
+    parentName: 'RiseUp Parent',
   },
   {
     quote:
-      'From day one, RiseUp made us feel like family. The organization and communication are outstanding.',
-    parentName: 'Jessica Martinez',
-    playerAge: '9-year-old',
-    location: 'Moore County, NC',
+      'We could not ask for a better tackle football program. We are SUPER thankful and blessed that our boys get to be a part of this organization and we are big supporters.',
+    parentName: 'RiseUp Parent',
+  },
+  {
+    quote:
+      'We absolutely love how the teams pray together, how there is christian music playing at games, and how having faith is incredibly important for this league. Thank you for an incredible season!',
+    parentName: 'RiseUp Parent',
+  },
+  {
+    quote:
+      'We LOVED Rise Up and cannot wait for next year. The coaches were excellent and kind. They were very good with the children. We recommend this league to everyone now and will be involved as long as possible! Thank you for running with your vision- we are grateful!',
+    parentName: 'RiseUp Parent',
+  },
+  {
+    quote:
+      'Was nervous about my boy playing. After day one that feeling was over. Our coaches, the families, all of it was absolutely amazing! Wish it was all year! See you next season!',
+    parentName: 'RiseUp Parent',
+  },
+  {
+    quote:
+      'We are so impressed with this league, and incredibly thankful for the time and effort you\'ve all put into it. Fully believe you are changing Moore County youth through football. Thank you for your dedication! Praying over the future of this league!',
+    parentName: 'RiseUp Parent',
+  },
+  {
+    quote:
+      'This organization shows kids what a team should be: there for each other, there for the community, to have a love of and respect for the game of football, and to respect the men who selflessly mentor these young men to help them grow.',
+    parentName: 'RiseUp Parent',
+  },
+  {
+    quote:
+      'We are super thankful for our experience with Rise Up. My son has grown as a person and as an athlete and the positive, dedicated and passionate leadership of these coaches was a game changer! Top notch experience.',
+    parentName: 'RiseUp Parent',
+  },
+  {
+    quote:
+      'This is the best run, most communicative, and most enriching youth sports program we have been a part of. This includes baseball, softball, hockey, gymnastics, martial arts, and figure skating. Thanks to all involved for building RiseUp and we are proud to be a part of it.',
+    parentName: 'RiseUp Parent',
+  },
+  {
+    quote:
+      'I absolutely loved seeing coaches and players praying together. There were so many wonderful things this season but that was my favorite part!',
+    parentName: 'RiseUp Parent',
+  },
+  {
+    quote:
+      'This was our first year with RiseUp and it certainly won\'t be our last. I was curious to see what my son\'s reaction was going to be to the discipline and dedication that football requires, and all I can say is that he excelled and benefitted tremendously from both the physical and mental aspects of the season.',
+    parentName: 'RiseUp Parent',
+  },
+  {
+    quote:
+      'We have participated with all Rise up activities since the start and will continue to with all of our children. It\'s an amazing organization and we will continue to recommend to our friends and family. We are so thankful for the experiences we\'ve had with Rise-up!',
+    parentName: 'RiseUp Parent',
+  },
+  {
+    quote:
+      'Our family is grateful for the Rise Up coaches, staff and community. Looking forward to next season. This was a short but fantastic experience! Great job to all who are a part of this organization.',
+    parentName: 'RiseUp Parent',
+  },
+  {
+    quote:
+      'Sports are about team work, resilience, respect, giving back, and being the best version of yourself on and off the field. RiseUp is truly an example to follow. KEEP RISING UP, GREAT LEAGUE!',
+    parentName: 'RiseUp Parent',
+  },
+  {
+    quote:
+      'Our coaches were amazing. My son immediately felt connected and comfortable with them. Their actions at practice and on the game field were what I want my son to aspire to.',
+    parentName: 'RiseUp Parent',
+  },
+  {
+    quote:
+      'We thought it was amazing and are so thankful for this community and league.',
+    parentName: 'RiseUp Parent',
   },
 ];
 

@@ -18,24 +18,33 @@ const subNavItems = [
 const parentTestimonials = [
   {
     quote:
-      'My daughter loves being part of the RiseUp Girls Flag Football team. The coaches are so supportive and focused on building confidence!',
-    parentName: 'Jennifer Williams',
-    playerAge: '11-year-old',
-    location: 'Moore County, NC',
+      'We love RiseUp. This league is something special, we hope as it grows, it continues to feel as safe and fun as it has been. We recommend it to everyone we know in the area!',
+    parentName: 'RiseUp Parent',
   },
   {
     quote:
-      'Flag football has been perfect for teaching teamwork and leadership. She looks forward to every practice!',
-    parentName: 'David Patterson',
-    playerAge: '13-year-old',
-    location: 'Whispering Pines, NC',
+      'Overall experience was great, and we highly recommended to all of our friends and family. We are thankful that we were able to participate and we look forward to doing it again next year.',
+    parentName: 'RiseUp Parent',
   },
   {
     quote:
-      'The NFL FLAG program is top-notch. My daughter has grown so much in confidence and athletic ability.',
-    parentName: 'Maria Rodriguez',
-    playerAge: '9-year-old',
-    location: 'Southern Pines, NC',
+      'This is the best run, most communicative, and most enriching youth sports program we have been a part of. This includes baseball, softball, hockey, gymnastics, martial arts, and figure skating.',
+    parentName: 'RiseUp Parent',
+  },
+  {
+    quote:
+      'We are so impressed with this league, and incredibly thankful for the time and effort you\'ve all put into it. Fully believe you are changing Moore County youth through football.',
+    parentName: 'RiseUp Parent',
+  },
+  {
+    quote:
+      'We thought it was amazing and are so thankful for this community and league.',
+    parentName: 'RiseUp Parent',
+  },
+  {
+    quote:
+      'We have participated with all Rise up activities since the start and will continue to with all of our children. It\'s an amazing organization and we will continue to recommend to our friends and family.',
+    parentName: 'RiseUp Parent',
   },
 ];
 
