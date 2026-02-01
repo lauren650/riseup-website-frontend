@@ -1,7 +1,7 @@
 "use client";
 
 import Script from "next/script";
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
 interface GivebutterFloatingButtonProps {
   /**
@@ -12,10 +12,6 @@ interface GivebutterFloatingButtonProps {
    * Your campaign code (or set NEXT_PUBLIC_GIVEBUTTER_CAMPAIGN_ID env var)
    */
   campaignId?: string;
-  /**
-   * Widget ID for the newer Widgets system (optional - if using Elements bubble instead)
-   */
-  widgetId?: string;
   /**
    * Button label text
    * @default "Donate"
@@ -51,67 +47,76 @@ interface GivebutterFloatingButtonProps {
 
 declare global {
   interface Window {
-    Givebutter?: (action: string, options: Record<string, unknown>) => void;
+    Givebutter: ((action: string, options: Record<string, unknown>) => void) & {
+      q?: unknown[];
+      l?: number;
+    };
   }
 }
 
 /**
  * Floating Givebutter donation button that appears in the corner of the screen.
- * 
- * This component uses Givebutter's Elements library to render a floating "bubble" 
+ *
+ * This component uses Givebutter's Elements library to render a floating "bubble"
  * donate button. When clicked, it opens a modal with the donation form.
- * 
+ *
  * Usage:
  * 1. Set your NEXT_PUBLIC_GIVEBUTTER_ACCOUNT and NEXT_PUBLIC_GIVEBUTTER_CAMPAIGN_ID
  *    environment variables, OR pass them as props
  * 2. Add this component to your layout
- * 
+ *
  * @see https://docs.givebutter.com/docs/elements-bubble
  */
 export function GivebutterFloatingButton({
   accountId,
   campaignId,
-  widgetId,
   label = "Donate",
   backgroundColor = "#b72031", // RiseUp brand accent color
   location = "bottom-right",
   verticalOffset = 25,
   horizontalOffset = 25,
 }: GivebutterFloatingButtonProps) {
-  const [scriptLoaded, setScriptLoaded] = useState(false);
+  const initialized = useRef(false);
 
   const resolvedAccountId =
     accountId || process.env.NEXT_PUBLIC_GIVEBUTTER_ACCOUNT;
   const resolvedCampaignId =
     campaignId || process.env.NEXT_PUBLIC_GIVEBUTTER_CAMPAIGN_ID;
-  const resolvedWidgetId =
-    widgetId || process.env.NEXT_PUBLIC_GIVEBUTTER_FLOATING_WIDGET_ID;
 
-  // Initialize Givebutter bubble when script loads
+  // Initialize Givebutter before script loads (required pattern)
   useEffect(() => {
-    if (scriptLoaded && window.Givebutter && resolvedAccountId) {
-      window.Givebutter("setOptions", {
-        accountId: resolvedAccountId,
-        campaign: resolvedCampaignId,
-        bubble: {
-          visible: true,
-          label: label,
-          hideLabel: false,
-          backgroundColor: backgroundColor,
-          location: location,
-          verticalOffset: verticalOffset,
-          horizontalOffset: horizontalOffset,
-          buttonTransformShow: "scale(1)",
-          buttonTransformHide: "scale(0)",
-          modal: {
-            fullscreen: false,
-            position: "right",
-          },
+    if (initialized.current || !resolvedAccountId) return;
+    initialized.current = true;
+
+    // Set up the Givebutter queue function before script loads
+    window.Givebutter =
+      window.Givebutter ||
+      function (...args: unknown[]) {
+        (window.Givebutter.q = window.Givebutter.q || []).push(args);
+      };
+    window.Givebutter.l = +new Date();
+
+    // Configure the bubble
+    window.Givebutter("setOptions", {
+      accountId: resolvedAccountId,
+      campaign: resolvedCampaignId,
+      bubble: {
+        visible: true,
+        label: label,
+        hideLabel: false,
+        backgroundColor: backgroundColor,
+        location: location,
+        verticalOffset: verticalOffset,
+        horizontalOffset: horizontalOffset,
+        buttonTransformShow: "scale(1)",
+        buttonTransformHide: "scale(0)",
+        modal: {
+          fullscreen: false,
+          position: "right",
         },
-      });
-    }
+      },
+    });
   }, [
-    scriptLoaded,
     resolvedAccountId,
     resolvedCampaignId,
     label,
@@ -131,25 +136,11 @@ export function GivebutterFloatingButton({
     return null;
   }
 
-  // If using newer Widgets system with a floating widget ID
-  if (resolvedWidgetId) {
-    return (
-      <Script
-        src={`https://widgets.givebutter.com/latest.umd.cjs?acct=${resolvedAccountId}`}
-        strategy="afterInteractive"
-        onLoad={() => {
-          // Widget system handles floating automatically if configured in dashboard
-        }}
-      />
-    );
-  }
-
-  // Use Elements library with bubble configuration
+  // Load the Givebutter Elements script
   return (
     <Script
-      src={`https://givebutter.com/js/widget.js`}
+      src="https://js.givebutter.com/elements/latest.js"
       strategy="afterInteractive"
-      onLoad={() => setScriptLoaded(true)}
     />
   );
 }
