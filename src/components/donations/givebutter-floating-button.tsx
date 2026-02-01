@@ -1,7 +1,6 @@
 "use client";
 
 import Script from "next/script";
-import { useEffect, useRef } from "react";
 
 interface GivebutterFloatingButtonProps {
   /**
@@ -45,15 +44,6 @@ interface GivebutterFloatingButtonProps {
   horizontalOffset?: number;
 }
 
-declare global {
-  interface Window {
-    Givebutter: ((action: string, options: Record<string, unknown>) => void) & {
-      q?: unknown[];
-      l?: number;
-    };
-  }
-}
-
 /**
  * Floating Givebutter donation button that appears in the corner of the screen.
  *
@@ -76,55 +66,10 @@ export function GivebutterFloatingButton({
   verticalOffset = 150,
   horizontalOffset = 120,
 }: GivebutterFloatingButtonProps) {
-  const initialized = useRef(false);
-
   const resolvedAccountId =
     accountId || process.env.NEXT_PUBLIC_GIVEBUTTER_ACCOUNT;
   const resolvedCampaignId =
     campaignId || process.env.NEXT_PUBLIC_GIVEBUTTER_CAMPAIGN_ID;
-
-  // Initialize Givebutter before script loads (required pattern)
-  useEffect(() => {
-    if (initialized.current || !resolvedAccountId) return;
-    initialized.current = true;
-
-    // Set up the Givebutter queue function before script loads
-    window.Givebutter =
-      window.Givebutter ||
-      function (...args: unknown[]) {
-        (window.Givebutter.q = window.Givebutter.q || []).push(args);
-      };
-    window.Givebutter.l = +new Date();
-
-    // Configure the bubble
-    window.Givebutter("setOptions", {
-      accountId: resolvedAccountId,
-      campaign: resolvedCampaignId,
-      bubble: {
-        visible: true,
-        label: label,
-        hideLabel: false,
-        backgroundColor: backgroundColor,
-        location: location,
-        verticalOffset: verticalOffset,
-        horizontalOffset: horizontalOffset,
-        buttonTransformShow: "scale(1)",
-        buttonTransformHide: "scale(0)",
-        modal: {
-          fullscreen: false,
-          position: "right",
-        },
-      },
-    });
-  }, [
-    resolvedAccountId,
-    resolvedCampaignId,
-    label,
-    backgroundColor,
-    location,
-    verticalOffset,
-    horizontalOffset,
-  ]);
 
   // Don't render if not configured
   if (!resolvedAccountId) {
@@ -136,11 +81,44 @@ export function GivebutterFloatingButton({
     return null;
   }
 
-  // Load the Givebutter Elements script
+  // Build the initialization script that MUST run before the library loads
+  const initScript = `
+    window.Givebutter=window.Givebutter||function(){(Givebutter.q=Givebutter.q||[]).push(arguments)};Givebutter.l=+new Date;
+    window.Givebutter('setOptions', {
+      accountId: "${resolvedAccountId}",
+      campaign: "${resolvedCampaignId || ""}",
+      bubble: {
+        visible: true,
+        label: "${label}",
+        hideLabel: false,
+        backgroundColor: "${backgroundColor}",
+        location: "${location}",
+        verticalOffset: ${verticalOffset},
+        horizontalOffset: ${horizontalOffset},
+        buttonTransformShow: "scale(1)",
+        buttonTransformHide: "scale(0)",
+        modal: {
+          fullscreen: false,
+          position: "right"
+        }
+      }
+    });
+  `;
+
   return (
-    <Script
-      src="https://js.givebutter.com/elements/latest.js"
-      strategy="afterInteractive"
-    />
+    <>
+      {/* Initialization script - MUST run before the library */}
+      <Script
+        id="givebutter-init"
+        strategy="beforeInteractive"
+        dangerouslySetInnerHTML={{ __html: initScript }}
+      />
+      {/* Load the Givebutter Elements library */}
+      <Script
+        id="givebutter-lib"
+        src="https://js.givebutter.com/elements/latest.js"
+        strategy="afterInteractive"
+      />
+    </>
   );
 }
