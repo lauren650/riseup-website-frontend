@@ -106,24 +106,17 @@ const parentTestimonials = [
 
 const keyDates = [
   {
-    date: 'May 1, 2026',
-    title: 'Last Day for Full Refund',
+    date: 'June 1, 2026',
+    title: 'Registration Closes & Full Refund Deadline',
     description:
-      'Full refund available (minus processing fees) if you need to withdraw before this date.',
-    important: false,
-  },
-  {
-    date: 'July 1, 2026',
-    title: 'Sports Physical Deadline',
-    description:
-      'All physical exams must be uploaded by this date. Registration closes for 9-10 and 11-12 divisions.',
+      'Registration closes. Sports physicals and measurements due. Last day for full refund requests (minus processing fees).',
     important: true,
   },
   {
-    date: 'July 15, 2026',
+    date: 'July 1, 2026',
     title: 'Last Day for Partial Refund',
     description:
-      'Partial refund available (minus processing and equipment fees) until this date.',
+      'Partial refund available (minus processing and equipment fees) until this date. No refunds after July 1.',
     important: false,
   },
   {
@@ -465,7 +458,7 @@ export default function TackleFootballPage() {
                     section="registration"
                   >
                     All players must have a current sports physical on file by{' '}
-                    <strong className="text-white">July 1, 2026</strong>.
+                    <strong className="text-white">June 1, 2026</strong>.
                   </EditableText>
                   <a
                     href="https://www.nchsaa.org/wp-content/uploads/2023/09/2025-2026_PPE-English.pdf"
@@ -512,7 +505,7 @@ export default function TackleFootballPage() {
                 page="tackle-football"
                 section="registration"
               >
-                Visit our RiseUp portal to complete your registration. You need a PDF or JPEG ready to upload during registration. You can get your player profile ready to go prior to registration day to simplify the process.
+                Visit our End Zone portal to complete your registration. You need a PDF or JPEG version of your player's birth certificate ready to upload during registration. You can get your player profile ready to go prior to registration day to simplify the process.
               </EditableText>
               <EditableText
                 contentKey="tackle.registration.how_to_p2"
@@ -520,9 +513,7 @@ export default function TackleFootballPage() {
                 page="tackle-football"
                 section="registration"
               >
-                You have until July 1, 2026 to upload a current sports physical and measurements. To edit
-                your registration after submitting, visit the registration
-                portal.
+                You have until June 1, 2026 to upload a current sports physical and measurements. To edit your registration after submitting, visit the End Zone portal.
               </EditableText>
             </PhotoContentBlockEditable>
 
@@ -577,39 +568,107 @@ export default function TackleFootballPage() {
                   page="tackle-football"
                   section="registration"
                 >
-                  Refund Policy
+                  Refund Policy & Deadlines
                 </EditableText>
               </h3>
-              <div className="space-y-3 text-muted-foreground">
-                <EditableText
-                  contentKey="tackle.registration.refund_before_may"
-                  as="p"
-                  page="tackle-football"
-                  section="registration"
-                >
-                  <strong className="text-white">Before May 1, 2026:</strong>{' '}
-                  Full refund (minus processing fees)
-                </EditableText>
-                <EditableText
-                  contentKey="tackle.registration.refund_may_july"
-                  as="p"
-                  page="tackle-football"
-                  section="registration"
-                >
-                  <strong className="text-white">
-                    May 1 - July 15, 2026:
-                  </strong>{' '}
-                  Partial refund (minus processing fees and equipment fees)
-                </EditableText>
-                <EditableText
-                  contentKey="tackle.registration.refund_after_july"
-                  as="p"
-                  page="tackle-football"
-                  section="registration"
-                >
-                  <strong className="text-white">After July 15, 2026:</strong>{' '}
-                  No refunds available
-                </EditableText>
+              <div className="space-y-4 text-muted-foreground">
+                <div>
+                  <EditableText
+                    contentKey="tackle.registration.refund_full_title"
+                    as="p"
+                    className="font-semibold text-white"
+                    page="tackle-football"
+                    section="registration"
+                  >
+                    Full Refunds:
+                  </EditableText>
+                  <EditableText
+                    contentKey="tackle.registration.refund_full"
+                    as="p"
+                    page="tackle-football"
+                    section="registration"
+                  >
+                    Requests submitted before June 1, 2026 will be considered, minus processing fees.
+                  </EditableText>
+                </div>
+                <div>
+                  <EditableText
+                    contentKey="tackle.registration.refund_partial_title"
+                    as="p"
+                    className="font-semibold text-white"
+                    page="tackle-football"
+                    section="registration"
+                  >
+                    Partial Refunds:
+                  </EditableText>
+                  <EditableText
+                    contentKey="tackle.registration.refund_partial"
+                    as="p"
+                    page="tackle-football"
+                    section="registration"
+                  >
+                    Requests submitted before July 1, 2026 will be considered, minus processing and equipment fees.
+                  </EditableText>
+                </div>
+                <div>
+                  <EditableText
+                    contentKey="tackle.registration.refund_none_title"
+                    as="p"
+                    className="font-semibold text-white"
+                    page="tackle-football"
+                    section="registration"
+                  >
+                    No Refunds After July 1, 2026:
+                  </EditableText>
+                  <EditableText
+                    contentKey="tackle.registration.refund_none"
+                    as="p"
+                    page="tackle-football"
+                    section="registration"
+                  >
+                    Program costs (including equipment, uniforms, facilities, and officials) are incurred based on registration and cannot be refunded after this date.
+                  </EditableText>
+                </div>
+                <div className="border-t border-white/10 pt-4">
+                  <EditableText
+                    contentKey="tackle.registration.refund_how"
+                    as="p"
+                    page="tackle-football"
+                    section="registration"
+                  >
+                    <strong className="text-white">How to Request a Refund:</strong>{' '}
+                    Email{' '}
+                    <a
+                      href="mailto:admin@riseupmoore.com"
+                      className="text-accent underline hover:text-accent/80"
+                    >
+                      admin@riseupmoore.com
+                    </a>{' '}
+                    for review.
+                  </EditableText>
+                </div>
+                <div className="rounded-lg border border-accent/30 bg-accent/5 p-4">
+                  <EditableText
+                    contentKey="tackle.registration.key_dates_title"
+                    as="p"
+                    className="font-semibold text-accent mb-2"
+                    page="tackle-football"
+                    section="registration"
+                  >
+                    Key Season Dates:
+                  </EditableText>
+                  <EditableText
+                    contentKey="tackle.registration.key_dates"
+                    as="p"
+                    className="text-sm"
+                    page="tackle-football"
+                    section="registration"
+                  >
+                    <strong className="text-white">June 1, 2026</strong> - Registration Closes, Sports Physicals and Measurements Due, Last Day for a Full Refund Request
+                    <br />
+                    <strong className="text-white">July 1, 2026</strong> - Last Day for Partial Refund Request
+                  </EditableText>
+                </div>
               </div>
             </div>
 

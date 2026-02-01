@@ -275,7 +275,7 @@ export default function FlagFootballPage() {
               page="flag-football"
               section="overview"
               imageHeight="h-[400px] md:min-h-[500px]"
-              rounded={true}
+              rounded={false}
               wideImage={true}
             >
               <EditableText
@@ -388,7 +388,7 @@ export default function FlagFootballPage() {
               page="flag-football"
               section="registration"
               imageHeight="h-[400px] md:min-h-[450px]"
-              rounded={true}
+              rounded={false}
               wideImage={false}
             >
               <EditableText
@@ -597,7 +597,7 @@ export default function FlagFootballPage() {
               page="flag-football"
               section="equipment"
               imageHeight="h-[400px] md:min-h-[450px]"
-              rounded={true}
+              rounded={false}
               wideImage={false}
             >
               <EditableText
@@ -724,7 +724,7 @@ export default function FlagFootballPage() {
               page="flag-football"
               section="get-involved"
               imageHeight="h-[400px] md:min-h-[450px]"
-              rounded={true}
+              rounded={false}
               wideImage={false}
             >
               <EditableText

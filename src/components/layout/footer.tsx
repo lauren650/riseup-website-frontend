@@ -93,7 +93,7 @@ export function Footer() {
         {/* Bottom */}
         <div className="mt-12 border-t border-white/10 pt-8">
           <p className="text-center text-sm text-white/40">
-            &copy; {currentYear} RiseUp Youth Football League. All rights reserved.
+            &copy; {currentYear} RiseUp Football. All rights reserved.
           </p>
         </div>
       </div>

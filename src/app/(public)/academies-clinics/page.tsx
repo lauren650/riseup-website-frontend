@@ -89,7 +89,7 @@ export default function AcademiesClinicsPage() {
                     page="academies-clinics"
                     section="clinic"
                   >
-                    <strong className="text-white">Cost:</strong> $50 per participant
+                    <strong className="text-white">Cost:</strong> $55 per participant
                     <br />
                     <span className="text-sm">*Payment plans, scholarships, and sibling discounts available!</span>
                   </EditableText>
@@ -386,7 +386,7 @@ export default function AcademiesClinicsPage() {
               page="academies-clinics"
               section="girls-flag-academy"
             >
-              Is your child interested in taking their spring football skills to the next level? <strong className="text-white">We are thrilled to present the 2026 RiseUp Football Training Academy!</strong> Our program offers encouraging yet intense sessions focused on football conditioning, character and team development, and football mechanics. Groups will be split into the athletes working on girls flag football and those working on tackle football.
+              Is your athlete ready to level up her girls flag football skills this spring? <strong className="text-white">We're excited to introduce the 2026 RiseUp Girls Flag Football Development Academy!</strong> This program delivers positive, high-energy training designed specifically for girls flag football athletes, with a strong focus on speed, agility, football IQ, and position-specific skills. Athletes will train in an encouraging yet challenging environment that builds confidence, teamwork, and game awareness, all while sharpening fundamentals like route running, coverage, flag pulling, and play execution.
             </EditableText>
             <EditableText
               contentKey="academies.flag.mission"
@@ -395,7 +395,7 @@ export default function AcademiesClinicsPage() {
               page="academies-clinics"
               section="girls-flag-academy"
             >
-              At RiseUp, our mission is to instill the essential qualities of mind, heart, spirit, confidence, mental toughness, and leadership – preparing young athletes for success both on and off the field. Players will be grouped by position to receive specialized coaching in offensive and defensive skills, maximizing their development in just five months of off-season training.
+              At RiseUp, our mission goes beyond the game. We emphasize mental toughness, leadership, confidence, and character, preparing athletes to succeed both on and off the field. Players will be grouped by experience level and position to receive targeted instruction, ensuring maximum growth over five months of focused off-season training. Whether your athlete is new to the sport or looking to compete at the next level, RiseUp provides the foundation she needs to play faster, smarter, and stronger.
             </EditableText>
           </div>
 
@@ -460,24 +460,28 @@ export default function AcademiesClinicsPage() {
                   page="academies-clinics"
                   section="girls-flag-academy"
                 >
-                  This Academy will focus on the full fundamentals of football:
+                  This Academy will focus on the core fundamentals of Girls Flag Football:
                 </EditableText>
                 <ul className="space-y-2 text-muted-foreground">
                   <li className="flex items-start">
                     <span className="text-accent mr-2">•</span>
-                    <span>Footwork & Technique</span>
+                    <span>Footwork, Speed & Agility</span>
                   </li>
                   <li className="flex items-start">
                     <span className="text-accent mr-2">•</span>
-                    <span>Blocking</span>
+                    <span>Route Running & Receiving Skills</span>
                   </li>
                   <li className="flex items-start">
                     <span className="text-accent mr-2">•</span>
-                    <span>Non-contact Tackling</span>
+                    <span>Throwing, Catching & QB Fundamentals</span>
                   </li>
                   <li className="flex items-start">
                     <span className="text-accent mr-2">•</span>
-                    <span>Offense, Defense, and Special Teams</span>
+                    <span>Flag Pulling, Coverage & Defensive Positioning</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-accent mr-2">•</span>
+                    <span>Offensive & Defensive Concepts (Flag Football Rules & Strategy)</span>
                   </li>
                 </ul>
                 <EditableText
@@ -487,7 +491,7 @@ export default function AcademiesClinicsPage() {
                   page="academies-clinics"
                   section="girls-flag-academy"
                 >
-                  Each athlete will grow in their knowledge of the game and raise their football IQ. They will learn the full rules, terminology, and basic structure of the game.
+                  Each athlete will grow her understanding of the game while building confidence and football IQ. Players will learn flag football rules, terminology, formations, and game strategy, preparing them to compete at a higher level in both league and school-based play.
                 </EditableText>
               </div>
             </div>
