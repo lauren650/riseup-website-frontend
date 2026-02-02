@@ -16,7 +16,6 @@ const subjectOptions = [
   { value: "", label: "Select a subject" },
   { value: "General Inquiry", label: "General Inquiry" },
   { value: "Registration Question", label: "Registration Question" },
-  { value: "Sponsorship Inquiry", label: "Sponsorship Inquiry" },
   { value: "Volunteer Interest", label: "Volunteer Interest" },
   { value: "Other", label: "Other" },
 ];

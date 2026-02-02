@@ -181,6 +181,7 @@ export default function TackleFootballPage() {
           alt="RiseUp Tackle Football Players"
           page="tackle-football"
           section="hero"
+          mobilePosYOffset={75}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/80 pointer-events-none" />
       </section>
@@ -549,12 +550,12 @@ export default function TackleFootballPage() {
                 page="tackle-football"
                 section="registration"
               >
-                For scholarship consideration, please email{' '}
+                For scholarship consideration, please{' '}
                 <a
-                  href="mailto:admin@riseupmoore.com"
+                  href="/contact"
                   className="font-semibold text-accent underline hover:text-accent/80"
                 >
-                  admin@riseupmoore.com
+                  contact us
                 </a>{' '}
                 <strong className="text-white">before completing registration</strong>.
               </EditableText>
@@ -637,12 +638,11 @@ export default function TackleFootballPage() {
                     section="registration"
                   >
                     <strong className="text-white">How to Request a Refund:</strong>{' '}
-                    Email{' '}
                     <a
-                      href="mailto:admin@riseupmoore.com"
+                      href="/contact"
                       className="text-accent underline hover:text-accent/80"
                     >
-                      admin@riseupmoore.com
+                      Contact us
                     </a>{' '}
                     for review.
                   </EditableText>

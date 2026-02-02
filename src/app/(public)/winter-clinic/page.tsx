@@ -517,9 +517,9 @@ export default function WinterClinicPage() {
                   page="winter-clinic"
                   section="bring"
                 >
-                  Payment plan options, scholarships, and sibling discounts are available! We want every young athlete to have the opportunity to participate. Contact us at{' '}
-                  <a href="mailto:admin@riseupmoore.com" className="font-semibold text-accent underline hover:text-accent/80">
-                    admin@riseupmoore.com
+                  Payment plan options, scholarships, and sibling discounts are available! We want every young athlete to have the opportunity to participate.{' '}
+                  <a href="/contact" className="font-semibold text-accent underline hover:text-accent/80">
+                    Contact us
                   </a>{' '}
                   for more information.
                 </EditableText>

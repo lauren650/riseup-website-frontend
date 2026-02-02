@@ -11,6 +11,8 @@ interface EditableHeroImageProps {
   alt: string
   page?: string
   section?: string
+  /** Extra posY offset on mobile for pages that need stronger downward shift (e.g. tackle football) */
+  mobilePosYOffset?: number
 }
 
 export function EditableHeroImage({
@@ -19,6 +21,7 @@ export function EditableHeroImage({
   alt,
   page,
   section,
+  mobilePosYOffset = 45,
 }: EditableHeroImageProps) {
   const { isEditMode } = useEditMode()
   const [currentSrc, setCurrentSrc] = useState(src)
@@ -306,8 +309,8 @@ export function EditableHeroImage({
   const hasValidImage = currentSrc && (currentSrc.startsWith('http') || currentSrc.startsWith('/'))
 
   // On mobile, tall narrow containers cause object-position to anchor too high.
-  // Offset posY down significantly so faces appear in the visible area (below the nav bar).
-  const effectivePosY = isMobile ? Math.min(100, posY + 45) : posY
+  // Offset posY down so faces appear in the visible area (below the nav bar).
+  const effectivePosY = isMobile ? Math.min(100, posY + mobilePosYOffset) : posY
 
   const imageStyle = {
     width: '100%',

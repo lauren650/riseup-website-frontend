@@ -146,7 +146,7 @@ export async function submitSponsorInterest(
           <p>A member of our team will reach out within 2-3 business days to discuss partnership opportunities and answer any questions you may have.</p>
           <p>We're excited about the possibility of partnering with you to support youth football in our community!</p>
           <br>
-          <p>Best regards,<br>RiseUp Youth Football</p>
+          <p>Best regards,<br>RiseUp Football Team</p>
         `,
       });
     }
@@ -161,10 +161,7 @@ export async function submitSponsorInterest(
       console.warn("Resend not configured, skipping admin notification");
     } else {
       const adminEmail =
-        process.env.SPONSOR_INTEREST_EMAIL ||
-        process.env.ADMIN_EMAIL ||
-        process.env.CONTACT_EMAIL ||
-        "krystie@riseupfootball.org";
+        process.env.SPONSOR_INTEREST_EMAIL || "krystie@riseupfootball.org";
       const fromEmail =
         process.env.RESEND_FROM_EMAIL || "RiseUp Website <noreply@riseupfootball.org>";
 

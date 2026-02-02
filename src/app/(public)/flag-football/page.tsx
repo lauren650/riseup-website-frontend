@@ -455,12 +455,12 @@ export default function FlagFootballPage() {
                 page="flag-football"
                 section="registration"
               >
-                For scholarship consideration, please email{' '}
+                For scholarship consideration, please{' '}
                 <a
-                  href="mailto:girlsflag@riseupmoore.com"
+                  href="/contact"
                   className="font-semibold text-accent underline hover:text-accent/80"
                 >
-                  girlsflag@riseupmoore.com
+                  contact us
                 </a>{' '}
                 <strong className="text-white">before completing registration</strong>.
               </EditableText>
@@ -768,10 +768,10 @@ export default function FlagFootballPage() {
                 We're always looking for passionate adults to help lead. No experience necessary — just a positive attitude and desire to empower young athletes!
               </EditableText>
               <a
-                href="mailto:girlsflag@riseupmoore.com?subject=Volunteer%20Interest"
+                href="/contact"
                 className="inline-block rounded-full border border-white px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
               >
-                Email girlsflag@riseupmoore.com
+                Contact us
               </a>
             </div>
 
