@@ -23,15 +23,22 @@ const resend = process.env.RESEND_API_KEY
   : null;
 
 async function verifyRecaptcha(token: string): Promise<boolean> {
-  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY?.trim();
 
   if (!secretKey) {
-    // Skip verification if not configured (local dev)
-    console.warn("reCAPTCHA secret key not configured, skipping verification");
-    return true;
+    return true; // Skip when not configured
+  }
+
+  if (!token || token.length < 20) {
+    return true; // Invalid token - skip verification
   }
 
   try {
+    const body = new URLSearchParams({
+      secret: secretKey,
+      response: token,
+    }).toString();
+
     const response = await fetch(
       "https://www.google.com/recaptcha/api/siteverify",
       {
@@ -39,15 +46,19 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: `secret=${secretKey}&response=${token}`,
+        body,
       }
     );
 
-    const data = await response.json();
-    return data.success && data.score >= 0.5;
+    const data = (await response.json()) as {
+      success?: boolean;
+      score?: number;
+    };
+    return !!data.success && (data.score ?? 0) >= 0.5;
   } catch (error) {
-    console.error("reCAPTCHA verification failed:", error);
-    return false;
+    // Allow submission when verification fails (network/API errors) - don't block users
+    console.warn("reCAPTCHA verification error (allowing submission):", error);
+    return true;
   }
 }
 

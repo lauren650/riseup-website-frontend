@@ -4,8 +4,14 @@ import { createServerClient } from "@supabase/ssr";
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
 
+  // Skip auth check if Supabase not configured (prevents "Invalid URL" when env vars missing)
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+  if (!supabaseUrl) {
+    return supabaseResponse;
+  }
+
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    supabaseUrl,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
@@ -34,19 +40,24 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Protect admin routes EXCEPT /admin/login
+  // Use nextUrl.clone() instead of new URL(request.url) - request.url can be empty/invalid in Edge
   if (pathname.startsWith("/admin")) {
     // Allow access to login page
     if (pathname === "/admin/login") {
       // If already authenticated, redirect to dashboard
       if (user) {
-        return NextResponse.redirect(new URL("/admin/dashboard", request.url));
+        const url = request.nextUrl.clone();
+        url.pathname = "/admin/dashboard";
+        return NextResponse.redirect(url);
       }
       return supabaseResponse;
     }
 
     // For all other admin routes, require authentication
     if (!user) {
-      return NextResponse.redirect(new URL("/admin/login", request.url));
+      const url = request.nextUrl.clone();
+      url.pathname = "/admin/login";
+      return NextResponse.redirect(url);
     }
   }
 
