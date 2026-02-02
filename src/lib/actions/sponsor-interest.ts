@@ -150,7 +150,7 @@ export async function submitSponsorInterest(
       const adminEmail =
         process.env.ADMIN_EMAIL ||
         process.env.CONTACT_EMAIL ||
-        "admin@riseupfootball.com";
+        "admin@riseupfootball.org";
 
       await resend.emails.send({
         from: "RiseUp Website <onboarding@resend.dev>",

@@ -132,7 +132,7 @@ export async function submitSponsor(
       console.warn("Resend not configured, skipping admin notification");
     } else {
       const adminEmail =
-        process.env.ADMIN_EMAIL || process.env.CONTACT_EMAIL || "admin@riseupfootball.com";
+        process.env.ADMIN_EMAIL || process.env.CONTACT_EMAIL || "admin@riseupfootball.org";
 
       await resend.emails.send({
         from: "RiseUp Website <onboarding@resend.dev>",

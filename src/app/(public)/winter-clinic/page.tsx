@@ -49,7 +49,7 @@ export default function WinterClinicPage() {
   return (
     <main>
       {/* Hero Section */}
-      <section className="relative h-[60vh] min-h-[500px] overflow-hidden">
+      <section className="relative h-[60vh] min-h-[500px] overflow-hidden pt-[7rem] md:pt-0">
         <EditableHeroImage
           contentKey="winter_clinic.hero"
           src="/images/clinic-hero.jpg"

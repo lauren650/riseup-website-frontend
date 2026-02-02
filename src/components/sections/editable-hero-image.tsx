@@ -306,8 +306,8 @@ export function EditableHeroImage({
   const hasValidImage = currentSrc && (currentSrc.startsWith('http') || currentSrc.startsWith('/'))
 
   // On mobile, tall narrow containers cause object-position to anchor too high.
-  // Offset posY down to better match the desktop framing the user chose.
-  const effectivePosY = isMobile ? Math.min(100, posY + 20) : posY
+  // Offset posY down significantly so faces appear in the visible area (below the nav bar).
+  const effectivePosY = isMobile ? Math.min(100, posY + 45) : posY
 
   const imageStyle = {
     width: '100%',
