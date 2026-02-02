@@ -181,8 +181,7 @@ export default function TackleFootballPage() {
           alt="RiseUp Tackle Football Players"
           page="tackle-football"
           section="hero"
-          mobilePosYOffset={75}
-          useBackgroundOnMobile
+          mobileTranslateY="12%"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/80 pointer-events-none" />
       </section>

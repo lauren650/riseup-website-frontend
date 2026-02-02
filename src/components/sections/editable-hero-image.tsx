@@ -11,10 +11,8 @@ interface EditableHeroImageProps {
   alt: string
   page?: string
   section?: string
-  /** Extra posY offset on mobile for pages that need stronger downward shift (e.g. tackle football) */
-  mobilePosYOffset?: number
-  /** Use background-image on mobile for reliable vertical positioning (object-position Y doesn't work in some layouts) */
-  useBackgroundOnMobile?: boolean
+  /** On mobile, translate image down by this amount to show upper portion (e.g. "12%") - works when object-position Y doesn't */
+  mobileTranslateY?: string
 }
 
 export function EditableHeroImage({
@@ -23,8 +21,7 @@ export function EditableHeroImage({
   alt,
   page,
   section,
-  mobilePosYOffset = 45,
-  useBackgroundOnMobile = false,
+  mobileTranslateY,
 }: EditableHeroImageProps) {
   const { isEditMode } = useEditMode()
   const [currentSrc, setCurrentSrc] = useState(src)
@@ -311,16 +308,14 @@ export function EditableHeroImage({
 
   const hasValidImage = currentSrc && (currentSrc.startsWith('http') || currentSrc.startsWith('/'))
 
-  // On mobile, tall narrow containers cause object-position to anchor too high.
-  // Offset posY down so faces appear in the visible area (below the nav bar).
-  const effectivePosY = isMobile ? Math.min(100, posY + mobilePosYOffset) : posY
-
   const imageStyle = {
     width: '100%',
     height: '100%',
     objectFit: 'cover' as const,
-    objectPosition: `${posX}% ${effectivePosY}%`,
-    transform: `scale(${scale})`,
+    objectPosition: `${posX}% ${posY}%`,
+    transform: isMobile && mobileTranslateY
+      ? `translateY(${mobileTranslateY}) scale(${scale})`
+      : `scale(${scale})`,
     transformOrigin: 'center center',
   }
 
@@ -328,22 +323,6 @@ export function EditableHeroImage({
   if (!isEditMode) {
     if (!hasValidImage) {
       return <div className="absolute inset-0 bg-gradient-to-br from-[#121126] to-black" />
-    }
-
-    // Use background-image on mobile when object-position Y doesn't work (e.g. tackle football)
-    if (useBackgroundOnMobile && isMobile) {
-      return (
-        <div
-          className="absolute inset-0 overflow-hidden bg-cover bg-no-repeat"
-          style={{
-            backgroundImage: `url(${currentSrc})`,
-            backgroundPosition: `${posX}% ${effectivePosY}%`,
-            backgroundSize: 'cover',
-          }}
-          role="img"
-          aria-label={alt}
-        />
-      )
     }
 
     return (
@@ -370,19 +349,6 @@ export function EditableHeroImage({
 
       {/* Image */}
       {hasValidImage ? (
-        useBackgroundOnMobile && isMobile ? (
-          <div
-            className="absolute inset-0 overflow-hidden bg-cover bg-no-repeat"
-            style={{
-              backgroundImage: `url(${currentSrc})`,
-              backgroundPosition: `${posX}% ${effectivePosY}%`,
-              backgroundSize: 'cover',
-              opacity: isUploading ? 0.5 : 1,
-            }}
-            role="img"
-            aria-label={alt}
-          />
-        ) : (
         <div className="absolute inset-0 overflow-hidden">
           <img
             src={currentSrc}
@@ -393,7 +359,6 @@ export function EditableHeroImage({
             }}
           />
         </div>
-        )
       ) : (
         <div className="absolute inset-0 bg-gradient-to-br from-[#121126] to-black" />
       )}
