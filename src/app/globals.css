@@ -37,6 +37,11 @@ html {
   color: var(--background);
 }
 
+/* Hide reCAPTCHA v3 badge (disclosure text shown in contact/sponsor forms) */
+.grecaptcha-badge {
+  visibility: hidden !important;
+}
+
 /* Givebutter floating button position override */
 /* Target the bubble element and force it higher and more to the left */
 .givebutter-bubble,
