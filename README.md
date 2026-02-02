@@ -68,10 +68,13 @@ SUPABASE_SERVICE_ROLE_KEY=
 # Anthropic AI (CMS chat)
 ANTHROPIC_API_KEY=
 
-# Resend (email notifications)
-RESEND_API_KEY=
-RESEND_FROM_EMAIL=
-ADMIN_EMAIL=
+# Resend (email - contact form, sponsor notifications)
+RESEND_API_KEY=          # Required for contact form & sponsor emails to send
+CONTACT_EMAIL=           # Optional - where contact form submissions go (default: admin@riseupfootball.org)
+
+# reCAPTCHA v3 (spam protection on contact & sponsor interest forms)
+NEXT_PUBLIC_RECAPTCHA_SITE_KEY=   # From https://www.google.com/recaptcha/admin
+RECAPTCHA_SECRET_KEY=             # Server-side verification
 
 # GiveButter (donations)
 NEXT_PUBLIC_GIVEBUTTER_WIDGET_ID=

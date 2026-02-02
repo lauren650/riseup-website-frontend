@@ -174,7 +174,7 @@ export default function TackleFootballPage() {
   return (
     <main>
       {/* Hero Section */}
-      <section className="relative h-[60vh] min-h-[500px] overflow-hidden pt-[7rem] md:pt-0">
+      <section className="relative h-[60vh] min-h-[calc(500px+7rem)] md:min-h-[500px] overflow-hidden pt-[7rem] md:pt-0">
         <EditableHeroImage
           contentKey="tackle_football.hero"
           src="/images/tackle-football-hero.jpg"

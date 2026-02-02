@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useReCaptcha } from "next-recaptcha-v3";
@@ -17,9 +17,17 @@ import { ConfirmationModal } from "./confirmation-modal";
 export function InterestForm() {
   const { executeRecaptcha, loaded, reCaptchaKey } = useReCaptcha();
   const [showModal, setShowModal] = useState(false);
+  const [recaptchaFallback, setRecaptchaFallback] = useState(false);
 
-  // Disable submit until reCAPTCHA is loaded when it's configured (prevents "Recaptcha has not been loaded" error)
-  const isRecaptchaReady = !reCaptchaKey || loaded;
+  // Allow submit after 10s if reCAPTCHA never loads (e.g. ad blocker, wrong domain)
+  useEffect(() => {
+    if (!reCaptchaKey) return;
+    const t = setTimeout(() => setRecaptchaFallback(true), 10000);
+    return () => clearTimeout(t);
+  }, [reCaptchaKey]);
+
+  // Disable submit until reCAPTCHA is loaded when configured (prevents "Recaptcha has not been loaded" error)
+  const isRecaptchaReady = !reCaptchaKey || loaded || recaptchaFallback;
 
   const {
     register,
@@ -33,17 +41,17 @@ export function InterestForm() {
     SponsorInterestFormState | null,
     FormData
   >(async (prevState, formData) => {
-    // Get reCAPTCHA token before submitting
+    // Get reCAPTCHA token - only call when loaded to avoid "Recaptcha has not been loaded" error
+    // If reCAPTCHA fails or isn't configured, submit anyway (server skips verification when no token)
     let recaptchaToken = "";
     try {
-      if (executeRecaptcha) {
+      if (reCaptchaKey && loaded && executeRecaptcha) {
         recaptchaToken = await executeRecaptcha("sponsor_interest_form");
       }
     } catch (error) {
       console.warn("reCAPTCHA execution failed:", error);
     }
 
-    // Add token to form data
     formData.set("recaptchaToken", recaptchaToken);
 
     const result = await submitSponsorInterest(prevState, formData);

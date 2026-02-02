@@ -20,7 +20,7 @@ export default async function BecomeAPartnerPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative h-[60vh] min-h-[500px] overflow-hidden pt-[7rem] md:pt-0">
+      <section className="relative h-[60vh] min-h-[calc(500px+7rem)] md:min-h-[500px] overflow-hidden pt-[7rem] md:pt-0">
         <EditableHeroImage
           contentKey="become_a_partner.hero"
           src="/images/partners-hero.jpg"
