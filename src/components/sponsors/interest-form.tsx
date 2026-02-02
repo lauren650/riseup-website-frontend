@@ -15,8 +15,11 @@ import {
 import { ConfirmationModal } from "./confirmation-modal";
 
 export function InterestForm() {
-  const { executeRecaptcha } = useReCaptcha();
+  const { executeRecaptcha, loaded, reCaptchaKey } = useReCaptcha();
   const [showModal, setShowModal] = useState(false);
+
+  // Disable submit until reCAPTCHA is loaded when it's configured (prevents "Recaptcha has not been loaded" error)
+  const isRecaptchaReady = !reCaptchaKey || loaded;
 
   const {
     register,
@@ -162,10 +165,14 @@ export function InterestForm() {
         {/* Submit Button */}
         <button
           type="submit"
-          disabled={isPending}
+          disabled={isPending || !isRecaptchaReady}
           className="w-full rounded-full bg-accent px-8 py-4 text-lg font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {isPending ? "Submitting..." : "Submit Interest"}
+          {!isRecaptchaReady
+            ? "Loading..."
+            : isPending
+              ? "Submitting..."
+              : "Submit Interest"}
         </button>
 
         <p className="text-center text-xs text-muted-foreground">

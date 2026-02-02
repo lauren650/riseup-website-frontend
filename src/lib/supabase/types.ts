@@ -361,6 +361,55 @@ export type Database = {
         };
         Relationships: [];
       };
+      sponsor_interest: {
+        Row: {
+          id: string;
+          name: string;
+          email: string;
+          phone: string;
+          company_name: string;
+          status: "new" | "contacted" | "converted" | "closed";
+          notes: string | null;
+          created_at: string;
+          updated_at: string;
+          contacted_at: string | null;
+          contacted_by: string | null;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          email: string;
+          phone: string;
+          company_name: string;
+          status?: "new" | "contacted" | "converted" | "closed";
+          notes?: string | null;
+          created_at?: string;
+          updated_at?: string;
+          contacted_at?: string | null;
+          contacted_by?: string | null;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          email?: string;
+          phone?: string;
+          company_name?: string;
+          status?: "new" | "contacted" | "converted" | "closed";
+          notes?: string | null;
+          created_at?: string;
+          updated_at?: string;
+          contacted_at?: string | null;
+          contacted_by?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "sponsor_interest_contacted_by_fkey";
+            columns: ["contacted_by"];
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
     };
     Views: Record<string, never>;
     Functions: {

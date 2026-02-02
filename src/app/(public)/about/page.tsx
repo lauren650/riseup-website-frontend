@@ -28,26 +28,30 @@ const leaders: Leader[] = [
   },
 ];
 
-const values = [
+const riseUpWay = [
   {
+    letter: "R",
+    title: "Resilience",
+    description:
+      "Learning resilience through overcoming challenges in the face of adversity.",
+  },
+  {
+    letter: "I",
     title: "Integrity",
-    description: "We do the right thing, even when no one is watching.",
-    icon: "🎯",
+    description:
+      "Practicing integrity by focusing on character and moral responsibility.",
   },
   {
-    title: "Excellence",
-    description: "We strive to be our best in everything we do.",
-    icon: "⭐",
+    letter: "S",
+    title: "Social Intelligence",
+    description:
+      "Developing social intelligence by adapting and integrating as part of a team.",
   },
   {
-    title: "Community",
-    description: "We build lasting relationships on and off the field.",
-    icon: "🤝",
-  },
-  {
-    title: "Safety",
-    description: "We prioritize the well-being of every player.",
-    icon: "🛡️",
+    letter: "E",
+    title: "Emotional Regulation",
+    description:
+      "Driving emotional regulation by requiring appropriate behaviors and responses in context of the environment.",
   },
 ];
 
@@ -126,23 +130,30 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Values Section */}
+      {/* The Rise Up Way Section */}
       <section className="py-16 md:py-24">
         <div className="mx-auto max-w-6xl px-6">
-          <h2 className="mb-12 text-center text-3xl font-bold text-white md:text-4xl">
-            Our Values
+          <h2 className="mb-4 text-center text-3xl font-bold text-white md:text-4xl">
+            The Rise Up Way
           </h2>
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-            {values.map((value, index) => (
+          <p className="mx-auto mb-12 max-w-2xl text-center text-lg text-muted-foreground">
+            Our core values define who we are and how we develop young athletes into leaders.
+          </p>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {riseUpWay.map((value, index) => (
               <div
                 key={index}
-                className="rounded-xl border border-white/10 bg-white/5 p-6 text-center"
+                className="group rounded-xl border border-white/10 bg-white/5 p-6 text-center transition-all duration-300 hover:border-accent/50 hover:bg-white/10"
               >
-                <span className="text-4xl">{value.icon}</span>
-                <h3 className="mt-4 text-xl font-bold text-white">
+                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-accent text-3xl font-bold text-white">
+                  {value.letter}
+                </div>
+                <h3 className="text-xl font-bold text-white">
                   {value.title}
                 </h3>
-                <p className="mt-2 text-muted-foreground">{value.description}</p>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  {value.description}
+                </p>
               </div>
             ))}
           </div>

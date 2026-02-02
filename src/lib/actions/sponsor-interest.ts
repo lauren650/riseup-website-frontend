@@ -1,6 +1,7 @@
 "use server";
 
 import { Resend } from "resend";
+import { createClient } from "@/lib/supabase/server";
 import {
   sponsorInterestSchema,
   SponsorInterestFormData,
@@ -93,6 +94,27 @@ export async function submitSponsorInterest(
     }
   }
 
+  // Save to database
+  try {
+    const supabase = await createClient();
+    const { error: dbError } = await supabase.from("sponsor_interest").insert({
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      company_name: data.companyName,
+      status: "new",
+    });
+
+    if (dbError) {
+      console.error("Failed to save sponsor interest to database:", dbError);
+      // Continue anyway - we don't want to fail the submission if DB fails
+      // The email notifications will still go out
+    }
+  } catch (error) {
+    console.error("Database error saving sponsor interest:", error);
+    // Continue with email sending even if DB fails
+  }
+
   // Send confirmation email to prospect
   try {
     if (!resend) {
@@ -128,7 +150,7 @@ export async function submitSponsorInterest(
       const adminEmail =
         process.env.ADMIN_EMAIL ||
         process.env.CONTACT_EMAIL ||
-        "info@riseupyouthfootball.com";
+        "admin@riseupfootball.com";
 
       await resend.emails.send({
         from: "RiseUp Website <onboarding@resend.dev>",

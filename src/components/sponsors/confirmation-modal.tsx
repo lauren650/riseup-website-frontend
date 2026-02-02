@@ -6,9 +6,16 @@ import { AnimatePresence, motion } from "framer-motion";
 interface ConfirmationModalProps {
   isOpen: boolean;
   onClose: () => void;
+  title?: string;
+  message?: string;
 }
 
-export function ConfirmationModal({ isOpen, onClose }: ConfirmationModalProps) {
+export function ConfirmationModal({
+  isOpen,
+  onClose,
+  title = "Thank You!",
+  message = "We've received your inquiry and will be in touch within 2-3 business days.",
+}: ConfirmationModalProps) {
   // Handle escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -72,13 +79,10 @@ export function ConfirmationModal({ isOpen, onClose }: ConfirmationModalProps) {
               </div>
 
               {/* Heading */}
-              <h2 className="text-2xl font-bold text-white">Thank You!</h2>
+              <h2 className="text-2xl font-bold text-white">{title}</h2>
 
               {/* Message */}
-              <p className="mt-4 text-muted-foreground">
-                We&apos;ve received your inquiry and will be in touch within 2-3
-                business days.
-              </p>
+              <p className="mt-4 text-muted-foreground">{message}</p>
 
               {/* Close Button */}
               <button

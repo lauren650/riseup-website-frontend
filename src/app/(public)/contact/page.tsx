@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { ReCaptchaProvider } from "next-recaptcha-v3";
 import { ContactForm } from "@/components/sections/contact-form";
 
 export const metadata: Metadata = {
@@ -8,7 +7,7 @@ export const metadata: Metadata = {
     "Get in touch with RiseUp Youth Football League. Contact us about registration, partnerships, volunteering, or any questions about our programs.",
 };
 
-function ContactPageContent() {
+export default function ContactPage() {
   return (
     <>
       {/* Hero Section */}
@@ -35,20 +34,4 @@ function ContactPageContent() {
       </section>
     </>
   );
-}
-
-export default function ContactPage() {
-  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
-
-  // Wrap in ReCaptchaProvider if site key is configured
-  if (recaptchaSiteKey) {
-    return (
-      <ReCaptchaProvider reCaptchaKey={recaptchaSiteKey}>
-        <ContactPageContent />
-      </ReCaptchaProvider>
-    );
-  }
-
-  // Render without reCAPTCHA for development
-  return <ContactPageContent />;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useReCaptcha } from "next-recaptcha-v3";
@@ -9,6 +9,7 @@ import {
   submitContactForm,
   ContactFormState,
 } from "@/lib/actions/contact";
+import { ConfirmationModal } from "@/components/sponsors/confirmation-modal";
 import { cn } from "@/lib/utils";
 
 const subjectOptions = [
@@ -21,7 +22,11 @@ const subjectOptions = [
 ];
 
 export function ContactForm() {
-  const { executeRecaptcha } = useReCaptcha();
+  const { executeRecaptcha, loaded, reCaptchaKey } = useReCaptcha();
+  const [showModal, setShowModal] = useState(false);
+
+  // Disable submit until reCAPTCHA is loaded when it's configured (prevents "Recaptcha has not been loaded" error)
+  const isRecaptchaReady = !reCaptchaKey || loaded;
 
   const {
     register,
@@ -50,9 +55,10 @@ export function ContactForm() {
 
     const result = await submitContactForm(prevState, formData);
 
-    // Reset form on success
+    // On success: reset form and show modal
     if (result.success) {
       reset();
+      setShowModal(true);
     }
 
     return result;
@@ -62,20 +68,14 @@ export function ContactForm() {
     "w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-muted-foreground focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent";
 
   return (
-    <form action={formAction} className="space-y-6">
-      {/* Success/Error Message */}
-      {state?.message && (
-        <div
-          className={cn(
-            "rounded-lg p-4",
-            state.success
-              ? "bg-green-500/10 text-green-400"
-              : "bg-red-500/10 text-red-400"
-          )}
-        >
-          {state.message}
-        </div>
-      )}
+    <>
+      <form action={formAction} className="space-y-6">
+        {/* Error Message - only show errors, not success (modal handles success) */}
+        {state?.message && !state.success && (
+          <div className="rounded-lg bg-red-500/10 p-4 text-red-400">
+            {state.message}
+          </div>
+        )}
 
       {/* Name */}
       <div>
@@ -184,10 +184,14 @@ export function ContactForm() {
       {/* Submit Button */}
       <button
         type="submit"
-        disabled={isPending}
+        disabled={isPending || !isRecaptchaReady}
         className="w-full rounded-full bg-accent px-8 py-4 text-lg font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
       >
-        {isPending ? "Sending..." : "Send Message"}
+        {!isRecaptchaReady
+          ? "Loading..."
+          : isPending
+            ? "Sending..."
+            : "Send Message"}
       </button>
 
       <p className="text-center text-xs text-muted-foreground">
@@ -212,5 +216,13 @@ export function ContactForm() {
         apply.
       </p>
     </form>
+
+      {/* Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        message="Thank you for your message! We'll get back to you soon."
+      />
+    </>
   );
 }

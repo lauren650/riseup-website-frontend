@@ -106,7 +106,7 @@ export async function submitContactForm(
     }
 
     const contactEmail =
-      process.env.CONTACT_EMAIL || "info@riseupyouthfootball.com";
+      process.env.CONTACT_EMAIL || "admin@riseupfootball.com";
 
     await resend.emails.send({
       from: "RiseUp Website <onboarding@resend.dev>",
