@@ -68,13 +68,13 @@ export function SubNavigation({
       className={cn(
         'border-b border-white/10 transition-all duration-300',
         isSticky 
-          ? 'fixed left-0 right-0 top-[112px] z-40 shadow-xl bg-black/98 backdrop-blur-lg' 
+          ? 'fixed left-0 right-0 z-40 shadow-xl bg-black/98 backdrop-blur-lg top-[100px] md:top-[112px]' 
           : 'bg-transparent',
         className
       )}
     >
-      <div className="mx-auto max-w-7xl overflow-x-auto">
-        <div className="flex items-center justify-center gap-3 px-6 py-3">
+      <div className="mx-auto max-w-7xl overflow-x-auto overflow-y-hidden">
+        <div className="flex items-center justify-start md:justify-center gap-2 md:gap-3 px-4 md:px-6 py-3 min-w-max md:min-w-0">
           {items.map((item) => (
             <button
               key={item.id}

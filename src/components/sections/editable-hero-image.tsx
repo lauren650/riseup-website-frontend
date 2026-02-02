@@ -295,7 +295,7 @@ export function EditableHeroImage({
 
   const hasValidImage = currentSrc && (currentSrc.startsWith('http') || currentSrc.startsWith('/'))
 
-  // Shared image style
+  // Shared image style (CSS media query in globals.css recenters on mobile)
   const imageStyle = {
     width: '100%',
     height: '100%',
@@ -312,7 +312,7 @@ export function EditableHeroImage({
     }
     
     return (
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="hero-image-mobile-center absolute inset-0 overflow-hidden">
         <img
           src={currentSrc}
           alt={alt}
@@ -335,7 +335,7 @@ export function EditableHeroImage({
 
       {/* Image */}
       {hasValidImage ? (
-        <div className="absolute inset-0 overflow-hidden">
+        <div className="hero-image-mobile-center absolute inset-0 overflow-hidden">
           <img
             src={currentSrc}
             alt={alt}
