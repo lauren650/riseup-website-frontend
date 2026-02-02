@@ -13,8 +13,6 @@ interface EditableHeroImageProps {
   section?: string
   /** Extra posY offset on mobile for pages that need stronger downward shift (e.g. tackle football) */
   mobilePosYOffset?: number
-  /** Use background-image on mobile for reliable vertical positioning (object-position Y doesn't work in some layouts) */
-  useBackgroundOnMobile?: boolean
 }
 
 export function EditableHeroImage({
@@ -24,7 +22,6 @@ export function EditableHeroImage({
   page,
   section,
   mobilePosYOffset = 45,
-  useBackgroundOnMobile = false,
 }: EditableHeroImageProps) {
   const { isEditMode } = useEditMode()
   const [currentSrc, setCurrentSrc] = useState(src)
@@ -330,22 +327,6 @@ export function EditableHeroImage({
       return <div className="absolute inset-0 bg-gradient-to-br from-[#121126] to-black" />
     }
 
-    // Use background-image on mobile when object-position Y doesn't work (e.g. tackle football)
-    if (useBackgroundOnMobile && isMobile) {
-      return (
-        <div
-          className="absolute inset-0 overflow-hidden bg-cover bg-no-repeat"
-          style={{
-            backgroundImage: `url(${currentSrc})`,
-            backgroundPosition: `${posX}% ${effectivePosY}%`,
-            backgroundSize: 'cover',
-          }}
-          role="img"
-          aria-label={alt}
-        />
-      )
-    }
-
     return (
       <div className="absolute inset-0 overflow-hidden">
         <img
@@ -370,19 +351,6 @@ export function EditableHeroImage({
 
       {/* Image */}
       {hasValidImage ? (
-        useBackgroundOnMobile && isMobile ? (
-          <div
-            className="absolute inset-0 overflow-hidden bg-cover bg-no-repeat"
-            style={{
-              backgroundImage: `url(${currentSrc})`,
-              backgroundPosition: `${posX}% ${effectivePosY}%`,
-              backgroundSize: 'cover',
-              opacity: isUploading ? 0.5 : 1,
-            }}
-            role="img"
-            aria-label={alt}
-          />
-        ) : (
         <div className="absolute inset-0 overflow-hidden">
           <img
             src={currentSrc}
@@ -393,7 +361,6 @@ export function EditableHeroImage({
             }}
           />
         </div>
-        )
       ) : (
         <div className="absolute inset-0 bg-gradient-to-br from-[#121126] to-black" />
       )}

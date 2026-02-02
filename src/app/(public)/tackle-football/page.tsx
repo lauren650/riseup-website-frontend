@@ -174,7 +174,8 @@ export default function TackleFootballPage() {
   return (
     <main>
       {/* Hero Section */}
-      <section className="relative h-[60vh] min-h-[calc(500px+7rem)] md:min-h-[500px] overflow-hidden pt-[7rem] md:pt-0">
+      {/* aspect-[7/3] on mobile: wide band forces vertical crop so object-position Y works */}
+      <section className="relative aspect-[7/3] md:aspect-auto md:h-[60vh] md:min-h-[500px] overflow-hidden pt-[7rem] md:pt-0">
         <EditableHeroImage
           contentKey="tackle_football.hero"
           src="/images/tackle-football-hero.jpg"
@@ -182,7 +183,6 @@ export default function TackleFootballPage() {
           page="tackle-football"
           section="hero"
           mobilePosYOffset={75}
-          useBackgroundOnMobile
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/80 pointer-events-none" />
       </section>
