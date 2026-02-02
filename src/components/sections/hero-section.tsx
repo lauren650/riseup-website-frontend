@@ -20,7 +20,7 @@ export async function HeroSection() {
         <EditableText
           contentKey="hero.headline"
           as="h1"
-          className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight mb-4 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] leading-tight"
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight mb-4 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] leading-tight"
           page="homepage"
           section="hero"
         >
