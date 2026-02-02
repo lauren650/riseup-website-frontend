@@ -14,10 +14,7 @@ export function VideoHero({ videoSrc, posterSrc, children }: VideoHeroProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
-    // Check if device is mobile or has slow connection
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
-
-    // Navigator connection API (with type safety for browsers that support it)
+    // Skip video only on very slow connections (save data mode or 2g)
     const connection = (navigator as Navigator & {
       connection?: {
         effectiveType?: string
@@ -30,8 +27,7 @@ export function VideoHero({ videoSrc, posterSrc, children }: VideoHeroProps) {
       connection?.effectiveType === 'slow-2g' ||
       connection?.saveData === true
 
-    // Only enable video on desktop with good connection
-    if (!isMobile && !isSlowConnection) {
+    if (!isSlowConnection) {
       setCanPlayVideo(true)
     }
   }, [])
