@@ -27,7 +27,17 @@ export function EditableHeroImage({
   const [error, setError] = useState<string | null>(null)
   const [isRepositioning, setIsRepositioning] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-  
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Detect mobile for hero repositioning (show upper portion like desktop)
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)')
+    const handler = () => setIsMobile(mq.matches)
+    handler()
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+
   // Image positioning state (percentages for object-position)
   const [scale, setScale] = useState(1.5) // Start more zoomed to allow more panning
   const [posX, setPosX] = useState(50) // 0-100%
@@ -295,12 +305,15 @@ export function EditableHeroImage({
 
   const hasValidImage = currentSrc && (currentSrc.startsWith('http') || currentSrc.startsWith('/'))
 
-  // Shared image style (CSS media query in globals.css recenters on mobile)
+  // On mobile: show upper portion (helmets/chests) to match desktop framing
+  // Desktop may use custom posY (e.g. 25) for upper focus; mobile needs explicit top alignment
+  const effectivePosY = isMobile ? 25 : posY
+
   const imageStyle = {
     width: '100%',
     height: '100%',
     objectFit: 'cover' as const,
-    objectPosition: `${posX}% ${posY}%`,
+    objectPosition: `${posX}% ${effectivePosY}%`,
     transform: `scale(${scale})`,
     transformOrigin: 'center center',
   }
@@ -312,7 +325,7 @@ export function EditableHeroImage({
     }
     
     return (
-      <div className="hero-image-mobile-center absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden">
         <img
           src={currentSrc}
           alt={alt}
@@ -335,7 +348,7 @@ export function EditableHeroImage({
 
       {/* Image */}
       {hasValidImage ? (
-        <div className="hero-image-mobile-center absolute inset-0 overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden">
           <img
             src={currentSrc}
             alt={alt}
