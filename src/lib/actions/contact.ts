@@ -121,10 +121,12 @@ export async function submitContactForm(
 
     const contactEmail =
       process.env.CONTACT_EMAIL || "admin@riseupfootball.org";
-    console.log("[Contact] Sending email to:", contactEmail);
+    const fromEmail =
+      process.env.RESEND_FROM_EMAIL || "RiseUp Website <noreply@riseupfootball.org>";
+    console.log("[Contact] Sending email to:", contactEmail, "from:", fromEmail);
 
     const { data: sendData, error: sendError } = await resend.emails.send({
-      from: "RiseUp Website <onboarding@resend.dev>",
+      from: fromEmail,
       to: contactEmail,
       subject: `New Contact: ${data.subject} from ${data.name}`,
       html: `

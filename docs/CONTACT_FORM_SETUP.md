@@ -9,7 +9,9 @@ The contact form sends emails via Resend and uses reCAPTCHA v3 for spam protecti
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `RESEND_API_KEY` | **Yes** | API key from [Resend Dashboard](https://resend.com/api-keys). Without this, the form will show success but no email is sent. |
-| `CONTACT_EMAIL` | No | Where to receive submissions (default: admin@riseupfootball.org) |
+| `RESEND_FROM_EMAIL` | No | Sender address – must use your verified domain (default: RiseUp Website &lt;noreply@riseupfootball.org&gt;). Required for sending to recipients other than yourself. |
+| `CONTACT_EMAIL` | No | Where contact form submissions go (default: admin@riseupfootball.org) |
+| `SPONSOR_INTEREST_EMAIL` | No | Where partner/sponsor interest form submissions go (default: krystie@riseupfootball.org) |
 
 ### For reCAPTCHA (spam protection)
 
@@ -23,7 +25,7 @@ The contact form sends emails via Resend and uses reCAPTCHA v3 for spam protecti
 ## Verifying setup
 
 1. **Resend:** In Vercel, add `RESEND_API_KEY` from your Resend dashboard.
-2. **Resend domain:** Verify your domain in Resend, or use `onboarding@resend.dev` (sandbox – limited to verified recipient emails).
+2. **Resend domain:** Verify your domain in Resend. The `from` address must use your verified domain (e.g. `noreply@riseupfootball.org`). Using `onboarding@resend.dev` only allows sending to your own email.
 3. **reCAPTCHA:** Create a v3 site at Google reCAPTCHA admin, add your domain, and set both keys in Vercel.
 
 ## Disable reCAPTCHA

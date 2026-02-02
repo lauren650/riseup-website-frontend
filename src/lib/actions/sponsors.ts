@@ -107,8 +107,10 @@ export async function submitSponsor(
     if (!resend) {
       console.warn("Resend not configured, skipping confirmation email");
     } else {
+      const fromEmail =
+        process.env.RESEND_FROM_EMAIL || "RiseUp Website <noreply@riseupfootball.org>";
       await resend.emails.send({
-        from: "RiseUp Website <onboarding@resend.dev>",
+        from: fromEmail,
         to: data.contactEmail,
         subject: "Sponsor Submission Received - RiseUp Youth Football",
         html: `
@@ -133,9 +135,11 @@ export async function submitSponsor(
     } else {
       const adminEmail =
         process.env.ADMIN_EMAIL || process.env.CONTACT_EMAIL || "admin@riseupfootball.org";
+      const fromEmail =
+        process.env.RESEND_FROM_EMAIL || "RiseUp Website <noreply@riseupfootball.org>";
 
       await resend.emails.send({
-        from: "RiseUp Website <onboarding@resend.dev>",
+        from: fromEmail,
         to: adminEmail,
         subject: `New Sponsor Submission: ${data.companyName}`,
         html: `

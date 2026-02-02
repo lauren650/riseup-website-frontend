@@ -133,8 +133,10 @@ export async function submitSponsorInterest(
         "Resend not configured, skipping prospect confirmation email"
       );
     } else {
+      const fromEmail =
+        process.env.RESEND_FROM_EMAIL || "RiseUp Website <noreply@riseupfootball.org>";
       await resend.emails.send({
-        from: "RiseUp Website <onboarding@resend.dev>",
+        from: fromEmail,
         to: data.email,
         subject: "Partner Interest Received - RiseUp Youth Football",
         html: `
@@ -159,12 +161,15 @@ export async function submitSponsorInterest(
       console.warn("Resend not configured, skipping admin notification");
     } else {
       const adminEmail =
+        process.env.SPONSOR_INTEREST_EMAIL ||
         process.env.ADMIN_EMAIL ||
         process.env.CONTACT_EMAIL ||
-        "admin@riseupfootball.org";
+        "krystie@riseupfootball.org";
+      const fromEmail =
+        process.env.RESEND_FROM_EMAIL || "RiseUp Website <noreply@riseupfootball.org>";
 
       await resend.emails.send({
-        from: "RiseUp Website <onboarding@resend.dev>",
+        from: fromEmail,
         to: adminEmail,
         subject: `New Partner Interest: ${data.companyName}`,
         html: `
