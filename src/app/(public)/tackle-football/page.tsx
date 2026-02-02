@@ -182,6 +182,7 @@ export default function TackleFootballPage() {
           page="tackle-football"
           section="hero"
           mobilePosYOffset={75}
+          useBackgroundOnMobile
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/80 pointer-events-none" />
       </section>
