@@ -647,28 +647,6 @@ export default function TackleFootballPage() {
                     for review.
                   </EditableText>
                 </div>
-                <div className="rounded-lg border border-accent/30 bg-accent/5 p-4">
-                  <EditableText
-                    contentKey="tackle.registration.key_dates_title"
-                    as="p"
-                    className="font-semibold text-accent mb-2"
-                    page="tackle-football"
-                    section="registration"
-                  >
-                    Key Season Dates:
-                  </EditableText>
-                  <EditableText
-                    contentKey="tackle.registration.key_dates"
-                    as="p"
-                    className="text-sm"
-                    page="tackle-football"
-                    section="registration"
-                  >
-                    <strong className="text-white">June 1, 2026</strong> - Registration Closes, Sports Physicals and Measurements Due, Last Day for a Full Refund Request
-                    <br />
-                    <strong className="text-white">July 1, 2026</strong> - Last Day for Partial Refund Request
-                  </EditableText>
-                </div>
               </div>
             </div>
 
