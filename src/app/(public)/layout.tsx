@@ -19,7 +19,11 @@ export default async function PublicLayout({
   // Fetch logo content
   const logo = await getImageContent('header.logo')
 
-  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+  // Set NEXT_PUBLIC_DISABLE_RECAPTCHA=true to disable (e.g. when reCAPTCHA causes issues)
+  const recaptchaSiteKey =
+    process.env.NEXT_PUBLIC_DISABLE_RECAPTCHA === "true"
+      ? undefined
+      : process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
 
   return (
     <RecaptchaProviderWrapper siteKey={recaptchaSiteKey}>

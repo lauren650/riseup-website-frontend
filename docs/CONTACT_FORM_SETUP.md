@@ -26,7 +26,29 @@ The contact form sends emails via Resend and uses reCAPTCHA v3 for spam protecti
 2. **Resend domain:** Verify your domain in Resend, or use `onboarding@resend.dev` (sandbox – limited to verified recipient emails).
 3. **reCAPTCHA:** Create a v3 site at Google reCAPTCHA admin, add your domain, and set both keys in Vercel.
 
+## Disable reCAPTCHA
+
+If reCAPTCHA causes issues (Invalid domain, private-token errors, etc.), you can disable it:
+
+```
+NEXT_PUBLIC_DISABLE_RECAPTCHA=true
+```
+
+Set this in Vercel → Project → Settings → Environment Variables. The form will work without spam protection. You can re-enable later by removing the variable.
+
+## Debugging
+
+- **Vercel logs:** After submitting, check Vercel → Project → Logs. Look for `[Contact]` messages:
+  - "Form submission received" = server action ran
+  - "RESEND_API_KEY not set" = add the key in Vercel
+  - "Sending email to: X" = Resend is being called
+  - "Email sent successfully" = it worked
+  - "Resend API error: X" = Resend returned an error (check message)
+
+- **Error messages:** The form now shows Resend's actual error message when send fails (e.g. domain not verified).
+
 ## Troubleshooting
 
-- **"Recaptcha has not been loaded"** – The form now has a 10-second fallback; if reCAPTCHA doesn't load, you can still submit. Check that your domain is in the reCAPTCHA admin console.
-- **Email not received** – Confirm `RESEND_API_KEY` is set in Vercel. If Resend isn't configured, the success modal will show "(Note: Email delivery not configured)".
+- **"Recaptcha has not been loaded"** – Set `NEXT_PUBLIC_DISABLE_RECAPTCHA=true` to bypass, or add your domain to reCAPTCHA admin.
+- **"Unrecognized feature: private-token"** – Harmless browser warning, can be ignored.
+- **Email not received** – Confirm `RESEND_API_KEY` is set in Vercel. Check Vercel logs for `[Contact]` messages.

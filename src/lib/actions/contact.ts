@@ -63,6 +63,9 @@ export async function submitContactForm(
   prevState: ContactFormState | null,
   formData: FormData
 ): Promise<ContactFormState> {
+  // Debug: log that we received the form (shows in Vercel/server logs)
+  console.log("[Contact] Form submission received");
+
   // Parse form data
   const rawData: ContactFormData = {
     name: formData.get("name") as string,
@@ -108,19 +111,19 @@ export async function submitContactForm(
   // Send email via Resend
   try {
     if (!resend) {
-      console.warn("Resend not configured, skipping email send");
-      // Still return success for development
+      console.warn("[Contact] RESEND_API_KEY not set - email not sent");
       return {
         success: true,
         message:
-          "Thank you for your message! We'll get back to you soon. (Note: Email delivery not configured)",
+          "Thank you for your message! We'll get back to you soon. (Note: Email delivery not configured - set RESEND_API_KEY in Vercel)",
       };
     }
 
     const contactEmail =
       process.env.CONTACT_EMAIL || "admin@riseupfootball.org";
+    console.log("[Contact] Sending email to:", contactEmail);
 
-    await resend.emails.send({
+    const { data: sendData, error: sendError } = await resend.emails.send({
       from: "RiseUp Website <onboarding@resend.dev>",
       to: contactEmail,
       subject: `New Contact: ${data.subject} from ${data.name}`,
@@ -136,15 +139,25 @@ export async function submitContactForm(
       replyTo: data.email,
     });
 
+    if (sendError) {
+      console.error("[Contact] Resend API error:", sendError);
+      return {
+        success: false,
+        message: `Failed to send: ${sendError.message}. Check Resend dashboard and domain verification.`,
+      };
+    }
+
+    console.log("[Contact] Email sent successfully, id:", sendData?.id);
     return {
       success: true,
       message: "Thank you for your message! We'll get back to you soon.",
     };
   } catch (error) {
-    console.error("Failed to send email:", error);
+    const err = error as Error;
+    console.error("[Contact] Unexpected error:", err);
     return {
       success: false,
-      message: "Failed to send message. Please try again later.",
+      message: `Failed to send: ${err.message || "Please try again later."}`,
     };
   }
 }

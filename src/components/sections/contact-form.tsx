@@ -202,27 +202,29 @@ export function ContactForm() {
             : "Send Message"}
       </button>
 
-      <p className="text-center text-xs text-muted-foreground">
-        This site is protected by reCAPTCHA and the Google{" "}
-        <a
-          href="https://policies.google.com/privacy"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline hover:text-white"
-        >
-          Privacy Policy
-        </a>{" "}
-        and{" "}
-        <a
-          href="https://policies.google.com/terms"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline hover:text-white"
-        >
-          Terms of Service
-        </a>{" "}
-        apply.
-      </p>
+      {process.env.NEXT_PUBLIC_DISABLE_RECAPTCHA !== "true" && (
+        <p className="text-center text-xs text-muted-foreground">
+          This site is protected by reCAPTCHA and the Google{" "}
+          <a
+            href="https://policies.google.com/privacy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline hover:text-white"
+          >
+            Privacy Policy
+          </a>{" "}
+          and{" "}
+          <a
+            href="https://policies.google.com/terms"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline hover:text-white"
+          >
+            Terms of Service
+          </a>{" "}
+          apply.
+        </p>
+      )}
     </form>
 
       {/* Confirmation Modal */}
