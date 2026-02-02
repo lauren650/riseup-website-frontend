@@ -27,6 +27,16 @@ export function EditableHeroImage({
   const [error, setError] = useState<string | null>(null)
   const [isRepositioning, setIsRepositioning] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Mobile viewport detection - tall narrow containers need posY offset to match desktop framing
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)')
+    const handler = () => setIsMobile(mq.matches)
+    handler()
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
 
   // Image positioning state (percentages for object-position)
   const [scale, setScale] = useState(1.5) // Start more zoomed to allow more panning
@@ -295,11 +305,15 @@ export function EditableHeroImage({
 
   const hasValidImage = currentSrc && (currentSrc.startsWith('http') || currentSrc.startsWith('/'))
 
+  // On mobile, tall narrow containers cause object-position to anchor too high.
+  // Offset posY down to better match the desktop framing the user chose.
+  const effectivePosY = isMobile ? Math.min(100, posY + 20) : posY
+
   const imageStyle = {
     width: '100%',
     height: '100%',
     objectFit: 'cover' as const,
-    objectPosition: `${posX}% ${posY}%`,
+    objectPosition: `${posX}% ${effectivePosY}%`,
     transform: `scale(${scale})`,
     transformOrigin: 'center center',
   }
