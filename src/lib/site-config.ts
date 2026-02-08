@@ -11,4 +11,4 @@
  * Edit the URL below, or set NEXT_PUBLIC_REGISTER_ENDZONE_URL in .env.local
  */
 export const REGISTER_ENDZONE_URL =
-  process.env.NEXT_PUBLIC_REGISTER_ENDZONE_URL ?? 'https://endzone.example.com/register';
+  process.env.NEXT_PUBLIC_REGISTER_ENDZONE_URL ?? 'https://endzone.riseupfootball.org';
