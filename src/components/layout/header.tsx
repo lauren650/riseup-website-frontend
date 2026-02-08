@@ -6,6 +6,7 @@ import { MobileNav } from './mobile-nav'
 import { EditableImage } from '@/components/editable/editable-image'
 import { useEditMode } from '@/contexts/edit-mode-context'
 import { cn } from '@/lib/utils'
+import { REGISTER_ENDZONE_URL } from '@/lib/site-config'
 
 const navLinks = [
   { href: '/flag-football', label: "Girl's Flag Football" },
@@ -80,6 +81,16 @@ export function Header({ logoSrc = '/images/logo.png', logoAlt = 'RiseUp Youth F
             </li>
           ))}
         </ul>
+
+        {/* Register at Endzone - Desktop */}
+        <Link
+          href={REGISTER_ENDZONE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hidden md:inline-flex items-center rounded-full bg-accent px-6 py-2.5 text-base font-semibold text-white transition-all duration-200 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black"
+        >
+          Register at Endzone
+        </Link>
 
         {/* Mobile Menu Button */}
         <button

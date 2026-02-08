@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'framer-motion'
+import { REGISTER_ENDZONE_URL } from '@/lib/site-config'
 
 interface MobileNavProps {
   isOpen: boolean
@@ -52,6 +53,21 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                   </Link>
                 </motion.li>
               ))}
+              <motion.li
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.1 + navLinks.length * 0.05, duration: 0.3 }}
+              >
+                <Link
+                  href={REGISTER_ENDZONE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={onClose}
+                  className="inline-flex items-center rounded-full bg-accent px-8 py-4 text-xl font-semibold text-white transition-all duration-200 hover:opacity-90"
+                >
+                  Register at Endzone
+                </Link>
+              </motion.li>
             </ul>
           </motion.nav>
         </motion.div>
