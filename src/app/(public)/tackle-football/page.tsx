@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SubNavigation } from '@/components/ui/sub-navigation';
+import { REGISTER_ENDZONE_URL } from '@/lib/site-config';
 import { ParentTestimonials } from '@/components/sections/parent-testimonials';
 import { PhotoContentBlockEditable } from '@/components/sections/photo-content-block-editable';
 import { QuickReference, Timeline } from '@/components/ui/quick-reference';
@@ -189,7 +190,8 @@ export default function TackleFootballPage() {
       {/* Sub Navigation */}
       <SubNavigation 
         items={subNavItems} 
-        showRegisterButton={false}
+        showRegisterButton={true}
+        registerLink={REGISTER_ENDZONE_URL}
       />
 
       {/* Overview Section */}
