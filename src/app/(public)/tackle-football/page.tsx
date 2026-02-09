@@ -1210,7 +1210,12 @@ export default function TackleFootballPage() {
             football experience.
           </EditableText>
           <div className="flex flex-wrap justify-center gap-4">
-            <div className="inline-block rounded-full bg-accent/50 px-8 py-4 text-lg font-semibold text-white cursor-not-allowed opacity-50">
+            <Link
+              href={REGISTER_ENDZONE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center rounded-full bg-accent px-8 py-4 text-lg font-semibold text-white transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black"
+            >
               <EditableText
                 contentKey="tackle.cta.register_button"
                 as="span"
@@ -1219,7 +1224,7 @@ export default function TackleFootballPage() {
               >
                 Register Now
               </EditableText>
-            </div>
+            </Link>
           </div>
         </div>
       </section>

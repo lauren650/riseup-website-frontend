@@ -2,6 +2,7 @@
 
 import { Resend } from "resend";
 import { contactSchema, ContactFormData } from "@/lib/validations/contact";
+import { sendWithRetry } from "@/lib/resend";
 
 export interface ContactFormState {
   success: boolean;
@@ -125,7 +126,7 @@ export async function submitContactForm(
       process.env.RESEND_FROM_EMAIL || "RiseUp Website <noreply@riseupfootball.org>";
     console.log("[Contact] Sending email to:", contactEmail, "from:", fromEmail);
 
-    const { data: sendData, error: sendError } = await resend.emails.send({
+    const { data: sendData, error: sendError } = await sendWithRetry(resend, {
       from: fromEmail,
       to: contactEmail,
       subject: `New Contact: ${data.subject} from ${data.name}`,

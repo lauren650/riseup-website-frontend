@@ -101,7 +101,7 @@ export function PricingTable({ packages }: PricingTableProps) {
             )}
           </div>
 
-          {/* Column 3: Closing Date & Contact Button (or SOLD OUT for Academy Sponsor) */}
+          {/* Column 3: Closing Date & Contact Button */}
           <div className="flex flex-col items-start md:items-center justify-center gap-4">
             <div className="text-center">
               <p className="text-xs text-muted-foreground uppercase tracking-wide mb-2">
@@ -110,18 +110,13 @@ export function PricingTable({ packages }: PricingTableProps) {
               <p className="text-lg font-bold text-white">
                 {formatDate(pkg.closing_date)}
               </p>
-              {pkg.name === "Academy Sponsor" && (
-                <p className="mt-3 text-2xl font-bold text-accent">SOLD OUT</p>
-              )}
             </div>
-            {pkg.name !== "Academy Sponsor" && (
-              <button
-                onClick={handleContactClick}
-                className="w-full rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-              >
-                Contact for More Info
-              </button>
-            )}
+            <button
+              onClick={handleContactClick}
+              className="w-full rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+            >
+              Contact for More Info
+            </button>
           </div>
         </div>
       ))}

@@ -2,6 +2,7 @@
 
 import { Resend } from "resend";
 import { revalidatePath } from "next/cache";
+import { delayBetweenEmails, sendWithRetry } from "@/lib/resend";
 import { createClient } from "@/lib/supabase/server";
 import { sponsorSchema, SponsorFormData } from "@/lib/validations/sponsor";
 
@@ -109,7 +110,7 @@ export async function submitSponsor(
     } else {
       const fromEmail =
         process.env.RESEND_FROM_EMAIL || "RiseUp Website <noreply@riseupfootball.org>";
-      await resend.emails.send({
+      await sendWithRetry(resend, {
         from: fromEmail,
         to: data.contactEmail,
         subject: "Sponsor Submission Received - RiseUp Youth Football",
@@ -122,6 +123,7 @@ export async function submitSponsor(
           <p>Best regards,<br>RiseUp Youth Football</p>
         `,
       });
+      await delayBetweenEmails();
     }
   } catch (error) {
     console.error("Failed to send confirmation email:", error);
@@ -138,7 +140,7 @@ export async function submitSponsor(
       const fromEmail =
         process.env.RESEND_FROM_EMAIL || "RiseUp Website <noreply@riseupfootball.org>";
 
-      await resend.emails.send({
+      await sendWithRetry(resend, {
         from: fromEmail,
         to: adminEmail,
         subject: `New Sponsor Submission: ${data.companyName}`,

@@ -2,6 +2,7 @@
 
 import { Resend } from "resend";
 import { createClient } from "@/lib/supabase/server";
+import { delayBetweenEmails, sendWithRetry } from "@/lib/resend";
 import {
   sponsorInterestSchema,
   SponsorInterestFormData,
@@ -135,7 +136,7 @@ export async function submitSponsorInterest(
     } else {
       const fromEmail =
         process.env.RESEND_FROM_EMAIL || "RiseUp Website <noreply@riseupfootball.org>";
-      await resend.emails.send({
+      await sendWithRetry(resend, {
         from: fromEmail,
         to: data.email,
         subject: "Partner Interest Received - RiseUp Youth Football",
@@ -149,6 +150,7 @@ export async function submitSponsorInterest(
           <p>Best regards,<br>RiseUp Football Team</p>
         `,
       });
+      await delayBetweenEmails();
     }
   } catch (error) {
     console.error("Failed to send prospect confirmation email:", error);
@@ -165,7 +167,7 @@ export async function submitSponsorInterest(
       const fromEmail =
         process.env.RESEND_FROM_EMAIL || "RiseUp Website <noreply@riseupfootball.org>";
 
-      await resend.emails.send({
+      await sendWithRetry(resend, {
         from: fromEmail,
         to: adminEmail,
         subject: `New Partner Interest: ${data.companyName}`,
