@@ -1222,7 +1222,7 @@ export default function TackleFootballPage() {
                 page="tackle-football"
                 section="cta"
               >
-                Register Now
+                Register for Tackle Football
               </EditableText>
             </Link>
           </div>
