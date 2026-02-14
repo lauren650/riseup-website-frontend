@@ -132,28 +132,9 @@ export default function AcademiesClinicsPage() {
           </div>
 
           <div className="rounded-xl border border-accent/30 bg-accent/5 p-6 max-w-3xl mx-auto text-center">
-            <h3 className="mb-3 text-xl font-bold text-white">Early Bird Special!</h3>
-            <EditableText
-              contentKey="academies.clinic.early_bird"
-              as="p"
-              className="text-muted-foreground"
-              page="academies-clinics"
-              section="clinic"
-            >
-              Sign up by <strong className="text-white">January 30th</strong> to guarantee your athlete receives a participant shirt and personalized name badge!
-            </EditableText>
-          </div>
-
-          {/* Clinic Registration Button */}
-          <div className="mt-8 text-center">
-            <EditableButton
-              textKey="academies.clinic.register_button"
-              urlKey="academies.clinic.register_url"
-              defaultText="Register for Winter Clinic"
-              defaultUrl="https://example.com/clinic-registration"
-              page="academies-clinics"
-              section="clinic"
-            />
+            <p className="text-muted-foreground">
+              Online registration is now closed. However, if you have friends who would still like to participate, they are welcome to walk in Monday morning between 8:30–8:45 AM to register. Registered participant check-in will begin at 8:45 AM.
+            </p>
           </div>
         </div>
       </section>
