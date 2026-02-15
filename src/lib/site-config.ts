@@ -12,3 +12,10 @@
  */
 export const REGISTER_ENDZONE_URL =
   process.env.NEXT_PUBLIC_REGISTER_ENDZONE_URL ?? 'https://endzone.riseupfootball.org';
+
+/**
+ * Shop - URL for the Shop link in the navigation (Squadlocker team store).
+ * Set NEXT_PUBLIC_SHOP_URL in .env.local to override.
+ */
+export const SHOP_URL =
+  process.env.NEXT_PUBLIC_SHOP_URL ?? 'https://teamlocker.squadlocker.com/stores/riseup-moore#/lockers/riseup-moore';
