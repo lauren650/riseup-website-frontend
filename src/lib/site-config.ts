@@ -12,3 +12,10 @@
  */
 export const REGISTER_ENDZONE_URL =
   process.env.NEXT_PUBLIC_REGISTER_ENDZONE_URL ?? 'https://endzone.example.com/register';
+
+/**
+ * Shop - URL for the Shop link in the navigation.
+ * Set NEXT_PUBLIC_SHOP_URL in .env.local to point to your store, or leave unset to hide/override in code.
+ */
+export const SHOP_URL =
+  process.env.NEXT_PUBLIC_SHOP_URL ?? '#';
