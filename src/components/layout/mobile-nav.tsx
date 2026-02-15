@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'framer-motion'
-import { REGISTER_ENDZONE_URL } from '@/lib/site-config'
+import { REGISTER_ENDZONE_URL, SHOP_URL } from '@/lib/site-config'
 
 interface MobileNavProps {
   isOpen: boolean
@@ -15,7 +15,7 @@ const navLinks = [
   { href: '/academies-clinics', label: 'Academies & Clinics' },
   { href: '/ways-to-give', label: 'Ways to Give' },
   { href: '/become-a-partner', label: 'Partners' },
-  // { href: '/about', label: 'About' }, // Temporarily hidden
+  { href: SHOP_URL, label: 'Shop', external: true },
 ]
 
 export function MobileNav({ isOpen, onClose }: MobileNavProps) {
@@ -39,18 +39,30 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
             <ul className="flex flex-col items-center gap-8">
               {navLinks.map((link, index) => (
                 <motion.li
-                  key={link.href}
+                  key={link.href + link.label}
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.1 + index * 0.05, duration: 0.3 }}
                 >
-                  <Link
-                    href={link.href}
-                    onClick={onClose}
-                    className="text-3xl font-medium text-white transition-colors hover:text-accent"
-                  >
-                    {link.label}
-                  </Link>
+                  {link.external ? (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={onClose}
+                      className="text-3xl font-medium text-white transition-colors hover:text-accent"
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      onClick={onClose}
+                      className="text-3xl font-medium text-white transition-colors hover:text-accent"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </motion.li>
               ))}
               <motion.li

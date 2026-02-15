@@ -6,7 +6,7 @@ import { MobileNav } from './mobile-nav'
 import { EditableImage } from '@/components/editable/editable-image'
 import { useEditMode } from '@/contexts/edit-mode-context'
 import { cn } from '@/lib/utils'
-import { REGISTER_ENDZONE_URL } from '@/lib/site-config'
+import { REGISTER_ENDZONE_URL, SHOP_URL } from '@/lib/site-config'
 
 const navLinks = [
   { href: '/flag-football', label: "Girl's Flag Football" },
@@ -14,7 +14,7 @@ const navLinks = [
   { href: '/academies-clinics', label: 'Academies & Clinics' },
   { href: '/ways-to-give', label: 'Ways to Give' },
   { href: '/become-a-partner', label: 'Partners' },
-  // { href: '/about', label: 'About' }, // Temporarily hidden
+  { href: SHOP_URL, label: 'Shop', external: true },
 ]
 
 interface HeaderProps {
@@ -71,13 +71,24 @@ export function Header({ logoSrc = '/images/logo.png', logoAlt = 'RiseUp Youth F
         {/* Desktop Nav - centered on screen */}
         <ul className="hidden items-center gap-6 md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           {navLinks.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className="text-base font-medium text-white/90 transition-all duration-200 hover:text-white hover:scale-110 whitespace-nowrap inline-block"
-              >
-                {link.label}
-              </Link>
+            <li key={link.href + link.label}>
+              {link.external ? (
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-base font-medium text-white/90 transition-all duration-200 hover:text-white hover:scale-110 whitespace-nowrap inline-block"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  href={link.href}
+                  className="text-base font-medium text-white/90 transition-all duration-200 hover:text-white hover:scale-110 whitespace-nowrap inline-block"
+                >
+                  {link.label}
+                </Link>
+              )}
             </li>
           ))}
         </ul>
