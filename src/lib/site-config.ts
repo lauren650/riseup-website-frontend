@@ -14,8 +14,8 @@ export const REGISTER_ENDZONE_URL =
   process.env.NEXT_PUBLIC_REGISTER_ENDZONE_URL ?? 'https://endzone.example.com/register';
 
 /**
- * Shop - URL for the Shop link in the navigation.
- * Set NEXT_PUBLIC_SHOP_URL in .env.local to point to your store, or leave unset to hide/override in code.
+ * Shop - URL for the Shop link in the navigation (Squadlocker team store).
+ * Set NEXT_PUBLIC_SHOP_URL in .env.local to override.
  */
 export const SHOP_URL =
-  process.env.NEXT_PUBLIC_SHOP_URL ?? '#';
+  process.env.NEXT_PUBLIC_SHOP_URL ?? 'https://teamlocker.squadlocker.com/stores/riseup-moore#/lockers/riseup-moore';
