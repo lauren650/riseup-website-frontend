@@ -46,7 +46,7 @@ export function Header({ logoSrc = '/images/logo.png', logoAlt = 'RiseUp Youth F
       alt={logoAlt}
       width={260}
       height={104}
-      className="h-24 w-auto object-contain"
+      className="h-16 lg:h-20 xl:h-24 w-auto object-contain"
       page="all"
       section="header"
       priority
@@ -60,16 +60,16 @@ export function Header({ logoSrc = '/images/logo.png', logoAlt = 'RiseUp Youth F
         ? "bg-black/98 backdrop-blur-lg shadow-xl" 
         : "bg-gradient-to-b from-black/95 via-black/70 to-transparent"
     )}>
-      <nav className="relative mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
+      <nav className="relative mx-auto flex max-w-7xl items-center justify-between px-4 lg:px-6 py-3">
         {/* Logo - no Link wrapper in edit mode to allow clicking upload */}
         {isEditMode ? (
-          <div className="z-50 relative">{logoElement}</div>
+          <div className="z-50 relative shrink-0">{logoElement}</div>
         ) : (
-          <Link href="/" className="z-50 relative">{logoElement}</Link>
+          <Link href="/" className="z-50 relative shrink-0">{logoElement}</Link>
         )}
 
-        {/* Desktop Nav - centered on screen */}
-        <ul className="hidden items-center gap-6 md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        {/* Desktop Nav */}
+        <ul className="hidden items-center lg:flex mx-4 shrink min-w-0 gap-[clamp(0.5rem,1.5vw,1.25rem)]">
           {navLinks.map((link) => (
             <li key={link.href + link.label}>
               {link.external ? (
@@ -77,14 +77,14 @@ export function Header({ logoSrc = '/images/logo.png', logoAlt = 'RiseUp Youth F
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-base font-medium text-white/90 transition-all duration-200 hover:text-white hover:scale-110 whitespace-nowrap inline-block"
+                  className="text-[clamp(0.75rem,1vw,1rem)] font-medium text-white/90 transition-all duration-200 hover:text-white hover:scale-105 whitespace-nowrap inline-block"
                 >
                   {link.label}
                 </a>
               ) : (
                 <Link
                   href={link.href}
-                  className="text-base font-medium text-white/90 transition-all duration-200 hover:text-white hover:scale-110 whitespace-nowrap inline-block"
+                  className="text-[clamp(0.75rem,1vw,1rem)] font-medium text-white/90 transition-all duration-200 hover:text-white hover:scale-105 whitespace-nowrap inline-block"
                 >
                   {link.label}
                 </Link>
@@ -98,7 +98,7 @@ export function Header({ logoSrc = '/images/logo.png', logoAlt = 'RiseUp Youth F
           href={REGISTER_ENDZONE_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="hidden md:inline-flex items-center rounded-full bg-accent px-6 py-2.5 text-base font-semibold text-white transition-all duration-200 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black"
+          className="hidden lg:inline-flex items-center rounded-full bg-accent px-[clamp(0.75rem,1.5vw,1.5rem)] py-[clamp(0.4rem,0.6vw,0.625rem)] text-[clamp(0.75rem,1vw,1rem)] font-semibold text-white transition-all duration-200 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black whitespace-nowrap shrink-0"
         >
           Register at Endzone
         </Link>
@@ -106,7 +106,7 @@ export function Header({ logoSrc = '/images/logo.png', logoAlt = 'RiseUp Youth F
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="relative z-50 flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden"
+          className="relative z-50 flex h-10 w-10 flex-col items-center justify-center gap-1.5 lg:hidden"
           aria-label={isOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={isOpen}
         >
