@@ -464,7 +464,7 @@ export default function TackleFootballPage() {
                     <strong className="text-white">June 1, 2026</strong>.
                   </EditableText>
                   <a
-                    href="https://www.nchsaa.org/wp-content/uploads/2023/09/2025-2026_PPE-English.pdf"
+                    href="https://www.nchsaa.org/wp-content/uploads/2023/09/2026-2027_PPE-English.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-block rounded-full bg-white px-6 py-3 text-sm font-semibold text-black transition-opacity hover:bg-white/90"
