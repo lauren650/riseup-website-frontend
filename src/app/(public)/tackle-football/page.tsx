@@ -17,6 +17,9 @@ const subNavItems = [
   { id: 'quick-reference', label: 'Quick Reference' },
 ];
 
+const endzonePortalLinkClassName =
+  'font-semibold text-white underline decoration-white/40 underline-offset-2 transition-colors hover:text-accent hover:decoration-accent focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black rounded-sm';
+
 const parentTestimonials = [
   {
     quote:
@@ -508,23 +511,29 @@ export default function TackleFootballPage() {
                   href={REGISTER_ENDZONE_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-semibold text-white underline decoration-white/40 underline-offset-2 transition-colors hover:text-accent hover:decoration-accent focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black rounded-sm"
+                  className={endzonePortalLinkClassName}
                 >
-                  End Zone
+                  ENDZONE
                 </Link>{' '}
                 portal to complete your registration. You need a PDF or JPEG
                 version of your player's birth certificate ready to upload
                 during registration. You can get your player profile ready to go
                 prior to registration day to simplify the process.
               </p>
-              <EditableText
-                contentKey="tackle.registration.how_to_p2"
-                as="p"
-                page="tackle-football"
-                section="registration"
-              >
-                You have until June 1, 2026 to upload a current sports physical and measurements. To edit your registration after submitting, visit the End Zone portal.
-              </EditableText>
+              <p>
+                You have until June 1, 2026 to upload a current sports physical
+                and measurements. To edit your registration after submitting,
+                visit the{' '}
+                <Link
+                  href={REGISTER_ENDZONE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={endzonePortalLinkClassName}
+                >
+                  ENDZONE
+                </Link>{' '}
+                portal.
+              </p>
             </PhotoContentBlockEditable>
 
             <div
