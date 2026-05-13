@@ -502,14 +502,21 @@ export default function TackleFootballPage() {
               rounded={false}
               wideImage={true}
             >
-              <EditableText
-                contentKey="tackle.registration.how_to_p1"
-                as="p"
-                page="tackle-football"
-                section="registration"
-              >
-                Visit our End Zone portal to complete your registration. You need a PDF or JPEG version of your player's birth certificate ready to upload during registration. You can get your player profile ready to go prior to registration day to simplify the process.
-              </EditableText>
+              <p>
+                Visit our{' '}
+                <Link
+                  href={REGISTER_ENDZONE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-white underline decoration-white/40 underline-offset-2 transition-colors hover:text-accent hover:decoration-accent focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black rounded-sm"
+                >
+                  End Zone
+                </Link>{' '}
+                portal to complete your registration. You need a PDF or JPEG
+                version of your player's birth certificate ready to upload
+                during registration. You can get your player profile ready to go
+                prior to registration day to simplify the process.
+              </p>
               <EditableText
                 contentKey="tackle.registration.how_to_p2"
                 as="p"
