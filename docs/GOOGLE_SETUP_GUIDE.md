@@ -81,25 +81,38 @@ GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYOUR_KEY_HERE\n-----END PRIVATE
 
 ---
 
-## Step 6: Create Google Drive Folder
+## Step 6: Create Google Drive Folder (must be in a Shared Drive)
+
+Service accounts have no storage quota, so the root folder **must** be inside a **Google Shared Drive**. Then the service account writes into that drive’s quota.
+
+### Option A: You have Google Workspace (or Shared Drives available)
 
 1. Go to [Google Drive](https://drive.google.com)
-2. Create a new folder named "RiseUp Sponsors"
-3. Right-click folder > **Share**
-4. Add your service account email (from Step 5)
-5. Give it **Editor** access
-6. Click **Share**
-
-Get the folder ID from the URL:
-```
-https://drive.google.com/drive/folders/1abc123xyz456
-                                          ↑ This is the ID
-```
+2. In the left sidebar, click **Shared drives** (or **New** → **Shared drive**)
+3. Create a new Shared Drive (e.g. “RiseUp”) or use an existing one
+4. Open that Shared Drive, then create a folder inside it (e.g. “RiseUp Sponsors”)
+5. **Add the service account as a member:**  
+   Right‑click the **Shared Drive** (not just the folder) → **Manage members** → **Add members**  
+   Add your **service account email** (from Step 5, e.g. `…@….iam.gserviceaccount.com`) with **Content manager** or **Writer**
+6. Open the folder you created (e.g. “RiseUp Sponsors”) and get its ID from the URL:
+   ```
+   https://drive.google.com/drive/folders/1abc123xyz456
+                                             ↑ This is the ID
+   ```
 
 Add to `.env.local`:
 ```bash
 GOOGLE_DRIVE_ROOT_FOLDER_ID=1abc123xyz456
 ```
+
+### Option B: Personal Gmail (no Shared Drives)
+
+Personal accounts often don’t have Shared Drives. Options:
+
+- **Use a Workspace account** (e.g. riseupfootball.org) for Drive and create a Shared Drive there, then use Option A, or  
+- **Use a different project** under a Workspace org that has Shared Drives.
+
+If you only have a personal Gmail and cannot use Shared Drives, the upload step in validation will fail with “Service Accounts do not have storage quota”; the rest of the flow (Drive auth, folder creation in a shared folder, Sheets) can still work once you move the root folder into a Shared Drive later.
 
 ---
 

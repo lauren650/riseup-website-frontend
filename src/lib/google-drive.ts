@@ -1,4 +1,5 @@
-import { google } from 'googleapis';
+import { Readable } from "stream";
+import { google } from "googleapis";
 
 /**
  * Google Drive client for sponsor upload workflow
@@ -12,7 +13,7 @@ function getDriveClient() {
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
       private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
     },
-    scopes: ['https://www.googleapis.com/auth/drive.file'],
+    scopes: ['https://www.googleapis.com/auth/drive'],
   });
 
   return google.drive({ version: 'v3', auth });
@@ -50,6 +51,7 @@ export async function createDriveFolder(
     const response = await drive.files.create({
       requestBody: fileMetadata,
       fields: 'id',
+      supportsAllDrives: true,
     });
 
     if (!response.data.id) {
@@ -89,9 +91,10 @@ export async function uploadFileToDrive(
       requestBody: fileMetadata,
       media: {
         mimeType,
-        body: fileBuffer as any, // Buffer to stream conversion handled by googleapis
+        body: Readable.from(fileBuffer),
       },
-      fields: 'id',
+      fields: "id",
+      supportsAllDrives: true,
     });
 
     if (!response.data.id) {
@@ -122,6 +125,8 @@ export async function getOrCreatePackageFolder(
       q: `name='${packageName}' and '${rootFolderId}' in parents and mimeType='application/vnd.google-apps.folder' and trashed=false`,
       fields: 'files(id, name)',
       spaces: 'drive',
+      supportsAllDrives: true,
+      includeItemsFromAllDrives: true,
     });
 
     // If found, return existing folder ID

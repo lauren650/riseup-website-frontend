@@ -10,6 +10,7 @@ const quickLinks = [
 
 const supportLinks = [
   { href: '/ways-to-give', label: 'Ways to Give' },
+  { href: '/golf-tournament', label: 'Golf Tournament' },
   { href: '/contact', label: 'Get in Touch' },
 ]
 

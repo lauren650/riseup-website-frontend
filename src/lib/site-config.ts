@@ -19,3 +19,29 @@ export const REGISTER_ENDZONE_URL =
  */
 export const SHOP_URL =
   process.env.NEXT_PUBLIC_SHOP_URL ?? 'https://teamlocker.squadlocker.com/stores/riseup-moore#/lockers/riseup-moore';
+
+/**
+ * On-page anchor for golf tournament registration (GiveButter widget section).
+ */
+export const GOLF_TOURNAMENT_REGISTER_URL = '#register';
+
+/**
+ * GiveButter widget ID for golf tournament ticket purchases.
+ * Set NEXT_PUBLIC_GOLF_TOURNAMENT_GIVEBUTTER_WIDGET_ID in .env.local to override.
+ */
+export const GOLF_TOURNAMENT_GIVEBUTTER_WIDGET_ID =
+  process.env.NEXT_PUBLIC_GOLF_TOURNAMENT_GIVEBUTTER_WIDGET_ID ?? 'LxGK8b';
+
+/**
+ * Base URL for the site (used for absolute links in emails, e.g. /upload/[token]).
+ * Set NEXT_PUBLIC_SITE_URL in .env.local / Vercel. Falls back to VERCEL_URL in production.
+ */
+export function getSiteBaseUrl(): string {
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    return process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, '');
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+  return 'https://riseupfootball.org'; // fallback for production
+}

@@ -1,7 +1,8 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe/client";
-import { createClient } from "@/lib/supabase/server";
+import { createServiceRoleClient } from "@/lib/supabase/server";
+import { handleInvoicePaid } from "@/lib/webhooks/invoice-paid";
 import type Stripe from "stripe";
 
 /**
@@ -54,8 +55,8 @@ export async function POST(req: Request) {
     );
   }
 
-  // 3. Check idempotency - prevent duplicate processing
-  const supabase = await createClient();
+  // 3. Check idempotency - prevent duplicate processing (service role required for webhook_events)
+  const supabase = createServiceRoleClient();
   const { data: existingEvent } = await supabase
     .from("webhook_events")
     .select("id")
@@ -69,26 +70,37 @@ export async function POST(req: Request) {
   }
 
   // 4. Handle known event types
-  // TODO (Phase 7): Implement full event handling
   switch (event.type) {
     case "invoice.finalized":
-      // TODO: Update invoice status to 'open' in database
       console.log(`Invoice finalized: ${(event.data.object as Stripe.Invoice).id}`);
       break;
 
-    case "invoice.paid":
-      // TODO: Update invoice status to 'paid' in database
-      // TODO: Call decrement_package_slots() for the associated package
-      console.log(`Invoice paid: ${(event.data.object as Stripe.Invoice).id}`);
+    case "invoice.paid": {
+      const invoice = event.data.object as Stripe.Invoice;
+      try {
+        await handleInvoicePaid(invoice, supabase);
+      } catch (err) {
+        console.error("[Webhook] invoice.paid handler failed:", err);
+        // Return 500 so Stripe retries; we haven't recorded the event yet
+        return NextResponse.json(
+          { error: "Invoice paid handler failed" },
+          { status: 500 }
+        );
+      }
       break;
+    }
 
-    case "invoice.voided":
-      // TODO: Update invoice status to 'void' in database
-      console.log(`Invoice voided: ${(event.data.object as Stripe.Invoice).id}`);
+    case "invoice.voided": {
+      const invoice = event.data.object as Stripe.Invoice;
+      const { error: updateErr } = await supabase
+        .from("invoices")
+        .update({ status: "void", voided_at: new Date().toISOString() })
+        .eq("stripe_invoice_id", invoice.id);
+      if (updateErr) console.error("Failed to update voided invoice:", updateErr);
       break;
+    }
 
     default:
-      // Log unhandled events but don't fail
       console.log(`Unhandled event type: ${event.type}`);
   }
 
@@ -101,9 +113,7 @@ export async function POST(req: Request) {
 
   if (insertError) {
     console.error(`Failed to record webhook event: ${insertError.message}`);
-    // Don't fail the webhook - Stripe will retry and hit idempotency check
   }
 
-  // 6. Return success
   return NextResponse.json({ received: true });
 }

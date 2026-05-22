@@ -2,6 +2,7 @@
 
 import { Resend } from "resend";
 import { contactSchema, ContactFormData } from "@/lib/validations/contact";
+import { getResolvedTemplate } from "@/lib/actions/email-templates";
 import { sendWithRetry } from "@/lib/resend";
 
 export interface ContactFormState {
@@ -126,19 +127,18 @@ export async function submitContactForm(
       process.env.RESEND_FROM_EMAIL || "RiseUp Website <noreply@riseupfootball.org>";
     console.log("[Contact] Sending email to:", contactEmail, "from:", fromEmail);
 
+    const contactTmpl = await getResolvedTemplate("contact_form_to_admin", {
+      name: data.name,
+      email: data.email,
+      subject: data.subject,
+      message: data.message,
+      phone: data.phone,
+    });
     const { data: sendData, error: sendError } = await sendWithRetry(resend, {
       from: fromEmail,
       to: contactEmail,
-      subject: `New Contact: ${data.subject} from ${data.name}`,
-      html: `
-        <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${data.name}</p>
-        <p><strong>Email:</strong> ${data.email}</p>
-        ${data.phone ? `<p><strong>Phone:</strong> ${data.phone}</p>` : ""}
-        <p><strong>Subject:</strong> ${data.subject}</p>
-        <p><strong>Message:</strong></p>
-        <p>${data.message.replace(/\n/g, "<br>")}</p>
-      `,
+      subject: contactTmpl.subject,
+      html: contactTmpl.html,
       replyTo: data.email,
     });
 

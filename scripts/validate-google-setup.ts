@@ -98,16 +98,17 @@ async function validateDriveAuthentication(): Promise<boolean> {
         client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
         private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
       },
-      scopes: ['https://www.googleapis.com/auth/drive.file'],
+      scopes: ['https://www.googleapis.com/auth/drive'],
     });
 
     const drive = google.drive({ version: 'v3', auth });
 
-    // Test access to root folder
+    // Test access to root folder (supportsAllDrives so Shared Drive folders work)
     const rootFolderId = process.env.GOOGLE_DRIVE_ROOT_FOLDER_ID;
     const response = await drive.files.get({
       fileId: rootFolderId!,
       fields: 'id, name, mimeType',
+      supportsAllDrives: true,
     });
 
     success('Successfully authenticated with Google Drive API');
@@ -174,6 +175,13 @@ async function validateDriveFileUpload(): Promise<boolean> {
   } catch (err: any) {
     error('Failed to upload file to Google Drive');
     error(err.message);
+    const isQuotaError =
+      err?.message?.includes('Service Accounts do not have storage quota') ||
+      err?.cause?.message?.includes('Service Accounts do not have storage quota');
+    if (isQuotaError) {
+      warning('Your root folder must be inside a Google Shared Drive (service accounts have no storage otherwise).');
+      info('See docs/GOOGLE_SETUP_GUIDE.md → Step 6: Use a folder inside a Shared Drive and add the service account as a member.');
+    }
     return false;
   }
 }

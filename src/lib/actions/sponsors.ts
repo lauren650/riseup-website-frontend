@@ -2,6 +2,7 @@
 
 import { Resend } from "resend";
 import { revalidatePath } from "next/cache";
+import { getResolvedTemplate } from "@/lib/actions/email-templates";
 import { delayBetweenEmails, sendWithRetry } from "@/lib/resend";
 import { createClient } from "@/lib/supabase/server";
 import { sponsorSchema, SponsorFormData } from "@/lib/validations/sponsor";
@@ -110,18 +111,15 @@ export async function submitSponsor(
     } else {
       const fromEmail =
         process.env.RESEND_FROM_EMAIL || "RiseUp Website <noreply@riseupfootball.org>";
+      const conf = await getResolvedTemplate("sponsor_confirmation", {
+        contactName: data.contactName,
+        companyName: data.companyName,
+      });
       await sendWithRetry(resend, {
         from: fromEmail,
         to: data.contactEmail,
-        subject: "Sponsor Submission Received - RiseUp Youth Football",
-        html: `
-          <h2>Thank you for your sponsorship submission!</h2>
-          <p>Hi ${data.contactName},</p>
-          <p>We've received your submission for <strong>${data.companyName}</strong>.</p>
-          <p>Our team will review your submission and you'll see your logo on our Partners page shortly.</p>
-          <br>
-          <p>Best regards,<br>RiseUp Youth Football</p>
-        `,
+        subject: conf.subject,
+        html: conf.html,
       });
       await delayBetweenEmails();
     }
@@ -139,23 +137,20 @@ export async function submitSponsor(
         process.env.ADMIN_EMAIL || process.env.CONTACT_EMAIL || "admin@riseupfootball.org";
       const fromEmail =
         process.env.RESEND_FROM_EMAIL || "RiseUp Website <noreply@riseupfootball.org>";
-
+      const adminTmpl = await getResolvedTemplate("sponsor_admin_notification", {
+        companyName: data.companyName,
+        contactName: data.contactName,
+        contactEmail: data.contactEmail,
+        contactPhone: data.contactPhone,
+        websiteUrl: data.websiteUrl,
+        description: data.description,
+        logoUrl,
+      });
       await sendWithRetry(resend, {
         from: fromEmail,
         to: adminEmail,
-        subject: `New Sponsor Submission: ${data.companyName}`,
-        html: `
-          <h2>New Sponsor Submission</h2>
-          <p><strong>Company:</strong> ${data.companyName}</p>
-          <p><strong>Contact:</strong> ${data.contactName}</p>
-          <p><strong>Email:</strong> <a href="mailto:${data.contactEmail}">${data.contactEmail}</a></p>
-          <p><strong>Phone:</strong> ${data.contactPhone}</p>
-          <p><strong>Website:</strong> <a href="${data.websiteUrl}">${data.websiteUrl}</a></p>
-          ${data.description ? `<p><strong>Description:</strong> ${data.description}</p>` : ""}
-          <p><strong>Logo:</strong> <a href="${logoUrl}">View Logo</a></p>
-          <br>
-          <p><em>Review and approve this sponsor in the admin dashboard.</em></p>
-        `,
+        subject: adminTmpl.subject,
+        html: adminTmpl.html,
         replyTo: data.contactEmail,
       });
     }

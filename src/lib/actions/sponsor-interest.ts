@@ -2,6 +2,7 @@
 
 import { Resend } from "resend";
 import { createClient } from "@/lib/supabase/server";
+import { getResolvedTemplate } from "@/lib/actions/email-templates";
 import { delayBetweenEmails, sendWithRetry } from "@/lib/resend";
 import {
   sponsorInterestSchema,
@@ -136,19 +137,15 @@ export async function submitSponsorInterest(
     } else {
       const fromEmail =
         process.env.RESEND_FROM_EMAIL || "RiseUp Website <noreply@riseupfootball.org>";
+      const conf = await getResolvedTemplate("sponsor_interest_confirmation", {
+        name: data.name,
+        companyName: data.companyName,
+      });
       await sendWithRetry(resend, {
         from: fromEmail,
         to: data.email,
-        subject: "Partner Interest Received - RiseUp Youth Football",
-        html: `
-          <h2>Thank you for your interest in partnering with RiseUp Youth Football!</h2>
-          <p>Hi ${data.name},</p>
-          <p>We've received your partnership inquiry for <strong>${data.companyName}</strong>.</p>
-          <p>A member of our team will reach out within 2-3 business days to discuss partnership opportunities and answer any questions you may have.</p>
-          <p>We're excited about the possibility of partnering with you to support youth football in our community!</p>
-          <br>
-          <p>Best regards,<br>RiseUp Football Team</p>
-        `,
+        subject: conf.subject,
+        html: conf.html,
       });
       await delayBetweenEmails();
     }
@@ -166,20 +163,20 @@ export async function submitSponsorInterest(
         process.env.SPONSOR_INTEREST_EMAIL || "krystie@riseupfootball.org";
       const fromEmail =
         process.env.RESEND_FROM_EMAIL || "RiseUp Website <noreply@riseupfootball.org>";
-
+      const adminTmpl = await getResolvedTemplate(
+        "sponsor_interest_admin_notification",
+        {
+          companyName: data.companyName,
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+        }
+      );
       await sendWithRetry(resend, {
         from: fromEmail,
         to: adminEmail,
-        subject: `New Partner Interest: ${data.companyName}`,
-        html: `
-          <h2>New Partnership Interest Submission</h2>
-          <p><strong>Company:</strong> ${data.companyName}</p>
-          <p><strong>Contact Name:</strong> ${data.name}</p>
-          <p><strong>Email:</strong> <a href="mailto:${data.email}">${data.email}</a></p>
-          <p><strong>Phone:</strong> ${data.phone}</p>
-          <br>
-          <p><em>Follow up with this potential partner to discuss available packages.</em></p>
-        `,
+        subject: adminTmpl.subject,
+        html: adminTmpl.html,
         replyTo: data.email,
       });
     }

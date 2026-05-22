@@ -51,7 +51,7 @@ export default function WaysToGivePage() {
           <h2 className="mb-12 text-center text-3xl font-bold text-white md:text-4xl">
             Other Ways to Give
           </h2>
-          <div className="grid gap-8 md:grid-cols-3">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             {/* Volunteer */}
             <div className="rounded-xl border border-white/10 bg-white/5 p-8">
               <h3 className="text-xl font-bold text-white">Volunteer</h3>
@@ -78,6 +78,21 @@ export default function WaysToGivePage() {
               </p>
               <Link
                 href="/partners"
+                className="mt-6 inline-block text-accent hover:underline"
+              >
+                Learn More →
+              </Link>
+            </div>
+
+            {/* Annual Golf Tournament */}
+            <div className="rounded-xl border border-white/10 bg-white/5 p-8">
+              <h3 className="text-xl font-bold text-white">Annual Golf Tournament</h3>
+              <p className="mt-4 text-muted-foreground">
+                Play a round for a great cause. Our annual charity scramble supports
+                youth football programs across Moore County.
+              </p>
+              <Link
+                href="/golf-tournament"
                 className="mt-6 inline-block text-accent hover:underline"
               >
                 Learn More →

@@ -27,3 +27,16 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2025-12-15.clover",
   typescript: true,
 });
+
+/**
+ * Base URL for viewing an invoice in the Stripe dashboard.
+ * Uses test vs live based on STRIPE_SECRET_KEY (sk_test_ = test mode).
+ * Use in server components only (reads env).
+ */
+export function getStripeInvoiceDashboardBaseUrl(): string {
+  const key = process.env.STRIPE_SECRET_KEY ?? "";
+  const isTest = key.startsWith("sk_test_");
+  return isTest
+    ? "https://dashboard.stripe.com/test/invoices"
+    : "https://dashboard.stripe.com/invoices";
+}

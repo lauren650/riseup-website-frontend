@@ -14,6 +14,7 @@ interface SubNavigationProps {
   className?: string;
   showRegisterButton?: boolean;
   registerLink?: string;
+  registerLabel?: string;
 }
 
 export function SubNavigation({ 
@@ -21,6 +22,7 @@ export function SubNavigation({
   className,
   showRegisterButton = false,
   registerLink = '#',
+  registerLabel = 'Register',
 }: SubNavigationProps) {
   const [activeSection, setActiveSection] = useState<string>(items[0]?.id || '');
   const [isSticky, setIsSticky] = useState(false);
@@ -63,6 +65,10 @@ export function SubNavigation({
     }
   };
 
+  const registerSectionId = registerLink.startsWith('#')
+    ? registerLink.slice(1)
+    : null;
+
   return (
     <nav
       className={cn(
@@ -90,16 +96,25 @@ export function SubNavigation({
             </button>
           ))}
           
-          {showRegisterButton && (
-            <Link
-              href={registerLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="whitespace-nowrap rounded-full bg-accent px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-            >
-              Register
-            </Link>
-          )}
+          {showRegisterButton &&
+            (registerSectionId ? (
+              <button
+                type="button"
+                onClick={() => scrollToSection(registerSectionId)}
+                className="whitespace-nowrap rounded-full bg-accent px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+              >
+                {registerLabel}
+              </button>
+            ) : (
+              <Link
+                href={registerLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="whitespace-nowrap rounded-full bg-accent px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+              >
+                {registerLabel}
+              </Link>
+            ))}
         </div>
       </div>
     </nav>

@@ -18,6 +18,22 @@ function getSheetsClient() {
   return google.sheets({ version: 'v4', auth });
 }
 
+const sheetNameCache: Record<string, string> = {};
+
+/** Get the first sheet's name (works whether it's "Sheet1" or "Sponsors"). */
+async function getFirstSheetName(spreadsheetId: string): Promise<string> {
+  if (sheetNameCache[spreadsheetId]) return sheetNameCache[spreadsheetId];
+  const sheets = getSheetsClient();
+  const res = await sheets.spreadsheets.get({
+    spreadsheetId,
+    fields: 'sheets.properties.title',
+  });
+  const first = res.data.sheets?.[0]?.properties?.title;
+  if (!first) throw new Error('Spreadsheet has no sheets');
+  sheetNameCache[spreadsheetId] = first;
+  return first;
+}
+
 /**
  * Sponsor row data for Google Sheets
  */
@@ -27,7 +43,7 @@ export interface SponsorSheetRow {
   invoiceId: string;
   amount: number;
   paymentDate?: string; // ISO date string
-  uploadStatus: 'Pending' | 'Completed';
+  uploadStatus: 'Pending' | 'Paid - Pending Upload' | 'Completed';
   driveFolderUrl?: string;
   websiteUrl?: string;
   createdDate: string; // ISO date string
@@ -148,9 +164,10 @@ export async function appendSponsorRow(data: SponsorSheetRow): Promise<number> {
   ];
 
   try {
+    const sheetName = await getFirstSheetName(spreadsheetId);
     const response = await sheets.spreadsheets.values.append({
       spreadsheetId,
-      range: 'Sponsors!A2', // Start after header
+      range: `${sheetName}!A2`, // Start after header
       valueInputOption: 'USER_ENTERED',
       requestBody: { values },
     });
@@ -198,9 +215,10 @@ export async function updateSponsorRow(
 
   // Get existing row first
   try {
+    const sheetName = await getFirstSheetName(spreadsheetId);
     const existing = await sheets.spreadsheets.values.get({
       spreadsheetId,
-      range: `Sponsors!A${rowIndex}:I${rowIndex}`,
+      range: `${sheetName}!A${rowIndex}:I${rowIndex}`,
     });
 
     const existingValues = existing.data.values?.[0] || [];
@@ -221,7 +239,7 @@ export async function updateSponsorRow(
 
     await sheets.spreadsheets.values.update({
       spreadsheetId,
-      range: `Sponsors!A${rowIndex}:I${rowIndex}`,
+      range: `${sheetName}!A${rowIndex}:I${rowIndex}`,
       valueInputOption: 'USER_ENTERED',
       requestBody: {
         values: [existingValues],
@@ -249,9 +267,10 @@ export async function findRowByInvoiceId(
   }
 
   try {
+    const sheetName = await getFirstSheetName(spreadsheetId);
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
-      range: 'Sponsors!C2:C', // Invoice ID column, starting after header
+      range: `${sheetName}!C2:C`, // Invoice ID column, starting after header
     });
 
     const values = response.data.values || [];

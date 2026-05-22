@@ -1,8 +1,10 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { EditModeProvider } from "@/contexts/edit-mode-context";
 import { EditModeToggle } from "@/components/admin/edit-mode-toggle";
 import { GivebutterFloatingButton } from "@/components/donations/givebutter-floating-button";
+import { GivebutterWidgetsScript } from "@/components/donations/givebutter-widgets-script";
 import type { ReactNode } from "react";
 
 interface PublicLayoutClientProps {
@@ -15,12 +17,17 @@ interface PublicLayoutClientProps {
  * Only shows edit mode toggle for authenticated admin users viewing public pages.
  */
 export function PublicLayoutClient({ children, isAdmin }: PublicLayoutClientProps) {
+  const pathname = usePathname();
+  // Embedded GiveButter widget page uses the Widgets library; skip Elements bubble to avoid conflicts
+  const showFloatingDonate = pathname !== "/golf-tournament";
+
   return (
     <EditModeProvider isAdmin={isAdmin}>
+      {/* Widgets library on all public pages — required for analytics account ID */}
+      <GivebutterWidgetsScript />
       {children}
-      
-      {/* Givebutter Floating Donate Button - always visible */}
-      <GivebutterFloatingButton />
+
+      {showFloatingDonate && <GivebutterFloatingButton />}
       
       {/* Edit Mode Toggle - only for admin users */}
       {isAdmin && (
