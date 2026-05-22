@@ -179,7 +179,7 @@ export default function GolfTournamentPage() {
                 >
                   Saturday, [Date TBD], 2026
                   <br />
-                  Shotgun start — check-in opens 30 minutes prior
+                  Check in at 7:30 AM with start time at 9:00 AM
                 </EditableText>
               </div>
               <div className="rounded-xl border border-white/10 bg-background p-6">
@@ -281,7 +281,7 @@ export default function GolfTournamentPage() {
             <h3 className="mb-4 text-xl font-bold text-white text-center">Sample Day Schedule</h3>
             <div className="space-y-4">
               <div className="flex items-start gap-3 rounded-lg border border-white/10 bg-white/5 p-4">
-                <div className="text-lg font-bold text-accent min-w-[100px]">Morning</div>
+                <div className="text-lg font-bold text-accent min-w-[100px]">7:30 AM</div>
                 <EditableText
                   contentKey="golf.tournament.schedule_checkin"
                   as="p"
@@ -289,11 +289,11 @@ export default function GolfTournamentPage() {
                   page="golf-tournament"
                   section="tournament"
                 >
-                  Check-in, breakfast, and warm-up on the range
+                  Check in — breakfast and warm-up on the range
                 </EditableText>
               </div>
               <div className="flex items-start gap-3 rounded-lg border border-white/10 bg-white/5 p-4">
-                <div className="text-lg font-bold text-accent min-w-[100px]">Shotgun</div>
+                <div className="text-lg font-bold text-accent min-w-[100px]">9:00 AM</div>
                 <EditableText
                   contentKey="golf.tournament.schedule_round"
                   as="p"
@@ -301,7 +301,7 @@ export default function GolfTournamentPage() {
                   page="golf-tournament"
                   section="tournament"
                 >
-                  18-hole scramble with on-course contests
+                  Shotgun start — 18-hole scramble with on-course contests
                 </EditableText>
               </div>
               <div className="flex items-start gap-3 rounded-lg border border-accent/30 bg-accent/5 p-4">
