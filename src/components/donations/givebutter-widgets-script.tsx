@@ -1,7 +1,10 @@
 "use client";
 
 import Script from "next/script";
-import { markGivebutterWidgetsLoaded } from "@/lib/givebutter-load-widgets";
+import {
+  markGivebutterWidgetsFailed,
+  markGivebutterWidgetsLoaded,
+} from "@/lib/givebutter-load-widgets";
 
 const SCRIPT_ID = "givebutter-widgets-global";
 
