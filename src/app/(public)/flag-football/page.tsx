@@ -3,17 +3,68 @@ import Link from 'next/link';
 import { SubNavigation } from '@/components/ui/sub-navigation';
 import { ParentTestimonials } from '@/components/sections/parent-testimonials';
 import { PhotoContentBlockEditable } from '@/components/sections/photo-content-block-editable';
-import { QuickReference } from '@/components/ui/quick-reference';
+import { QuickReference, Timeline } from '@/components/ui/quick-reference';
 import { EditableHeroImage } from '@/components/sections/editable-hero-image';
 import { EditableText } from '@/components/editable/editable-text';
+import { REGISTER_ENDZONE_URL } from '@/lib/site-config';
+import {
+  GIRLS_FLAG_EMAIL,
+  getFlagRegistrationPhase,
+} from '@/lib/flag-football-registration';
 
 const subNavItems = [
   { id: 'overview', label: 'Overview' },
   { id: 'registration', label: 'Registration' },
   { id: 'schedule', label: 'Schedule' },
-  { id: 'equipment', label: 'What\'s Included' },
+  { id: 'equipment', label: "What's Included" },
   { id: 'get-involved', label: 'Get Involved' },
 ];
+
+const flagKeyDates = [
+  {
+    date: 'June 8, 2026',
+    title: 'Registration Opens',
+    description:
+      'Register through Endzone. Divisions close when capacity is reached (180 players league-wide).',
+    important: true,
+  },
+  {
+    date: 'September 1, 2026',
+    title: 'Registration Hard Close',
+    description:
+      'Last day to register. Waitlist is determined at this date.',
+    important: true,
+  },
+  {
+    date: 'September 2026',
+    title: 'Field Locations Announced',
+    description:
+      'Final practice and game field assignments in Moore County, NC.',
+    important: true,
+  },
+  {
+    date: 'Week of October 5, 2026',
+    title: 'First Practice',
+    description:
+      'Practice days and times shared with teams. Full game schedules distributed.',
+    important: true,
+  },
+  {
+    date: 'Saturday, October 24, 2026',
+    title: 'Games Begin',
+    description: 'Saturday game days through the season.',
+    important: true,
+  },
+  {
+    date: 'Saturday, November 21, 2026',
+    title: 'Final Game Day',
+    description: 'Last game of the 2026 season.',
+    important: true,
+  },
+];
+
+const endzoneLinkClassName =
+  'font-semibold text-accent underline decoration-accent/40 underline-offset-2 transition-colors hover:text-accent/80 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black rounded-sm';
 
 const parentTestimonials = [
   {
@@ -33,7 +84,7 @@ const parentTestimonials = [
   },
   {
     quote:
-      'We are so impressed with this league, and incredibly thankful for the time and effort you\'ve all put into it. Fully believe you are changing Moore County youth through football.',
+      "We are so impressed with this league, and incredibly thankful for the time and effort you've all put into it. Fully believe you are changing Moore County youth through football.",
     parentName: 'RiseUp Parent',
   },
   {
@@ -43,17 +94,65 @@ const parentTestimonials = [
   },
   {
     quote:
-      'We have participated with all Rise up activities since the start and will continue to with all of our children. It\'s an amazing organization and we will continue to recommend to our friends and family.',
+      "We have participated with all Rise up activities since the start and will continue to with all of our children. It's an amazing organization and we will continue to recommend to our friends and family.",
     parentName: 'RiseUp Parent',
   },
 ];
 
 export const metadata: Metadata = {
   title: 'Girls Flag Football | RiseUp Youth Football League',
-  description: 'RiseUp Moore Girls Flag Football League aligned with NFL FLAG. Non-contact, high-action football for girls grades 3-12 in Moore County, NC.',
+  description:
+    'RiseUp Moore Girls Flag Football — NFL FLAG aligned, grades 1-8 in Moore County, NC. Registration June 8–September 1, 2026. Fall season October–November 2026.',
 };
 
+function FlagRegisterButton({ className }: { className?: string }) {
+  const phase = getFlagRegistrationPhase();
+
+  if (phase === 'before') {
+    return (
+      <span
+        className={
+          className ??
+          'inline-flex items-center rounded-full bg-accent px-8 py-4 text-lg font-semibold text-white'
+        }
+      >
+        Registration Opens June 8, 2026
+      </span>
+    );
+  }
+
+  if (phase === 'open') {
+    return (
+      <a
+        href={REGISTER_ENDZONE_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={
+          className ??
+          'inline-flex items-center rounded-full bg-accent px-8 py-4 text-lg font-semibold text-white transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black'
+        }
+      >
+        Register Now
+      </a>
+    );
+  }
+
+  return (
+    <span
+      className={
+        className ??
+        'inline-flex items-center rounded-full border border-white/20 bg-white/5 px-8 py-4 text-lg font-semibold text-muted-foreground'
+      }
+    >
+      Registration Closed
+    </span>
+  );
+}
+
 export default function FlagFootballPage() {
+  const registrationPhase = getFlagRegistrationPhase();
+  const showLiveRegister = registrationPhase === 'open';
+
   return (
     <main>
       {/* Hero Section */}
@@ -69,15 +168,17 @@ export default function FlagFootballPage() {
       </section>
 
       {/* Sub Navigation */}
-      <SubNavigation 
-        items={subNavItems} 
-        showRegisterButton={false}
+      <SubNavigation
+        items={subNavItems}
+        showRegisterButton={showLiveRegister}
+        registerLink={REGISTER_ENDZONE_URL}
+        registerLabel="Register"
       />
 
       {/* Overview Section */}
       <section id="overview" className="pt-12 pb-16 md:pt-16 md:pb-24">
         <div className="mx-auto max-w-7xl px-6">
-          <h2 className="mb-12 text-center text-3xl font-bold text-white md:text-4xl">
+          <h2 className="mb-8 text-center text-3xl font-bold text-white md:text-4xl">
             <EditableText
               contentKey="flag.overview.title"
               as="span"
@@ -88,9 +189,58 @@ export default function FlagFootballPage() {
             </EditableText>
           </h2>
 
-          {/* Two Column Layout */}
+          <div className="mb-12 rounded-xl border border-accent/30 bg-accent/5 p-6 md:p-8">
+            <h3 className="mb-4 text-center text-xl font-bold text-white md:text-2xl">
+              <EditableText
+                contentKey="flag.overview.at_a_glance_title"
+                as="span"
+                page="flag-football"
+                section="overview"
+              >
+                2026 Season at a Glance
+              </EditableText>
+            </h3>
+            <div className="grid gap-4 md:grid-cols-3">
+              <div className="rounded-lg border border-white/10 bg-background p-4 text-center">
+                <p className="mb-1 text-sm font-semibold text-accent">Registration</p>
+                <EditableText
+                  contentKey="flag.overview.at_a_glance_registration"
+                  as="p"
+                  className="text-sm font-semibold text-white"
+                  page="flag-football"
+                  section="overview"
+                >
+                  June 8 – September 1, 2026
+                </EditableText>
+              </div>
+              <div className="rounded-lg border border-white/10 bg-background p-4 text-center">
+                <p className="mb-1 text-sm font-semibold text-accent">Fall Season</p>
+                <EditableText
+                  contentKey="flag.overview.at_a_glance_season"
+                  as="p"
+                  className="text-sm font-semibold text-white"
+                  page="flag-football"
+                  section="overview"
+                >
+                  Practices week of Oct 5 · Games Oct 24 – Nov 21
+                </EditableText>
+              </div>
+              <div className="rounded-lg border border-white/10 bg-background p-4 text-center">
+                <p className="mb-1 text-sm font-semibold text-accent">League Capacity</p>
+                <EditableText
+                  contentKey="flag.overview.at_a_glance_capacity"
+                  as="p"
+                  className="text-sm font-semibold text-white"
+                  page="flag-football"
+                  section="overview"
+                >
+                  180 players maximum
+                </EditableText>
+              </div>
+            </div>
+          </div>
+
           <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
-            {/* Left Column: Program Information */}
             <div className="space-y-8">
               <div>
                 <h3 className="mb-4 text-2xl font-bold text-white">
@@ -110,7 +260,7 @@ export default function FlagFootballPage() {
                   page="flag-football"
                   section="overview"
                 >
-                  We're proud to announce the launch of our Girls Flag Football League, officially aligned with the{' '}
+                  RiseUp Moore Girls Flag Football is officially aligned with the{' '}
                   <a
                     href="https://nflflag.com"
                     target="_blank"
@@ -119,14 +269,15 @@ export default function FlagFootballPage() {
                   >
                     NFL FLAG program
                   </a>
-                  {' '}— the fastest-growing youth sport in America! This season, we're bringing the energy, excitement, and empowerment of flag football to girls across Moore County! Our league is designed to build confidence, competition, and community — all in a fun, supportive environment.
+                  {' '}
+                  — the fastest-growing youth sport in America. Our 2026 fall season brings
+                  energy, excitement, and empowerment to girls across Moore County in a fun,
+                  supportive environment built on confidence, competition, and community.
                 </EditableText>
               </div>
 
               <div className="rounded-xl border border-white/10 bg-white/5 p-6">
-                <h3 className="mb-4 text-xl font-bold text-white">
-                  NFL FLAG Certified Program
-                </h3>
+                <h3 className="mb-4 text-xl font-bold text-white">NFL FLAG Certified Program</h3>
                 <div className="space-y-4 text-muted-foreground">
                   <EditableText
                     contentKey="flag.overview.nfl_flag_p1"
@@ -134,7 +285,9 @@ export default function FlagFootballPage() {
                     page="flag-football"
                     section="overview"
                   >
-                    Our program is officially aligned with the NFL FLAG program, following their standards for development and play. All coaches are certified and focused on creating a positive, empowering environment for female athletes.
+                    Our program follows NFL FLAG standards for development and play. All coaches
+                    are certified and focused on creating a positive, empowering environment for
+                    female athletes.
                   </EditableText>
                   <EditableText
                     contentKey="flag.overview.nfl_flag_p2"
@@ -142,13 +295,13 @@ export default function FlagFootballPage() {
                     page="flag-football"
                     section="overview"
                   >
-                    We believe in developing complete athletes—teaching not just football skills, but leadership, teamwork, and resilience that will serve them on and off the field.
+                    We develop complete athletes — teaching football skills alongside leadership,
+                    teamwork, and resilience on and off the field.
                   </EditableText>
                 </div>
               </div>
             </div>
 
-            {/* Right Column: Age Divisions */}
             <div>
               <h3 className="mb-4 text-2xl font-bold text-white">
                 <EditableText
@@ -167,9 +320,48 @@ export default function FlagFootballPage() {
                 page="flag-football"
                 section="overview"
               >
-                All girls in grades 3-12 are welcome to join!
+                All girls in grades 1-8 are welcome. Divisions close when capacity is reached.
               </EditableText>
               <div className="space-y-4">
+                <div className="rounded-xl border border-white/10 bg-white/5 p-6">
+                  <h4 className="text-2xl font-bold text-accent">
+                    <EditableText
+                      contentKey="flag.divisions.minis.title"
+                      as="span"
+                      page="flag-football"
+                      section="overview"
+                    >
+                      Minis Division
+                    </EditableText>
+                  </h4>
+                  <EditableText
+                    contentKey="flag.divisions.minis.grades"
+                    as="p"
+                    className="mt-2 text-sm font-semibold text-white"
+                    page="flag-football"
+                    section="overview"
+                  >
+                    1st–2nd Grade
+                  </EditableText>
+                  <EditableText
+                    contentKey="flag.divisions.minis.capacity"
+                    as="p"
+                    className="mt-2 text-sm text-muted-foreground"
+                    page="flag-football"
+                    section="overview"
+                  >
+                    4 teams · 40 players maximum
+                  </EditableText>
+                  <EditableText
+                    contentKey="flag.divisions.minis.description"
+                    as="p"
+                    className="mt-2 text-sm text-muted-foreground"
+                    page="flag-football"
+                    section="overview"
+                  >
+                    One practice and one game per week — introduction to flag football
+                  </EditableText>
+                </div>
                 <div className="rounded-xl border border-white/10 bg-white/5 p-6">
                   <h4 className="text-2xl font-bold text-accent">
                     <EditableText
@@ -188,7 +380,16 @@ export default function FlagFootballPage() {
                     page="flag-football"
                     section="overview"
                   >
-                    3rd-5th Grade
+                    3rd–5th Grade
+                  </EditableText>
+                  <EditableText
+                    contentKey="flag.divisions.elementary.capacity"
+                    as="p"
+                    className="mt-2 text-sm text-muted-foreground"
+                    page="flag-football"
+                    section="overview"
+                  >
+                    6 teams · 60 players maximum
                   </EditableText>
                   <EditableText
                     contentKey="flag.divisions.elementary.description"
@@ -197,7 +398,7 @@ export default function FlagFootballPage() {
                     page="flag-football"
                     section="overview"
                   >
-                    Introduction to flag football with focus on fundamentals and fun
+                    Fundamentals and fun with growing competitive play
                   </EditableText>
                 </div>
                 <div className="rounded-xl border border-white/10 bg-white/5 p-6">
@@ -218,7 +419,16 @@ export default function FlagFootballPage() {
                     page="flag-football"
                     section="overview"
                   >
-                    6th-8th Grade
+                    6th–8th Grade
+                  </EditableText>
+                  <EditableText
+                    contentKey="flag.divisions.middle.capacity"
+                    as="p"
+                    className="mt-2 text-sm text-muted-foreground"
+                    page="flag-football"
+                    section="overview"
+                  >
+                    6 teams · 60 players maximum
                   </EditableText>
                   <EditableText
                     contentKey="flag.divisions.middle.description"
@@ -230,41 +440,22 @@ export default function FlagFootballPage() {
                     Advanced skills development and competitive play
                   </EditableText>
                 </div>
-                <div className="rounded-xl border border-white/10 bg-white/5 p-6">
-                  <h4 className="text-2xl font-bold text-accent">
-                    <EditableText
-                      contentKey="flag.divisions.high.grades"
-                      as="span"
-                      page="flag-football"
-                      section="overview"
-                    >
-                      High School Division
-                    </EditableText>
-                  </h4>
+                <div className="rounded-xl border border-accent/30 bg-accent/5 p-6">
                   <EditableText
-                    contentKey="flag.divisions.high.ages"
+                    contentKey="flag.divisions.league_total"
                     as="p"
-                    className="mt-2 text-sm font-semibold text-white"
+                    className="text-center text-sm font-semibold text-white"
                     page="flag-football"
                     section="overview"
                   >
-                    9th-12th Grade
-                  </EditableText>
-                  <EditableText
-                    contentKey="flag.divisions.high.description"
-                    as="p"
-                    className="mt-2 text-sm text-muted-foreground"
-                    page="flag-football"
-                    section="overview"
-                  >
-                    Elite-level competition and leadership opportunities
+                    <span className="text-accent">League total:</span> 180 players maximum across
+                    all divisions
                   </EditableText>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Action Image */}
           <div className="mt-16 mb-16">
             <PhotoContentBlockEditable
               contentKey="flag.overview.action_image"
@@ -284,7 +475,8 @@ export default function FlagFootballPage() {
                 page="flag-football"
                 section="overview"
               >
-                Our Girls Flag Football program creates a supportive environment where young athletes can develop their skills, build confidence, and discover their love for the game.
+                Our Girls Flag Football program creates a supportive environment where young
+                athletes develop skills, build confidence, and discover their love for the game.
               </EditableText>
               <EditableText
                 contentKey="flag.overview.action_p2"
@@ -292,12 +484,12 @@ export default function FlagFootballPage() {
                 page="flag-football"
                 section="overview"
               >
-                With certified coaches and a focus on positive development, every player gets the opportunity to shine on the field while learning valuable life lessons about teamwork, perseverance, and leadership.
+                With certified coaches and positive development at the center, every player
+                shines on the field while learning teamwork, perseverance, and leadership.
               </EditableText>
             </PhotoContentBlockEditable>
           </div>
 
-          {/* Why Girls Flag Section */}
           <div className="mt-16">
             <h3 className="mb-8 text-center text-2xl font-bold text-white md:text-3xl">
               <EditableText
@@ -377,7 +569,6 @@ export default function FlagFootballPage() {
             </EditableText>
           </h2>
 
-          {/* Registration Image */}
           <div className="mb-12">
             <PhotoContentBlockEditable
               contentKey="flag.registration.image"
@@ -397,7 +588,9 @@ export default function FlagFootballPage() {
                 page="flag-football"
                 section="registration"
               >
-                Registration for our Girls Flag Football program opens soon! We welcome all skill levels from beginners to experienced players.
+                Registration opens <strong className="text-white">June 8, 2026</strong> and closes{' '}
+                <strong className="text-white">September 1, 2026</strong> (hard close). We welcome
+                all skill levels from beginners to experienced players in grades 1-8.
               </EditableText>
               <EditableText
                 contentKey="flag.registration.image_p2"
@@ -405,22 +598,160 @@ export default function FlagFootballPage() {
                 page="flag-football"
                 section="registration"
               >
-                Each season offers girls the chance to learn, grow, and compete in a supportive, empowering environment designed specifically for female athletes.
+                Full game schedules are shared during the first week of practice. Questions? Email{' '}
+                <a
+                  href={`mailto:${GIRLS_FLAG_EMAIL}`}
+                  className="font-semibold text-accent underline hover:text-accent/80"
+                >
+                  {GIRLS_FLAG_EMAIL}
+                </a>
+                .
               </EditableText>
             </PhotoContentBlockEditable>
           </div>
 
           <div className="mb-6 space-y-8">
-            <div className="rounded-xl border border-white/10 bg-background p-6 md:p-8 text-center">
+            <div className="rounded-xl border border-accent/30 bg-accent/5 p-6 md:p-8">
+              <h3 className="mb-4 text-xl font-bold text-white">
+                <EditableText
+                  contentKey="flag.registration.window_title"
+                  as="span"
+                  page="flag-football"
+                  section="registration"
+                >
+                  Registration Window
+                </EditableText>
+              </h3>
+              <div className="mb-6 grid gap-4 sm:grid-cols-2">
+                <div className="rounded-lg border border-white/10 bg-background p-4">
+                  <p className="mb-1 text-sm font-semibold text-accent">Opens</p>
+                  <EditableText
+                    contentKey="flag.registration.opens_date"
+                    as="p"
+                    className="text-lg font-semibold text-white"
+                    page="flag-football"
+                    section="registration"
+                  >
+                    June 8, 2026
+                  </EditableText>
+                </div>
+                <div className="rounded-lg border border-white/10 bg-background p-4">
+                  <p className="mb-1 text-sm font-semibold text-accent">Hard Close</p>
+                  <EditableText
+                    contentKey="flag.registration.closes_date"
+                    as="p"
+                    className="text-lg font-semibold text-white"
+                    page="flag-football"
+                    section="registration"
+                  >
+                    September 1, 2026
+                  </EditableText>
+                </div>
+              </div>
               <EditableText
-                contentKey="flag.registration.check_back"
+                contentKey="flag.registration.waitlist_note"
                 as="p"
-                className="text-lg text-muted-foreground"
+                className="mb-6 text-muted-foreground"
                 page="flag-football"
                 section="registration"
               >
-                Check back for registration information.
+                Waitlist is determined at the September 1 hard close. Divisions may fill before
+                that date — register early to secure your spot.
               </EditableText>
+              <div className="mb-6">
+                <h4 className="mb-3 font-semibold text-white">Division Capacity</h4>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li>
+                    <strong className="text-accent">Minis (1st–2nd):</strong> 4 teams, 40 players
+                    max
+                  </li>
+                  <li>
+                    <strong className="text-accent">Elementary (3rd–5th):</strong> 6 teams, 60
+                    players max
+                  </li>
+                  <li>
+                    <strong className="text-accent">Middle School (6th–8th):</strong> 6 teams, 60
+                    players max
+                  </li>
+                  <li>
+                    <strong className="text-white">League total:</strong> 180 players maximum
+                  </li>
+                </ul>
+              </div>
+              <div className="flex flex-wrap gap-4">
+                <FlagRegisterButton />
+                {registrationPhase === 'closed' && (
+                  <a
+                    href={`mailto:${GIRLS_FLAG_EMAIL}`}
+                    className="inline-flex items-center rounded-full border border-white px-8 py-4 text-lg font-semibold text-white transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black"
+                  >
+                    Contact About Waitlist
+                  </a>
+                )}
+              </div>
+              {showLiveRegister && (
+                <p className="mt-4 text-sm text-muted-foreground">
+                  Register through our{' '}
+                  <Link
+                    href={REGISTER_ENDZONE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={endzoneLinkClassName}
+                  >
+                    Endzone portal
+                  </Link>
+                  .
+                </p>
+              )}
+            </div>
+
+            <div className="rounded-xl border border-white/10 bg-background p-6 md:p-8">
+              <h3 className="mb-4 text-xl font-bold text-white">
+                <EditableText
+                  contentKey="flag.registration.after_register_title"
+                  as="span"
+                  page="flag-football"
+                  section="registration"
+                >
+                  After You Register
+                </EditableText>
+              </h3>
+              <ul className="space-y-3 text-muted-foreground">
+                <li className="flex items-start">
+                  <span className="mr-3 text-accent">•</span>
+                  <EditableText
+                    contentKey="flag.registration.after_schedules"
+                    as="span"
+                    page="flag-football"
+                    section="registration"
+                  >
+                    Full game schedules shared during the first week of practice
+                  </EditableText>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-3 text-accent">•</span>
+                  <EditableText
+                    contentKey="flag.registration.after_nfl_store"
+                    as="span"
+                    page="flag-football"
+                    section="registration"
+                  >
+                    NFL Store items ordered during registration are distributed the first week of
+                    practice
+                  </EditableText>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-3 text-accent">•</span>
+                  <EditableText
+                    contentKey="flag.registration.after_fields"
+                    as="span"
+                    page="flag-football"
+                    section="registration"
+                  >
+                    Practice and game field locations in Moore County announced in September
+                  </EditableText>
+                </li>
+              </ul>
             </div>
 
             <div
@@ -444,9 +775,8 @@ export default function FlagFootballPage() {
                 page="flag-football"
                 section="registration"
               >
-                RiseUp is committed to making flag football accessible to all girls
-                in our community. Financial assistance is available for families
-                in need.
+                RiseUp is committed to making flag football accessible to all girls in our
+                community. Financial assistance is available for families in need.
               </EditableText>
               <EditableText
                 contentKey="flag.registration.scholarship_contact"
@@ -455,12 +785,12 @@ export default function FlagFootballPage() {
                 page="flag-football"
                 section="registration"
               >
-                For scholarship consideration, please{' '}
+                For scholarship consideration, email{' '}
                 <a
-                  href="/contact"
+                  href={`mailto:${GIRLS_FLAG_EMAIL}`}
                   className="font-semibold text-accent underline hover:text-accent/80"
                 >
-                  contact us
+                  {GIRLS_FLAG_EMAIL}
                 </a>{' '}
                 <strong className="text-white">before completing registration</strong>.
               </EditableText>
@@ -483,8 +813,53 @@ export default function FlagFootballPage() {
             </EditableText>
           </h2>
 
+          <div className="mb-12">
+            <QuickReference
+              title="Key Dates"
+              subtitle="2026 Girls Flag Football Season"
+              subtitleAccent
+              columns={2}
+              items={[
+                {
+                  label: 'First Practice',
+                  value: 'Week of October 5, 2026',
+                  highlight: true,
+                },
+                {
+                  label: 'Games Begin',
+                  value: 'Saturday, October 24, 2026',
+                  highlight: true,
+                },
+                {
+                  label: 'Final Game Day',
+                  value: 'Saturday, November 21, 2026',
+                  highlight: true,
+                },
+                {
+                  label: 'Game Days',
+                  value: 'Saturdays during the season',
+                },
+              ]}
+            />
+          </div>
+
+          <div className="mb-12">
+            <h3 className="mb-6 text-center text-2xl font-bold text-white">
+              <EditableText
+                contentKey="flag.schedule.key_dates_title"
+                as="span"
+                page="flag-football"
+                section="schedule"
+              >
+                Season Timeline
+              </EditableText>
+            </h3>
+            <div className="mx-auto max-w-3xl">
+              <Timeline items={flagKeyDates} />
+            </div>
+          </div>
+
           <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
-            {/* Season Dates */}
             <div className="rounded-xl border border-white/10 bg-white/5 p-6 md:p-8">
               <h3 className="mb-6 text-2xl font-bold text-white">
                 <EditableText
@@ -496,34 +871,28 @@ export default function FlagFootballPage() {
                   Season Details
                 </EditableText>
               </h3>
-              <div className="space-y-6">
-                <div>
-                  <div className="mb-2 text-sm font-semibold text-accent">
-                    Season Dates
-                  </div>
-                  <EditableText
-                    contentKey="flag.schedule.season_dates"
-                    as="p"
-                    className="text-lg text-white"
-                    page="flag-football"
-                    section="schedule"
-                  >
-                    TBD
-                  </EditableText>
-                  <EditableText
-                    contentKey="flag.schedule.season_description"
-                    as="p"
-                    className="text-sm text-muted-foreground"
-                    page="flag-football"
-                    section="schedule"
-                  >
-                    Check back for updated schedule information
-                  </EditableText>
-                </div>
-              </div>
+              <EditableText
+                contentKey="flag.schedule.season_dates"
+                as="p"
+                className="mb-4 text-lg text-white"
+                page="flag-football"
+                section="schedule"
+              >
+                Practices begin the week of October 5, 2026. Games run Saturdays from October 24
+                through November 21, 2026.
+              </EditableText>
+              <EditableText
+                contentKey="flag.schedule.season_description"
+                as="p"
+                className="text-sm text-muted-foreground"
+                page="flag-football"
+                section="schedule"
+              >
+                Practice days and times are shared with teams during the first week of practice.
+                Full game schedules are distributed at that time as well.
+              </EditableText>
             </div>
 
-            {/* Location */}
             <div className="rounded-xl border border-white/10 bg-background p-6 md:p-8">
               <h3 className="mb-6 text-2xl font-bold text-white">
                 <EditableText
@@ -535,39 +904,45 @@ export default function FlagFootballPage() {
                   Location
                 </EditableText>
               </h3>
-              <div className="mb-4">
-                <EditableText
-                  contentKey="flag.schedule.location_name"
-                  as="p"
-                  className="text-lg font-semibold text-accent"
-                  page="flag-football"
-                  section="schedule"
-                >
-                  Sandhills Classical Christian School
-                </EditableText>
-                <EditableText
-                  contentKey="flag.schedule.location_address"
-                  as="p"
-                  className="text-muted-foreground"
-                  page="flag-football"
-                  section="schedule"
-                >
-                  1487 Rays Bridge Road
-                  <br />
-                  Whispering Pines, NC 28327
-                </EditableText>
-              </div>
-              <div className="mt-6">
-                <a
-                  href="https://maps.google.com/?q=1487+Rays+Bridge+Road,+Whispering+Pines,+NC+28327"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block rounded-full border border-white px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
-                >
-                  Get Directions
-                </a>
-              </div>
+              <EditableText
+                contentKey="flag.schedule.location_name"
+                as="p"
+                className="mb-4 text-lg font-semibold text-accent"
+                page="flag-football"
+                section="schedule"
+              >
+                Moore County, NC
+              </EditableText>
+              <EditableText
+                contentKey="flag.schedule.location_description"
+                as="p"
+                className="text-muted-foreground"
+                page="flag-football"
+                section="schedule"
+              >
+                Practices and games take place at locations throughout Moore County. Final field
+                assignments will be announced in September 2026.
+              </EditableText>
             </div>
+          </div>
+
+          <div className="mt-12 rounded-xl border border-accent/30 bg-accent/5 p-6 md:p-8 text-center">
+            <h3 className="mb-2 text-xl font-bold text-white">Questions?</h3>
+            <EditableText
+              contentKey="flag.contact.prompt"
+              as="p"
+              className="mb-4 text-muted-foreground"
+              page="flag-football"
+              section="schedule"
+            >
+              Contact us anytime about the Girls Flag program.
+            </EditableText>
+            <a
+              href={`mailto:${GIRLS_FLAG_EMAIL}`}
+              className="inline-flex items-center rounded-full bg-accent px-8 py-3 text-base font-semibold text-white transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black"
+            >
+              {GIRLS_FLAG_EMAIL}
+            </a>
           </div>
         </div>
       </section>
@@ -582,11 +957,10 @@ export default function FlagFootballPage() {
               page="flag-football"
               section="equipment"
             >
-              What's Included
+              What&apos;s Included
             </EditableText>
           </h2>
 
-          {/* Equipment Image */}
           <div className="mb-12">
             <PhotoContentBlockEditable
               contentKey="flag.equipment.featured_image"
@@ -606,7 +980,8 @@ export default function FlagFootballPage() {
                 page="flag-football"
                 section="equipment"
               >
-                Every player receives official NFL FLAG gear, including a jersey and flag belt. Our equipment meets the highest standards for quality and safety.
+                Every player receives official NFL FLAG gear, including a jersey and flag belt.
+                Our equipment meets the highest standards for quality and safety.
               </EditableText>
               <EditableText
                 contentKey="flag.equipment.featured_p2"
@@ -614,9 +989,33 @@ export default function FlagFootballPage() {
                 page="flag-football"
                 section="equipment"
               >
-                Players will feel like true athletes in their official uniforms, building pride and confidence as they represent RiseUp Moore on the field.
+                Players represent RiseUp Moore with pride in their official uniforms on the field.
               </EditableText>
             </PhotoContentBlockEditable>
+          </div>
+
+          <div className="mb-8 rounded-xl border border-accent/30 bg-accent/5 p-6 md:p-8">
+            <h3 className="mb-3 text-lg font-bold text-white">
+              <EditableText
+                contentKey="flag.equipment.nfl_store_title"
+                as="span"
+                page="flag-football"
+                section="equipment"
+              >
+                NFL Store Add-Ons
+              </EditableText>
+            </h3>
+            <EditableText
+              contentKey="flag.equipment.nfl_store_description"
+              as="p"
+              className="text-muted-foreground"
+              page="flag-football"
+              section="equipment"
+            >
+              Optional NFL Store items ordered during registration are distributed during the
+              first week of practice — separate from the standard jersey and belt included with
+              registration.
+            </EditableText>
           </div>
 
           <div className="grid gap-8 md:grid-cols-2 lg:gap-12">
@@ -713,7 +1112,6 @@ export default function FlagFootballPage() {
             </EditableText>
           </h2>
 
-          {/* Community Image */}
           <div className="mb-12">
             <PhotoContentBlockEditable
               contentKey="flag.getinvolved.community_image"
@@ -733,7 +1131,8 @@ export default function FlagFootballPage() {
                 page="flag-football"
                 section="get-involved"
               >
-                Our program thrives because of dedicated coaches, volunteers, and sponsors who believe in empowering young female athletes.
+                Our program thrives because of dedicated coaches, volunteers, and sponsors who
+                believe in empowering young female athletes.
               </EditableText>
               <EditableText
                 contentKey="flag.getinvolved.community_p2"
@@ -741,7 +1140,8 @@ export default function FlagFootballPage() {
                 page="flag-football"
                 section="get-involved"
               >
-                Whether you want to coach, volunteer your time, or support us as a sponsor, there are many ways to make a lasting impact on girls in our community.
+                Whether you want to coach, volunteer, or support us as a sponsor, you can make a
+                lasting impact on girls in our community.
               </EditableText>
             </PhotoContentBlockEditable>
           </div>
@@ -765,13 +1165,14 @@ export default function FlagFootballPage() {
                 page="flag-football"
                 section="get-involved"
               >
-                We're always looking for passionate adults to help lead. No experience necessary — just a positive attitude and desire to empower young athletes!
+                We&apos;re always looking for passionate adults to help lead. No experience
+                necessary — just a positive attitude and desire to empower young athletes!
               </EditableText>
               <a
-                href="/contact"
-                className="inline-block rounded-full border border-white px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
+                href={`mailto:${GIRLS_FLAG_EMAIL}`}
+                className="inline-block rounded-full border border-white px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black"
               >
-                Contact us
+                Email {GIRLS_FLAG_EMAIL}
               </a>
             </div>
 
@@ -793,11 +1194,12 @@ export default function FlagFootballPage() {
                 page="flag-football"
                 section="get-involved"
               >
-                Partner with us to support girls in sports and get your brand in front of local families. Help us build a stronger community through athletics!
+                Partner with us to support girls in sports and get your brand in front of local
+                families. Help us build a stronger community through athletics!
               </EditableText>
               <Link
                 href="/become-a-sponsor"
-                className="inline-block rounded-full border border-white px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
+                className="inline-block rounded-full border border-white px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black"
               >
                 Become a Sponsor
               </Link>
@@ -826,24 +1228,21 @@ export default function FlagFootballPage() {
             page="flag-football"
             section="cta"
           >
-            Join the RiseUp Moore Girls Flag Football League and be part of the fastest-growing youth sport in America!
+            Join the RiseUp Moore Girls Flag Football League — registration June 8 through
+            September 1, 2026.
           </EditableText>
           <div className="flex flex-wrap justify-center gap-4">
-            <div className="inline-block rounded-full bg-accent/50 px-8 py-4 text-lg font-semibold text-white cursor-not-allowed opacity-50">
-              <EditableText
-                contentKey="flag.cta.register_button"
-                as="span"
-                page="flag-football"
-                section="cta"
-              >
-                Register Now
-              </EditableText>
-            </div>
+            <FlagRegisterButton />
+            <a
+              href={`mailto:${GIRLS_FLAG_EMAIL}`}
+              className="inline-flex items-center rounded-full border border-white px-8 py-4 text-lg font-semibold text-white transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black"
+            >
+              Contact Us
+            </a>
           </div>
         </div>
       </section>
 
-      {/* Parent Testimonials */}
       <ParentTestimonials testimonials={parentTestimonials} />
     </main>
   );
