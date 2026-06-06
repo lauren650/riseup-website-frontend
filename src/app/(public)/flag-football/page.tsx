@@ -22,7 +22,7 @@ const subNavItems = [
 
 const flagKeyDates = [
   {
-    date: 'June 8, 2026',
+    date: 'June 15, 2026',
     title: 'Registration Opens',
     description:
       'Register through Endzone. Divisions close when capacity is reached (180 players league-wide).',
@@ -102,7 +102,7 @@ const parentTestimonials = [
 export const metadata: Metadata = {
   title: 'Girls Flag Football | RiseUp Youth Football League',
   description:
-    'RiseUp Moore Girls Flag Football — NFL FLAG aligned, grades 1-8 in Moore County, NC. Registration June 8–September 1, 2026. Fall season October–November 2026.',
+    'RiseUp Moore Girls Flag Football — NFL FLAG aligned, grades 1-8 in Moore County, NC. Registration June 15–September 1, 2026. Fall season October–November 2026.',
 };
 
 function FlagRegisterButton({ className }: { className?: string }) {
@@ -116,7 +116,7 @@ function FlagRegisterButton({ className }: { className?: string }) {
           'inline-flex items-center rounded-full bg-accent px-8 py-4 text-lg font-semibold text-white'
         }
       >
-        Registration Opens June 8, 2026
+        Registration Opens June 15, 2026
       </span>
     );
   }
@@ -210,7 +210,7 @@ export default function FlagFootballPage() {
                   page="flag-football"
                   section="overview"
                 >
-                  June 8 – September 1, 2026
+                  June 15 – September 1, 2026
                 </EditableText>
               </div>
               <div className="rounded-lg border border-white/10 bg-background p-4 text-center">
@@ -588,7 +588,7 @@ export default function FlagFootballPage() {
                 page="flag-football"
                 section="registration"
               >
-                Registration opens <strong className="text-white">June 8, 2026</strong> and closes{' '}
+                Registration opens <strong className="text-white">June 15, 2026</strong> and closes{' '}
                 <strong className="text-white">September 1, 2026</strong> (hard close). We welcome
                 all skill levels from beginners to experienced players in grades 1-8.
               </EditableText>
@@ -632,7 +632,7 @@ export default function FlagFootballPage() {
                     page="flag-football"
                     section="registration"
                   >
-                    June 8, 2026
+                    June 15, 2026
                   </EditableText>
                 </div>
                 <div className="rounded-lg border border-white/10 bg-background p-4">
@@ -1228,7 +1228,7 @@ export default function FlagFootballPage() {
             page="flag-football"
             section="cta"
           >
-            Join the RiseUp Moore Girls Flag Football League — registration June 8 through
+            Join the RiseUp Moore Girls Flag Football League — registration June 15 through
             September 1, 2026.
           </EditableText>
           <div className="flex flex-wrap justify-center gap-4">

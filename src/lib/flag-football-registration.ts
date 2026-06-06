@@ -1,5 +1,5 @@
 /** Girls Flag 2026 registration window (local calendar dates, Moore County NC). */
-const OPEN_DATE = new Date(2026, 5, 8); // June 8, 2026
+const OPEN_DATE = new Date(2026, 5, 15); // June 15, 2026
 const FIRST_CLOSED_DATE = new Date(2026, 8, 2); // Sept 2 — hard close end of Sept 1
 
 export type FlagRegistrationPhase = 'before' | 'open' | 'closed';
