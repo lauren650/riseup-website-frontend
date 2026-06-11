@@ -43,7 +43,7 @@ const parentTestimonials = [
 
 export const metadata: Metadata = {
   title: 'RiseUp Football Academy | RiseUp Youth Football League',
-  description: '2026 RiseUp Football Training Academy - Off-season football training for tackle and flag football athletes ages 9-14. Five months of focused skill development.',
+  description: '2026 RiseUp Football Training Academy - Off-season football training for tackle and girls flag athletes. July sessions at Rassie Wicker Park Turf Field.',
 };
 
 export default function FootballAcademyPage() {
@@ -93,7 +93,7 @@ export default function FootballAcademyPage() {
                     page="football-academy"
                     section="overview"
                   >
-                    Spring Off-Season Training
+                    Summer Training
                   </EditableText>
                 </h3>
                 <EditableText
@@ -103,7 +103,7 @@ export default function FootballAcademyPage() {
                   page="football-academy"
                   section="overview"
                 >
-                  Is your child interested in taking their spring football skills to the next level? <strong className="text-white">We are thrilled to present the 2026 RiseUp Football Training Academy!</strong> Our program offers encouraging yet intense sessions focused on football conditioning, character and team development, and football mechanics.
+                  Is your child interested in taking their football skills to the next level? <strong className="text-white">We are thrilled to present the 2026 RiseUp Football Training Academy!</strong> Our program offers encouraging yet intense sessions focused on football conditioning, character and team development, and football mechanics.
                 </EditableText>
                 <EditableText
                   contentKey="academy.overview.groups"
@@ -136,7 +136,7 @@ export default function FootballAcademyPage() {
                   page="football-academy"
                   section="overview"
                 >
-                  Players will be grouped by position to receive specialized coaching in offensive and defensive skills, maximizing their development in just five months of off-season training.
+                  Players will be grouped by position to receive specialized coaching in offensive and defensive skills, maximizing their development across four summer training sessions in July.
                 </EditableText>
               </div>
             </div>
@@ -189,9 +189,9 @@ export default function FootballAcademyPage() {
                     page="football-academy"
                     section="overview"
                   >
-                    Mondays and Wednesdays, 4:00-5:00 PM
+                    July 6 & 8, 4:00–5:00 PM
                     <br />
-                    March, April, May, June, and July 2026
+                    July 13 & 15, 3:00–4:00 PM
                   </EditableText>
                 </div>
                 <div className="rounded-xl border border-white/10 bg-white/5 p-6">
@@ -215,16 +215,7 @@ export default function FootballAcademyPage() {
                     page="football-academy"
                     section="overview"
                   >
-                    $155 per participant, per month
-                  </EditableText>
-                  <EditableText
-                    contentKey="academy.details.cost_note"
-                    as="p"
-                    className="text-sm text-muted-foreground mt-2"
-                    page="football-academy"
-                    section="overview"
-                  >
-                    8 sessions per month. While we encourage participation for all five months, registration is available on a monthly basis.
+                    $75 per participant
                   </EditableText>
                 </div>
               </div>
@@ -253,11 +244,23 @@ export default function FootballAcademyPage() {
                 <div className="rounded-lg border border-white/10 bg-white/5 p-4">
                   <div className="flex justify-between items-center">
                     <div>
-                      <div className="text-lg font-bold text-accent">Mondays & Wednesdays</div>
-                      <div className="text-sm text-muted-foreground mt-1">Recurring Weekly</div>
+                      <div className="text-lg font-bold text-accent">July 6 & 8</div>
+                      <div className="text-sm text-muted-foreground mt-1">Monday & Wednesday</div>
                     </div>
                     <div className="text-right">
-                      <div className="text-2xl font-bold text-white">4:00-5:00 PM</div>
+                      <div className="text-2xl font-bold text-white">4:00–5:00 PM</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <div className="text-lg font-bold text-accent">July 13 & 15</div>
+                      <div className="text-sm text-muted-foreground mt-1">Monday & Wednesday</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-2xl font-bold text-white">3:00–4:00 PM</div>
                     </div>
                   </div>
                 </div>
@@ -275,25 +278,17 @@ export default function FootballAcademyPage() {
                   </EditableText>
                 </div>
 
-                <div className="rounded-lg border border-white/10 bg-background p-4">
-                  <div className="text-sm font-semibold text-white mb-2">Training Months</div>
-                  <div className="grid grid-cols-5 gap-2 text-center">
-                    <div className="rounded bg-white/5 py-2 text-sm text-muted-foreground border border-white/10">
-                      March
-                    </div>
-                    <div className="rounded bg-white/5 py-2 text-sm text-muted-foreground border border-white/10">
-                      April
-                    </div>
-                    <div className="rounded bg-white/5 py-2 text-sm text-muted-foreground border border-white/10">
-                      May
-                    </div>
-                    <div className="rounded bg-white/5 py-2 text-sm text-muted-foreground border border-white/10">
-                      June
-                    </div>
-                    <div className="rounded bg-white/5 py-2 text-sm text-muted-foreground border border-white/10">
-                      July
-                    </div>
-                  </div>
+                <div className="rounded-lg border border-accent/30 bg-accent/5 p-4">
+                  <div className="text-sm font-semibold text-accent mb-2">Cost</div>
+                  <EditableText
+                    contentKey="academy.schedule.cost"
+                    as="p"
+                    className="text-white font-semibold"
+                    page="football-academy"
+                    section="schedule"
+                  >
+                    $75 per participant
+                  </EditableText>
                 </div>
 
                 <div className="rounded-lg border border-white/10 bg-white/5 p-4">
@@ -304,7 +299,7 @@ export default function FootballAcademyPage() {
                     page="football-academy"
                     section="schedule"
                   >
-                    <strong className="text-white">Arriving just before 4:00 PM</strong> would be helpful to make sure we get the full work with our coaches.
+                    <strong className="text-white">Arriving a few minutes before your session start time</strong> (4:00 PM or 3:00 PM) helps us get the full workout with our coaches.
                   </EditableText>
                 </div>
               </div>
@@ -573,7 +568,7 @@ export default function FootballAcademyPage() {
                     page="football-academy"
                     section="notes"
                   >
-                    <strong className="text-white">Arrival Time:</strong> Please arrive just before 4:00 PM to ensure we maximize coaching time.
+                    <strong className="text-white">Arrival Time:</strong> Please arrive a few minutes before your session start time (4:00 PM or 3:00 PM) to ensure we maximize coaching time.
                   </EditableText>
                   <EditableText
                     contentKey="academy.notes.labeling"
@@ -610,7 +605,7 @@ export default function FootballAcademyPage() {
             page="football-academy"
             section="cta"
           >
-            Join the RiseUp Football Academy and take your skills to the next level this spring.
+            Join the RiseUp Football Academy and take your skills to the next level this summer.
           </EditableText>
           <div className="flex flex-wrap justify-center gap-4">
             <a
