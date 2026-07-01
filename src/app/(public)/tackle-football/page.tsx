@@ -117,13 +117,6 @@ const keyDates = [
     important: true,
   },
   {
-    date: 'July 1, 2026',
-    title: 'Last Day for Partial Refund',
-    description:
-      'Partial refund available (minus processing and equipment fees) until this date. No refunds after July 1.',
-    important: false,
-  },
-  {
     date: 'July 29-31, 2026',
     title: 'Equipment Check-Out',
     description:
