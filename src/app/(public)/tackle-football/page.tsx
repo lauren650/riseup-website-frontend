@@ -120,7 +120,7 @@ const keyDates = [
     date: 'July 29-31, 2026',
     title: 'Equipment Check-Out',
     description:
-      'Team-by-team equipment distribution at RiseUp Storage. Check your team schedule.',
+      'Team-by-team equipment distribution at RiseUp Equipment Storage Unit (NC Self Storage). Check your team schedule.',
     important: true,
   },
   {
@@ -802,71 +802,80 @@ export default function TackleFootballPage() {
               </strong>
             </EditableText>
 
-            {/* July 29 */}
+            {/* July 29 — 9U/10U */}
             <div className="mb-6">
               <h4 className="mb-3 text-lg font-bold text-accent">
-                July 29, 2026
+                Wednesday, July 29 — 9U/10U
               </h4>
               <div className="grid gap-2 text-sm md:grid-cols-2">
                 <div className="rounded border border-white/10 bg-background p-3">
-                  <span className="font-semibold text-white">5:00 PM</span> - TBA
+                  <span className="font-semibold text-white">5:00 PM</span> — Bengals
                 </div>
                 <div className="rounded border border-white/10 bg-background p-3">
-                  <span className="font-semibold text-white">5:30 PM</span> - TBA
+                  <span className="font-semibold text-white">5:20 PM</span> — Titans
                 </div>
                 <div className="rounded border border-white/10 bg-background p-3">
-                  <span className="font-semibold text-white">6:00 PM</span> - TBA
+                  <span className="font-semibold text-white">5:40 PM</span> — Ravens
                 </div>
                 <div className="rounded border border-white/10 bg-background p-3">
-                  <span className="font-semibold text-white">6:30 PM</span> - TBA
+                  <span className="font-semibold text-white">6:00 PM</span> — Jets
                 </div>
                 <div className="rounded border border-white/10 bg-background p-3">
-                  <span className="font-semibold text-white">7:00 PM</span> - TBA
+                  <span className="font-semibold text-white">6:20 PM</span> — Chiefs
+                </div>
+                <div className="rounded border border-white/10 bg-background p-3">
+                  <span className="font-semibold text-white">6:40 PM</span> — Steelers
                 </div>
               </div>
             </div>
 
-            {/* July 30 */}
+            {/* July 30 — 11U/12U */}
             <div className="mb-6">
               <h4 className="mb-3 text-lg font-bold text-accent">
-                July 30, 2026
+                Thursday, July 30 — 11U/12U
               </h4>
               <div className="grid gap-2 text-sm md:grid-cols-2">
                 <div className="rounded border border-white/10 bg-background p-3">
-                  <span className="font-semibold text-white">5:00 PM</span> - TBA
+                  <span className="font-semibold text-white">5:00 PM</span> — Vikings
                 </div>
                 <div className="rounded border border-white/10 bg-background p-3">
-                  <span className="font-semibold text-white">5:30 PM</span> - TBA
+                  <span className="font-semibold text-white">5:20 PM</span> — Falcons
                 </div>
                 <div className="rounded border border-white/10 bg-background p-3">
-                  <span className="font-semibold text-white">6:00 PM</span> - TBA
+                  <span className="font-semibold text-white">5:40 PM</span> — Seahawks
                 </div>
                 <div className="rounded border border-white/10 bg-background p-3">
-                  <span className="font-semibold text-white">6:30 PM</span> - TBA
+                  <span className="font-semibold text-white">6:00 PM</span> — Cowboys
                 </div>
                 <div className="rounded border border-white/10 bg-background p-3">
-                  <span className="font-semibold text-white">7:00 PM</span> - TBA
+                  <span className="font-semibold text-white">6:20 PM</span> — Rams
+                </div>
+                <div className="rounded border border-white/10 bg-background p-3">
+                  <span className="font-semibold text-white">6:40 PM</span> — Panthers
                 </div>
               </div>
             </div>
 
-            {/* July 31 */}
+            {/* July 31 — 13U/14U */}
             <div className="mb-6">
               <h4 className="mb-3 text-lg font-bold text-accent">
-                July 31, 2026
+                Friday, July 31 — 13U/14U
               </h4>
               <div className="grid gap-2 text-sm md:grid-cols-2">
                 <div className="rounded border border-white/10 bg-background p-3">
-                  <span className="font-semibold text-white">5:00 PM</span> - TBA
+                  <span className="font-semibold text-white">5:00 PM</span> — Tar Heels
                 </div>
                 <div className="rounded border border-white/10 bg-background p-3">
-                  <span className="font-semibold text-white">5:30 PM</span> - TBA
+                  <span className="font-semibold text-white">5:20 PM</span> — Hokies
                 </div>
-                <div className="rounded border border-accent/30 bg-accent/5 p-3">
+                <div className="rounded border border-white/10 bg-background p-3">
+                  <span className="font-semibold text-white">5:40 PM</span> — Wolfpack
+                </div>
+                <div className="rounded border border-accent/30 bg-accent/5 p-3 md:col-span-2">
                   <span className="font-semibold text-accent">
-                    6:00-7:00 PM
+                    6:00–7:00 PM
                   </span>{' '}
-                  - Makeup Session
+                  — MAKEUP slot (open)
                 </div>
               </div>
             </div>
