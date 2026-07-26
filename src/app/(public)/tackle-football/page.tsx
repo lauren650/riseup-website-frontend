@@ -13,7 +13,6 @@ const subNavItems = [
   { id: 'registration', label: 'Registration' },
   { id: 'equipment', label: 'Equipment' },
   { id: 'schedule', label: 'Schedule' },
-  { id: 'parent-meetings', label: 'Parent Meetings' },
   { id: 'quick-reference', label: 'Quick Reference' },
 ];
 
@@ -1107,98 +1106,6 @@ export default function TackleFootballPage() {
               >
                 First regular season game! Games 2-6 will be played September 12, 19, 26; October 3, 10. Labor Day weekend is off.
               </EditableText>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Mandatory Parent Meetings */}
-      <section id="parent-meetings" className="pt-12 pb-16 md:pt-16 md:pb-24">
-        <div className="mx-auto max-w-7xl px-6">
-          <h2 className="mb-4 text-center text-3xl font-bold text-white md:text-4xl">
-            <EditableText
-              contentKey="tackle.parent_meetings.title"
-              as="span"
-              page="tackle-football"
-              section="parent-meetings"
-            >
-              Mandatory Parent Meetings
-            </EditableText>
-          </h2>
-          <EditableText
-            contentKey="tackle.parent_meetings.description"
-            as="p"
-            className="mb-12 text-center text-lg text-muted-foreground"
-            page="tackle-football"
-            section="parent-meetings"
-          >
-            RiseUp President Andy Davis will meet with each team's parents at
-            their practice locations.
-            <br />
-            <strong className="text-accent">
-              This is a mandatory 30-minute meeting for every family.
-            </strong>
-          </EditableText>
-
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            <div className="rounded-xl border border-white/10 bg-white/5 p-6">
-              <div className="mb-2 text-sm font-semibold text-accent">
-                August 1
-              </div>
-              <div className="text-lg font-bold text-white">9:00 AM</div>
-              <div className="mt-2 text-muted-foreground">
-                Team TBA &amp; Team TBA
-              </div>
-            </div>
-
-            <div className="rounded-xl border border-white/10 bg-white/5 p-6">
-              <div className="mb-2 text-sm font-semibold text-accent">
-                August 4
-              </div>
-              <div className="text-lg font-bold text-white">5:30 PM</div>
-              <div className="mt-2 text-muted-foreground">
-                Team TBA &amp; Team TBA
-              </div>
-            </div>
-
-            <div className="rounded-xl border border-white/10 bg-white/5 p-6">
-              <div className="mb-2 text-sm font-semibold text-accent">
-                August 5
-              </div>
-              <div className="text-lg font-bold text-white">5:30 PM</div>
-              <div className="mt-2 text-muted-foreground">
-                Team TBA &amp; Team TBA
-              </div>
-            </div>
-
-            <div className="rounded-xl border border-white/10 bg-white/5 p-6">
-              <div className="mb-2 text-sm font-semibold text-accent">
-                August 7
-              </div>
-              <div className="text-lg font-bold text-white">5:30 PM</div>
-              <div className="mt-2 text-muted-foreground">
-                Team TBA &amp; Team TBA
-              </div>
-            </div>
-
-            <div className="rounded-xl border border-white/10 bg-white/5 p-6">
-              <div className="mb-2 text-sm font-semibold text-accent">
-                August 8
-              </div>
-              <div className="text-lg font-bold text-white">9:00 AM</div>
-              <div className="mt-2 text-muted-foreground">
-                Team TBA &amp; Team TBA
-              </div>
-            </div>
-
-            <div className="rounded-xl border border-white/10 bg-white/5 p-6">
-              <div className="mb-2 text-sm font-semibold text-accent">
-                August 11
-              </div>
-              <div className="text-lg font-bold text-white">5:30 PM</div>
-              <div className="mt-2 text-muted-foreground">
-                Team TBA &amp; Team TBA
-              </div>
             </div>
           </div>
         </div>
