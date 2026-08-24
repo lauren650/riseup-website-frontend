@@ -1,126 +1,100 @@
-import { createClient } from "@/lib/supabase/server";
-import type { Tables } from "@/lib/supabase/types";
 import Image from "next/image";
 import Link from "next/link";
+import type { Partner } from "@/lib/partners";
 
-type Sponsor = Tables<"sponsors">;
-
-type GridItem = {
-  id: string;
-  company_name: string;
-  logo_url: string;
-  website_url: string;
-};
-
-function driveThumbnailUrl(fileId: string): string {
-  return `https://drive.google.com/thumbnail?id=${fileId}&sz=w400`;
+interface SponsorGridProps {
+  partners: Partner[];
+  compact?: boolean;
 }
 
-/**
- * SponsorGrid - Displays partners from both legacy sponsors and invoice-driven uploads.
- * Shows approved sponsors (old table) plus completed sponsor_uploads for paid invoices
- * whose package includes the website benefit.
- */
-export async function SponsorGrid() {
-  const supabase = await createClient();
-  const items: GridItem[] = [];
+function getPartnerInitials(name: string): string {
+  const parts = name
+    .split(" ")
+    .map((part) => part.trim())
+    .filter(Boolean);
 
-  // 1. Legacy approved sponsors
-  const { data: sponsors, error: sponsorsError } = await supabase
-    .from("sponsors")
-    .select("id, company_name, logo_url, website_url")
-    .eq("status", "approved")
-    .order("company_name")
-    .returns<Pick<Sponsor, "id" | "company_name" | "logo_url" | "website_url">[]>();
+  if (parts.length === 0) return "RP";
+  return parts
+    .slice(0, 3)
+    .map((part) => part[0]?.toUpperCase() ?? "")
+    .join("");
+}
 
-  if (!sponsorsError && sponsors?.length) {
-    for (const s of sponsors) {
-      items.push({
-        id: s.id,
-        company_name: s.company_name,
-        logo_url: s.logo_url,
-        website_url: s.website_url,
-      });
-    }
-  }
-
-  // 2. Invoice-driven: completed uploads for paid invoices with website benefit
-  const { data: paidInvoices } = await supabase
-    .from("invoices")
-    .select("id")
-    .eq("status", "paid");
-  const paidInvoiceIds = new Set(paidInvoices?.map((i) => i.id) ?? []);
-
-  const { data: uploads } = await supabase
-    .from("sponsor_uploads")
-    .select("id, company_name, logo_url, website_url, drive_file_id, invoice_id, sponsorship_packages(includes_website_benefit)")
-    .eq("status", "completed");
-
-  const uploadList = uploads ?? [];
-  if (uploadList.length) {
-    for (const u of uploadList) {
-      const row = u as { invoice_id: string; id: string; company_name: string; logo_url: string | null; website_url: string | null; drive_file_id: string | null; sponsorship_packages: { includes_website_benefit?: boolean } | null };
-      if (!paidInvoiceIds.has(row.invoice_id)) continue;
-      const pkg = row.sponsorship_packages;
-      if (!pkg?.includes_website_benefit) continue;
-
-      const logoUrl = row.drive_file_id
-        ? driveThumbnailUrl(row.drive_file_id)
-        : (row.logo_url || "");
-      if (!logoUrl) continue;
-
-      items.push({
-        id: row.id,
-        company_name: row.company_name,
-        logo_url: logoUrl,
-        website_url: row.website_url || "#",
-      });
-    }
-  }
-
-  // Dedupe by company_name (legacy first)
-  const seen = new Set<string>();
-  const deduped = items.filter((i) => {
-    const key = i.company_name.toLowerCase();
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
-
-  deduped.sort((a, b) => a.company_name.localeCompare(b.company_name));
-
-  if (deduped.length === 0) {
+export function SponsorGrid({ partners, compact = false }: SponsorGridProps) {
+  if (partners.length === 0) {
     return (
       <div className="rounded-xl border border-white/10 bg-white/5 p-8 text-center">
         <p className="text-muted-foreground">
-          No sponsors yet. Be the first to partner with us!
+          Partner profiles will appear here soon.
         </p>
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
-      {deduped.map((item) => (
-        <Link
-          key={item.id}
-          href={item.website_url || "#"}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group flex aspect-[5/3] items-center justify-center rounded-xl border border-white/10 bg-white/5 p-4 transition-all hover:border-accent/50 hover:bg-white/10"
-          title={item.company_name}
+    <div className={`grid gap-6 ${compact ? "md:grid-cols-3 lg:grid-cols-4" : "md:grid-cols-2 lg:grid-cols-3"}`}>
+      {partners.map((partner) => (
+        <article
+          key={partner.id}
+          className={`rounded-xl border border-white/10 bg-background transition-colors hover:border-accent/50 ${
+            compact ? "p-5" : "p-6"
+          }`}
         >
-          <div className="relative h-full w-full">
-            <Image
-              src={item.logo_url}
-              alt={`${item.company_name} logo`}
-              fill
-              className="object-contain transition-transform group-hover:scale-105"
-              sizes="(max-width: 768px) 45vw, (max-width: 1024px) 30vw, 22vw"
-              unoptimized={item.logo_url.includes("drive.google.com")}
-            />
+          <div className={`mb-5 flex aspect-[5/3] items-center justify-center rounded-lg border border-white/10 bg-white/5 ${
+            compact ? "p-3" : "p-4"
+          }`}>
+            {partner.logoSrc ? (
+              <div className="relative h-full w-full">
+                <Image
+                  src={partner.logoSrc}
+                  alt={partner.logoAlt ?? `${partner.name} logo`}
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 768px) 80vw, (max-width: 1024px) 40vw, 30vw"
+                  unoptimized={partner.logoSrc.startsWith("http")}
+                />
+              </div>
+            ) : (
+              <div className="flex w-full flex-col items-center justify-center gap-2 text-center">
+                <span className="inline-flex h-14 w-14 items-center justify-center rounded-full border border-accent/50 bg-accent/15 text-lg font-bold tracking-wide text-white">
+                  {getPartnerInitials(partner.name)}
+                </span>
+                <span className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
+                  Logo Pending
+                </span>
+              </div>
+            )}
           </div>
-        </Link>
+
+          <h3 className={`${compact ? "text-lg" : "text-xl"} font-semibold text-white`}>
+            {partner.name}
+          </h3>
+          {!compact && (
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              {partner.description}
+            </p>
+          )}
+          <Link
+            href={partner.websiteUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`mt-5 inline-flex rounded-full border border-white text-white transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black ${
+              compact ? "px-3 py-1.5 text-xs font-semibold" : "px-4 py-2 text-sm font-medium"
+            }`}
+          >
+            {partner.websiteLabel ?? "Visit Website"}
+          </Link>
+          {partner.campaignUrl && partner.campaignLabel && !compact && (
+            <Link
+              href={partner.campaignUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-3 mt-5 inline-flex rounded-full bg-accent px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black"
+            >
+              {partner.campaignLabel}
+            </Link>
+          )}
+        </article>
       ))}
     </div>
   );

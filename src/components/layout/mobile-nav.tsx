@@ -14,7 +14,7 @@ const navLinks = [
   { href: '/tackle-football', label: 'Tackle Football' },
   { href: '/academies-clinics', label: 'Academies & Clinics' },
   { href: '/ways-to-give', label: 'Ways to Give' },
-  { href: '/become-a-partner', label: 'Partners' },
+  { href: '/partners', label: 'Partners' },
   { href: SHOP_URL, label: 'Shop', external: true },
 ]
 
