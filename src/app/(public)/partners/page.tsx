@@ -34,6 +34,22 @@ export default function PartnersPage() {
         </div>
       </section>
 
+      {/* Introduction */}
+      <section className="bg-white/5 py-16 md:py-24">
+        <div className="mx-auto max-w-3xl px-6 text-center">
+          <p className="text-lg leading-relaxed text-muted-foreground md:text-xl">
+            Our partners play a vital role in making youth football
+            accessible to all. Their generous support helps provide equipment,
+            scholarships, and programming that benefits hundreds of young athletes
+            each year.
+          </p>
+          <p className="mt-4 text-base text-muted-foreground">
+            Every logo you see below represents real community investment in our
+            players, families, and future leaders.
+          </p>
+        </div>
+      </section>
+
       {/* Title Sponsor Spotlight */}
       {titleSponsor && (
         <section className="py-16 md:py-24">
@@ -62,22 +78,6 @@ export default function PartnersPage() {
           </div>
         </section>
       )}
-
-      {/* Introduction */}
-      <section className="bg-white/5 py-16 md:py-24">
-        <div className="mx-auto max-w-3xl px-6 text-center">
-          <p className="text-lg leading-relaxed text-muted-foreground md:text-xl">
-            Our partners play a vital role in making youth football
-            accessible to all. Their generous support helps provide equipment,
-            scholarships, and programming that benefits hundreds of young athletes
-            each year.
-          </p>
-          <p className="mt-4 text-base text-muted-foreground">
-            Every logo you see below represents real community investment in our
-            players, families, and future leaders.
-          </p>
-        </div>
-      </section>
 
       {/* Premier Partner Showcase */}
       <section className="py-16 md:py-24">
