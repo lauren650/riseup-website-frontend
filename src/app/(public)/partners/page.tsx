@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { SponsorGrid } from "@/components/sponsors/sponsor-grid";
 import { partners } from "@/lib/partners";
@@ -35,7 +36,7 @@ export default function PartnersPage() {
       </section>
 
       {/* Introduction */}
-      <section className="bg-white/5 py-16 md:py-24">
+      <section className="bg-white/5 py-8 md:py-10">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <p className="text-lg leading-relaxed text-muted-foreground md:text-xl">
             Our partners play a vital role in making youth football
@@ -52,27 +53,44 @@ export default function PartnersPage() {
 
       {/* Title Sponsor Spotlight */}
       {titleSponsor && (
-        <section className="py-16 md:py-24">
+        <section className="py-10 md:py-14">
           <div className="mx-auto max-w-6xl px-6">
-            <article className="rounded-xl border border-accent/60 bg-accent/10 p-8 md:p-12">
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent">
-                Title Sponsor
-              </p>
-              <h2 className="mt-3 text-3xl font-bold text-white md:text-5xl">
-                {titleSponsor.name}
-              </h2>
-              <p className="mt-5 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
-                {titleSponsor.description}
-              </p>
-              <div className="mt-8">
-                <Link
-                  href={titleSponsor.websiteUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex rounded-full bg-accent px-8 py-4 text-sm font-semibold text-white transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black"
-                >
-                  {titleSponsor.websiteLabel ?? "Visit Sponsor"}
-                </Link>
+            <article className="grid gap-8 rounded-xl border border-accent/60 bg-accent/10 p-8 md:grid-cols-[1.3fr_1fr] md:items-center md:p-10">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent">
+                  Title Sponsor
+                </p>
+                <h2 className="mt-3 text-3xl font-bold text-white md:text-5xl">
+                  {titleSponsor.name}
+                </h2>
+                <p className="mt-5 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
+                  {titleSponsor.description}
+                </p>
+                <div className="mt-8">
+                  <Link
+                    href={titleSponsor.websiteUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex rounded-full bg-accent px-8 py-4 text-sm font-semibold text-white transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black"
+                  >
+                    {titleSponsor.websiteLabel ?? "Visit Sponsor"}
+                  </Link>
+                </div>
+              </div>
+              <div className="flex items-center justify-center rounded-xl border border-white/10 bg-background/50 p-6">
+                {titleSponsor.logoSrc ? (
+                  <div className="relative h-28 w-full max-w-xs md:h-36">
+                    <Image
+                      src={titleSponsor.logoSrc}
+                      alt={titleSponsor.logoAlt ?? `${titleSponsor.name} logo`}
+                      fill
+                      className="object-contain"
+                      sizes="(max-width: 768px) 70vw, 28vw"
+                    />
+                  </div>
+                ) : (
+                  <span className="text-sm text-muted-foreground">Logo pending</span>
+                )}
               </div>
             </article>
           </div>
