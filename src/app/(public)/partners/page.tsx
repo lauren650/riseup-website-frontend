@@ -29,25 +29,18 @@ export default function PartnersPage() {
           <h1 className="text-4xl font-bold text-white md:text-5xl lg:text-6xl">
             Our Partners
           </h1>
-          <p className="mt-4 text-lg text-muted-foreground md:text-xl">
-            Organizations helping us empower youth through football
-          </p>
-        </div>
-      </section>
-
-      {/* Introduction */}
-      <section className="bg-white/5 py-8 md:py-10">
-        <div className="mx-auto max-w-3xl px-6 text-center">
-          <p className="text-lg leading-relaxed text-muted-foreground md:text-xl">
-            Our partners play a vital role in making youth football
-            accessible to all. Their generous support helps provide equipment,
-            scholarships, and programming that benefits hundreds of young athletes
-            each year.
-          </p>
-          <p className="mt-4 text-base text-muted-foreground">
-            Every logo you see below represents real community investment in our
-            players, families, and future leaders.
-          </p>
+          <div className="mx-auto mt-4 max-w-3xl space-y-4 px-6">
+            <p className="text-base leading-relaxed text-muted-foreground md:text-lg">
+              Our partners play a vital role in making youth football accessible
+              to all. Their generous support helps provide equipment,
+              scholarships, and programming that benefits hundreds of young
+              athletes each year.
+            </p>
+            <p className="text-base leading-relaxed text-muted-foreground md:text-lg">
+              Every logo you see below represents real community investment in
+              our players, families, and future leaders.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -77,7 +70,7 @@ export default function PartnersPage() {
                   </Link>
                 </div>
               </div>
-              <div className="flex items-center justify-center rounded-xl border border-white/10 bg-background/50 p-6">
+              <div className="flex items-center justify-center rounded-xl border border-white/20 bg-white p-6">
                 {titleSponsor.logoSrc ? (
                   <div className="relative h-28 w-full max-w-xs md:h-36">
                     <Image
