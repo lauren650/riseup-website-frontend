@@ -5,6 +5,7 @@ import type { Partner } from "@/lib/partners";
 interface SponsorGridProps {
   partners: Partner[];
   compact?: boolean;
+  centered?: boolean;
 }
 
 function getPartnerInitials(name: string): string {
@@ -20,7 +21,11 @@ function getPartnerInitials(name: string): string {
     .join("");
 }
 
-export function SponsorGrid({ partners, compact = false }: SponsorGridProps) {
+export function SponsorGrid({
+  partners,
+  compact = false,
+  centered = false,
+}: SponsorGridProps) {
   if (partners.length === 0) {
     return (
       <div className="rounded-xl border border-white/10 bg-white/5 p-8 text-center">
@@ -32,7 +37,9 @@ export function SponsorGrid({ partners, compact = false }: SponsorGridProps) {
   }
 
   return (
-    <div className={`grid gap-6 ${compact ? "md:grid-cols-3 lg:grid-cols-4" : "md:grid-cols-2 lg:grid-cols-3"}`}>
+    <div
+      className={`${centered && !compact ? "md:mx-auto md:max-w-5xl" : ""} grid gap-6 ${compact ? "md:grid-cols-3 lg:grid-cols-4" : "md:grid-cols-2 lg:grid-cols-3"}`}
+    >
       {partners.map((partner) => (
         <article
           key={partner.id}

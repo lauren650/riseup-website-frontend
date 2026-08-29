@@ -96,7 +96,7 @@ export default function PartnersPage() {
           <h2 className="mb-12 text-center text-3xl font-bold text-white md:text-4xl">
             Premier Partners
           </h2>
-          <SponsorGrid partners={majorPartners} />
+          <SponsorGrid partners={majorPartners} centered />
         </div>
       </section>
 
