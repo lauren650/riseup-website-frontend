@@ -40,7 +40,9 @@ export function SponsorGrid({ partners, compact = false }: SponsorGridProps) {
             compact ? "p-5" : "p-6"
           }`}
         >
-          <div className={`mb-5 flex aspect-[5/3] items-center justify-center rounded-lg border border-white/20 bg-white ${
+          <div className={`mb-5 flex aspect-[5/3] items-center justify-center rounded-lg border border-white/20 ${
+            partner.id === "twentyfore" ? "bg-black" : "bg-white"
+          } ${
             compact ? "p-3" : "p-4"
           }`}>
             {partner.logoSrc ? (
