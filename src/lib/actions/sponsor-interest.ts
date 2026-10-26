@@ -8,6 +8,7 @@ import {
   sponsorInterestSchema,
   SponsorInterestFormData,
 } from "@/lib/validations/sponsor-interest";
+import { checkFormSpamSignals, verifyRecaptcha } from "@/lib/spam-protection";
 
 export interface SponsorInterestFormState {
   success: boolean;
@@ -20,54 +21,27 @@ export interface SponsorInterestFormState {
   };
 }
 
+const SUCCESS_MESSAGE =
+  "Thank you for your interest! We'll be in touch within 2-3 business days to discuss partnership opportunities.";
+
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
   : null;
-
-async function verifyRecaptcha(token: string): Promise<boolean> {
-  const secretKey = process.env.RECAPTCHA_SECRET_KEY?.trim();
-
-  if (!secretKey) {
-    return true; // Skip when not configured
-  }
-
-  if (!token || token.length < 20) {
-    return true; // Invalid token - skip verification
-  }
-
-  try {
-    const body = new URLSearchParams({
-      secret: secretKey,
-      response: token,
-    }).toString();
-
-    const response = await fetch(
-      "https://www.google.com/recaptcha/api/siteverify",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body,
-      }
-    );
-
-    const data = (await response.json()) as {
-      success?: boolean;
-      score?: number;
-    };
-    return !!data.success && (data.score ?? 0) >= 0.5;
-  } catch (error) {
-    // Allow submission when verification fails (network/API errors) - don't block users
-    console.warn("reCAPTCHA verification error (allowing submission):", error);
-    return true;
-  }
-}
 
 export async function submitSponsorInterest(
   prevState: SponsorInterestFormState | null,
   formData: FormData
 ): Promise<SponsorInterestFormState> {
+  const spam = checkFormSpamSignals(formData);
+  if (spam.action === "silent_drop") {
+    console.warn("[Sponsor interest] Blocked spam submission:", spam.reason);
+    return { success: true, message: SUCCESS_MESSAGE };
+  }
+  if (spam.action === "reject") {
+    console.warn("[Sponsor interest] Blocked spam submission:", spam.reason);
+    return { success: false, message: spam.message };
+  }
+
   // Parse form data
   const rawData: SponsorInterestFormData = {
     name: formData.get("name") as string,
@@ -96,15 +70,19 @@ export async function submitSponsorInterest(
 
   const data = validationResult.data;
 
-  // Verify reCAPTCHA if token provided
-  if (data.recaptchaToken) {
-    const isValidRecaptcha = await verifyRecaptcha(data.recaptchaToken);
-    if (!isValidRecaptcha) {
-      return {
-        success: false,
-        message: "reCAPTCHA verification failed. Please try again.",
-      };
-    }
+  const recaptcha = await verifyRecaptcha(
+    data.recaptchaToken,
+    "sponsor_interest_form"
+  );
+  if (!recaptcha.ok) {
+    console.warn(
+      "[Sponsor interest] reCAPTCHA blocked submission:",
+      recaptcha.reason
+    );
+    return {
+      success: false,
+      message: recaptcha.message,
+    };
   }
 
   // Save to database
@@ -188,7 +166,6 @@ export async function submitSponsorInterest(
   // Return success even if emails failed - the form submission itself succeeded
   return {
     success: true,
-    message:
-      "Thank you for your interest! We'll be in touch within 2-3 business days to discuss partnership opportunities.",
+    message: SUCCESS_MESSAGE,
   };
 }

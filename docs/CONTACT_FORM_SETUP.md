@@ -1,6 +1,6 @@
 # Contact Form Setup
 
-The contact form sends emails via Resend and uses reCAPTCHA v3 for spam protection.
+The contact form sends emails via Resend. Spam is blocked with reCAPTCHA v3 plus a honeypot field and a minimum time-to-submit check. The partner interest form uses the same checks.
 
 ## Required Environment Variables (Vercel / Production)
 
@@ -17,8 +17,8 @@ The contact form sends emails via Resend and uses reCAPTCHA v3 for spam protecti
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` | No | From [Google reCAPTCHA Admin](https://www.google.com/recaptcha/admin). If not set, form works without spam protection. |
-| `RECAPTCHA_SECRET_KEY` | No | Server-side verification. If not set, verification is skipped. |
+| `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` | **Yes, in production** | From [Google reCAPTCHA Admin](https://www.google.com/recaptcha/admin). Create a **v3** site and add `riseupfootball.org`. |
+| `RECAPTCHA_SECRET_KEY` | **Yes, in production** | Server-side verification. When this is set, submissions without a valid token are rejected. |
 
 **Important:** Add your production domain (e.g. `riseupfootball.org`) to the reCAPTCHA admin console under "Domains". If the domain isn't listed, the reCAPTCHA script may fail to load.
 
@@ -28,15 +28,17 @@ The contact form sends emails via Resend and uses reCAPTCHA v3 for spam protecti
 2. **Resend domain:** Verify your domain in Resend. The `from` address must use your verified domain (e.g. `noreply@riseupfootball.org`). Using `onboarding@resend.dev` only allows sending to your own email.
 3. **reCAPTCHA:** Create a v3 site at Google reCAPTCHA admin, add your domain, and set both keys in Vercel.
 
+Submissions are also rejected when a hidden field is filled or the form is posted in under 2.5 seconds. Those checks stay on even if the Google keys are missing.
+
 ## Disable reCAPTCHA
 
-If reCAPTCHA causes issues (Invalid domain, private-token errors, etc.), you can disable it:
+If reCAPTCHA causes issues (invalid domain, script blocked), you can disable the Google check:
 
 ```
 NEXT_PUBLIC_DISABLE_RECAPTCHA=true
 ```
 
-Set this in Vercel → Project → Settings → Environment Variables. The form will work without spam protection. You can re-enable later by removing the variable.
+Set this in Vercel → Project → Settings → Environment Variables. The honeypot and timing checks still run. Remove the variable once the domain is listed in the reCAPTCHA admin console.
 
 ## Debugging
 
@@ -51,6 +53,6 @@ Set this in Vercel → Project → Settings → Environment Variables. The form 
 
 ## Troubleshooting
 
-- **"Recaptcha has not been loaded"** – Set `NEXT_PUBLIC_DISABLE_RECAPTCHA=true` to bypass, or add your domain to reCAPTCHA admin.
+- **"Spam protection didn't load"** – Add your domain to the reCAPTCHA admin console, or set `NEXT_PUBLIC_DISABLE_RECAPTCHA=true` as a temporary bypass. The form no longer sends mail when the Google check is configured but the token is missing.
 - **"Unrecognized feature: private-token"** – Harmless browser warning, can be ignored.
 - **Email not received** – Confirm `RESEND_API_KEY` is set in Vercel. Check Vercel logs for `[Contact]` messages.

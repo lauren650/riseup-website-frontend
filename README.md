@@ -72,9 +72,9 @@ ANTHROPIC_API_KEY=
 RESEND_API_KEY=          # Required for contact form & sponsor emails to send
 CONTACT_EMAIL=           # Optional - where contact form submissions go (default: admin@riseupfootball.org)
 
-# reCAPTCHA v3 (spam protection on contact & sponsor interest forms)
+# reCAPTCHA v3 (required in production — contact & partner interest forms)
 NEXT_PUBLIC_RECAPTCHA_SITE_KEY=   # From https://www.google.com/recaptcha/admin
-RECAPTCHA_SECRET_KEY=             # Server-side verification
+RECAPTCHA_SECRET_KEY=             # When set, missing or failed tokens are rejected
 
 # GiveButter (donations)
 NEXT_PUBLIC_GIVEBUTTER_WIDGET_ID=

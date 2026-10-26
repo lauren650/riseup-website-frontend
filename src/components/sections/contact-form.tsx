@@ -9,6 +9,7 @@ import {
   submitContactForm,
   ContactFormState,
 } from "@/lib/actions/contact";
+import { SpamTrapFields } from "@/components/forms/spam-trap-fields";
 import { ConfirmationModal } from "@/components/sponsors/confirmation-modal";
 import { cn } from "@/lib/utils";
 
@@ -23,17 +24,15 @@ const subjectOptions = [
 export function ContactForm() {
   const { executeRecaptcha, loaded, reCaptchaKey } = useReCaptcha();
   const [showModal, setShowModal] = useState(false);
-  const [recaptchaFallback, setRecaptchaFallback] = useState(false);
+  const [recaptchaTimedOut, setRecaptchaTimedOut] = useState(false);
 
-  // Allow submit after 10s if reCAPTCHA never loads (e.g. ad blocker, wrong domain)
   useEffect(() => {
-    if (!reCaptchaKey) return;
-    const t = setTimeout(() => setRecaptchaFallback(true), 10000);
+    if (!reCaptchaKey || loaded) return;
+    const t = setTimeout(() => setRecaptchaTimedOut(true), 10000);
     return () => clearTimeout(t);
-  }, [reCaptchaKey]);
+  }, [reCaptchaKey, loaded]);
 
-  // Disable submit until reCAPTCHA is loaded when configured (prevents "Recaptcha has not been loaded" error)
-  const isRecaptchaReady = !reCaptchaKey || loaded || recaptchaFallback;
+  const isRecaptchaReady = !reCaptchaKey || loaded;
 
   const {
     register,
@@ -47,15 +46,32 @@ export function ContactForm() {
     ContactFormState | null,
     FormData
   >(async (prevState, formData) => {
-    // Get reCAPTCHA token - only call when loaded to avoid "Recaptcha has not been loaded" error
-    // If reCAPTCHA fails or isn't configured, submit anyway (server skips verification when no token)
     let recaptchaToken = "";
-    try {
-      if (reCaptchaKey && loaded && executeRecaptcha) {
-        recaptchaToken = await executeRecaptcha("contact_form");
+    if (reCaptchaKey) {
+      if (!loaded || !executeRecaptcha) {
+        return {
+          success: false,
+          message:
+            "Spam protection is still loading. Please wait a moment and try again.",
+        };
       }
-    } catch (error) {
-      console.warn("reCAPTCHA execution failed:", error);
+      try {
+        recaptchaToken = await executeRecaptcha("contact_form");
+      } catch (error) {
+        console.warn("reCAPTCHA execution failed:", error);
+        return {
+          success: false,
+          message:
+            "Spam protection couldn't run. Turn off any ad blocker, refresh the page, and try again.",
+        };
+      }
+      if (!recaptchaToken) {
+        return {
+          success: false,
+          message:
+            "Spam protection couldn't run. Turn off any ad blocker, refresh the page, and try again.",
+        };
+      }
     }
 
     formData.set("recaptchaToken", recaptchaToken);
@@ -76,7 +92,8 @@ export function ContactForm() {
 
   return (
     <>
-      <form action={formAction} className="space-y-6">
+      <form action={formAction} className="relative space-y-6">
+        <SpamTrapFields />
         {/* Error Message - only show errors, not success (modal handles success) */}
         {state?.message && !state.success && (
           <div className="rounded-lg bg-red-500/10 p-4 text-red-400">
@@ -200,6 +217,13 @@ export function ContactForm() {
             ? "Sending..."
             : "Send Message"}
       </button>
+
+      {recaptchaTimedOut && !loaded && (
+        <p className="text-center text-sm text-muted-foreground">
+          Spam protection didn&apos;t load. Turn off any ad blocker, then refresh
+          the page.
+        </p>
+      )}
 
       {process.env.NEXT_PUBLIC_DISABLE_RECAPTCHA !== "true" && (
         <p className="text-center text-xs text-muted-foreground">
