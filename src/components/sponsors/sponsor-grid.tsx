@@ -10,15 +10,35 @@ interface SponsorGridProps {
 
 function getPartnerInitials(name: string): string {
   const parts = name
-    .split(" ")
+    .split(/[\s/]+/)
     .map((part) => part.trim())
-    .filter(Boolean);
+    .filter((part) => /[A-Za-z0-9]/.test(part));
 
   if (parts.length === 0) return "RP";
   return parts
     .slice(0, 3)
     .map((part) => part[0]?.toUpperCase() ?? "")
     .join("");
+}
+
+function LogoPlaceholder({ name }: { name: string }) {
+  return (
+    <div
+      className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-md border border-dashed border-white/30 bg-white/5 px-3 text-center"
+      role="img"
+      aria-label={`Logo pending for ${name}`}
+    >
+      <span className="inline-flex h-14 w-14 items-center justify-center rounded-full border border-accent/50 bg-accent/15 text-lg font-bold tracking-wide text-white">
+        {getPartnerInitials(name)}
+      </span>
+      <span className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
+        Logo pending
+      </span>
+      <span className="text-[11px] leading-snug text-white/40">
+        Placeholder — logo file not provided
+      </span>
+    </div>
+  );
 }
 
 export function SponsorGrid({
@@ -47,31 +67,47 @@ export function SponsorGrid({
             compact ? "p-5" : "p-6"
           }`}
         >
-          <div className={`mb-5 flex aspect-[5/3] items-center justify-center rounded-lg border border-white/20 ${
-            partner.id === "twentyfore" ? "bg-black" : "bg-white"
-          } ${
-            compact ? "p-3" : "p-4"
-          }`}>
+          <div
+            className={`mb-5 flex aspect-[5/3] items-center justify-center rounded-lg border border-white/20 ${
+              partner.logoSrc
+                ? partner.logoTile === "dark"
+                  ? "bg-black"
+                  : "bg-white"
+                : "bg-transparent"
+            } ${compact ? "p-3" : "p-4"}`}
+          >
             {partner.logoSrc ? (
-              <div className="relative h-full w-full">
-                <Image
-                  src={partner.logoSrc}
-                  alt={partner.logoAlt ?? `${partner.name} logo`}
-                  fill
-                  className="object-contain"
-                  sizes="(max-width: 768px) 80vw, (max-width: 1024px) 40vw, 30vw"
-                  unoptimized={partner.logoSrc.startsWith("http")}
-                />
+              <div
+                className={`relative flex h-full w-full items-center ${
+                  partner.logoNameAlongside ? "gap-3" : ""
+                }`}
+              >
+                <div
+                  className={`relative h-full ${
+                    partner.logoNameAlongside ? "w-7/12 shrink-0" : "w-full"
+                  }`}
+                >
+                  <Image
+                    src={partner.logoSrc}
+                    alt={partner.logoAlt ?? `${partner.name} logo`}
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 768px) 80vw, (max-width: 1024px) 40vw, 30vw"
+                    unoptimized={partner.logoSrc.startsWith("http")}
+                  />
+                </div>
+                {partner.logoNameAlongside && (
+                  <p
+                    className={`min-w-0 flex-1 text-left font-semibold leading-snug ${
+                      compact ? "text-xs" : "text-sm"
+                    } ${partner.logoTile === "dark" ? "text-white" : "text-black"}`}
+                  >
+                    {partner.name}
+                  </p>
+                )}
               </div>
             ) : (
-              <div className="flex w-full flex-col items-center justify-center gap-2 text-center">
-                <span className="inline-flex h-14 w-14 items-center justify-center rounded-full border border-accent/50 bg-accent/15 text-lg font-bold tracking-wide text-white">
-                  {getPartnerInitials(partner.name)}
-                </span>
-                <span className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
-                  Logo Pending
-                </span>
-              </div>
+              <LogoPlaceholder name={partner.name} />
             )}
           </div>
 
@@ -83,16 +119,26 @@ export function SponsorGrid({
               {partner.description}
             </p>
           )}
-          <Link
-            href={partner.websiteUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`mt-5 inline-flex rounded-full border border-white text-white transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black ${
-              compact ? "px-3 py-1.5 text-xs font-semibold" : "px-4 py-2 text-sm font-medium"
-            }`}
-          >
-            {partner.websiteLabel ?? "Visit Website"}
-          </Link>
+          {partner.websiteUrl ? (
+            <Link
+              href={partner.websiteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`mt-5 inline-flex rounded-full border border-white text-white transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black ${
+                compact ? "px-3 py-1.5 text-xs font-semibold" : "px-4 py-2 text-sm font-medium"
+              }`}
+            >
+              {partner.websiteLabel ?? "Visit Website"}
+            </Link>
+          ) : (
+            <p
+              className={`mt-5 text-white/40 ${
+                compact ? "text-xs" : "text-sm"
+              }`}
+            >
+              Website pending
+            </p>
+          )}
           {partner.campaignUrl && partner.campaignLabel && !compact && (
             <Link
               href={partner.campaignUrl}

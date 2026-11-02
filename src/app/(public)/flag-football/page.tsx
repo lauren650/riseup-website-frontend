@@ -1198,10 +1198,10 @@ export default function FlagFootballPage() {
                 families. Help us build a stronger community through athletics!
               </EditableText>
               <Link
-                href="/become-a-sponsor"
+                href="/become-a-partner"
                 className="inline-block rounded-full border border-white px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black"
               >
-                Become a Sponsor
+                Become a Partner
               </Link>
             </div>
           </div>

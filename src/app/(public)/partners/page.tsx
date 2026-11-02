@@ -59,18 +59,28 @@ export default function PartnersPage() {
                 <p className="mt-5 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
                   {titleSponsor.description}
                 </p>
-                <div className="mt-8">
-                  <Link
-                    href={titleSponsor.websiteUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex rounded-full bg-accent px-8 py-4 text-sm font-semibold text-white transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black"
-                  >
-                    {titleSponsor.websiteLabel ?? "Visit Sponsor"}
-                  </Link>
-                </div>
+                {titleSponsor.websiteUrl && (
+                  <div className="mt-8">
+                    <Link
+                      href={titleSponsor.websiteUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex rounded-full bg-accent px-8 py-4 text-sm font-semibold text-white transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black"
+                    >
+                      {titleSponsor.websiteLabel ?? "Visit Sponsor"}
+                    </Link>
+                  </div>
+                )}
               </div>
-              <div className="flex items-center justify-center rounded-xl border border-white/20 bg-white p-6">
+              <div
+                className={`flex items-center justify-center rounded-xl border border-white/20 p-6 ${
+                  titleSponsor.logoSrc
+                    ? titleSponsor.logoTile === "dark"
+                      ? "bg-black"
+                      : "bg-white"
+                    : "bg-white/5"
+                }`}
+              >
                 {titleSponsor.logoSrc ? (
                   <div className="relative h-28 w-full max-w-xs md:h-36">
                     <Image
@@ -82,7 +92,9 @@ export default function PartnersPage() {
                     />
                   </div>
                 ) : (
-                  <span className="text-sm text-muted-foreground">Logo pending</span>
+                  <span className="text-sm text-muted-foreground">
+                    Logo pending — asset not provided
+                  </span>
                 )}
               </div>
             </article>
