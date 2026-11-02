@@ -66,7 +66,7 @@ export const partners: Partner[] = [
     websiteUrl: "https://arayaoutdoorsolutions.com/",
     logoSrc: "/images/partners/araya-outdoor-solutions.png",
     logoAlt: "Araya Outdoor Solutions logo",
-    logoTile: "dark",
+    logoTile: "light",
     tier: "major",
   },
   {
