@@ -56,14 +56,24 @@ export function SponsorGrid({
     );
   }
 
+  const centerIncompleteRow = centered && !compact;
+
   return (
     <div
-      className={`${centered && !compact ? "md:mx-auto md:max-w-5xl" : ""} grid gap-6 ${compact ? "md:grid-cols-3 lg:grid-cols-4" : "md:grid-cols-2 lg:grid-cols-3"}`}
+      className={
+        centerIncompleteRow
+          ? "mx-auto flex max-w-5xl flex-wrap justify-center gap-6"
+          : `grid gap-6 ${compact ? "md:grid-cols-3 lg:grid-cols-4" : "md:grid-cols-2 lg:grid-cols-3"}`
+      }
     >
       {partners.map((partner) => (
         <article
           key={partner.id}
-          className={`rounded-xl border border-white/10 bg-background transition-colors hover:border-accent/50 ${
+          className={`${
+            centerIncompleteRow
+              ? "w-full md:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)]"
+              : ""
+          } rounded-xl border border-white/10 bg-background transition-colors hover:border-accent/50 ${
             compact ? "p-5" : "p-6"
           }`}
         >
