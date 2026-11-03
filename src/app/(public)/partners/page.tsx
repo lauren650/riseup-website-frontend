@@ -1,27 +1,18 @@
 import { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
-import { Suspense } from "react";
 import { SponsorGrid } from "@/components/sponsors/sponsor-grid";
-import { SponsorForm } from "@/components/sponsors/sponsor-form";
+import { partners } from "@/lib/partners";
 
 export const metadata: Metadata = {
-  title: "Partners | RiseUp Youth Football League",
+  title: "Our Partners | RiseUp Youth Football League",
   description:
     "Meet the partners who make RiseUp Youth Football League possible. Learn how your organization can support youth athletics.",
 };
 
-function SponsorGridSkeleton() {
-  return (
-    <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
-      {[1, 2, 3, 4].map((i) => (
-        <div
-          key={i}
-          className="aspect-[5/3] animate-pulse rounded-xl border border-white/10 bg-white/5"
-        />
-      ))}
-    </div>
-  );
-}
+const titleSponsor = partners.find((partner) => partner.tier === "title");
+const majorPartners = partners.filter((partner) => partner.tier === "major");
+const blueLevelPartners = partners.filter((partner) => partner.tier === "blue");
 
 export default function PartnersPage() {
   return (
@@ -30,111 +21,127 @@ export default function PartnersPage() {
       <section className="relative flex h-[40vh] min-h-[300px] items-end justify-center bg-gradient-to-br from-accent/20 to-transparent">
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
         <div className="relative z-10 pb-12 text-center">
+          {titleSponsor && (
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-accent">
+              Title Sponsor: {titleSponsor.name}
+            </p>
+          )}
           <h1 className="text-4xl font-bold text-white md:text-5xl lg:text-6xl">
             Our Partners
           </h1>
-          <p className="mt-4 text-lg text-muted-foreground md:text-xl">
-            Thank you to the organizations that support our mission
-          </p>
+          <div className="mx-auto mt-4 max-w-3xl space-y-4 px-6">
+            <p className="text-base leading-relaxed text-muted-foreground md:text-lg">
+              Our partners play a vital role in making youth football accessible
+              to all. Their generous support helps provide equipment,
+              scholarships, and programming that benefits hundreds of young
+              athletes each year.
+            </p>
+            <p className="text-base leading-relaxed text-muted-foreground md:text-lg">
+              Every logo you see below represents real community investment in
+              our players, families, and future leaders.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Introduction */}
+      {/* Title Sponsor Spotlight */}
+      {titleSponsor && (
+        <section className="py-10 md:py-14">
+          <div className="mx-auto max-w-6xl px-6">
+            <article className="grid gap-8 rounded-xl border border-accent/60 bg-accent/10 p-8 md:grid-cols-[1.3fr_1fr] md:items-center md:p-10">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent">
+                  Title Sponsor
+                </p>
+                <h2 className="mt-3 text-3xl font-bold text-white md:text-5xl">
+                  {titleSponsor.name}
+                </h2>
+                <p className="mt-5 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
+                  {titleSponsor.description}
+                </p>
+                {titleSponsor.websiteUrl && (
+                  <div className="mt-8">
+                    <Link
+                      href={titleSponsor.websiteUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex rounded-full bg-accent px-8 py-4 text-sm font-semibold text-white transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black"
+                    >
+                      {titleSponsor.websiteLabel ?? "Visit Sponsor"}
+                    </Link>
+                  </div>
+                )}
+              </div>
+              <div
+                className={`flex items-center justify-center rounded-xl border border-white/20 p-6 ${
+                  titleSponsor.logoSrc
+                    ? titleSponsor.logoTile === "dark"
+                      ? "bg-black"
+                      : "bg-white"
+                    : "bg-white/5"
+                }`}
+              >
+                {titleSponsor.logoSrc ? (
+                  <div className="relative h-28 w-full max-w-xs md:h-36">
+                    <Image
+                      src={titleSponsor.logoSrc}
+                      alt={titleSponsor.logoAlt ?? `${titleSponsor.name} logo`}
+                      fill
+                      className="object-contain"
+                      sizes="(max-width: 768px) 70vw, 28vw"
+                    />
+                  </div>
+                ) : (
+                  <span className="text-sm text-muted-foreground">
+                    Logo pending — asset not provided
+                  </span>
+                )}
+              </div>
+            </article>
+          </div>
+        </section>
+      )}
+
+      {/* Premier Partner Showcase */}
       <section className="py-16 md:py-24">
-        <div className="mx-auto max-w-3xl px-6 text-center">
-          <p className="text-lg leading-relaxed text-muted-foreground md:text-xl">
-            Our partners play a vital role in making youth football
-            accessible to all. Their generous support helps provide equipment,
-            scholarships, and programming that benefits hundreds of young athletes
-            each year.
-          </p>
+        <div className="mx-auto max-w-6xl px-6">
+          <h2 className="mb-12 text-center text-3xl font-bold text-white md:text-4xl">
+            Premier Partners
+          </h2>
+          <SponsorGrid partners={majorPartners} centered />
         </div>
       </section>
 
-      {/* Partner Logos Grid - Dynamic */}
+      {/* Blue Level Sponsors */}
       <section className="bg-white/5 py-16 md:py-24">
         <div className="mx-auto max-w-6xl px-6">
           <h2 className="mb-12 text-center text-3xl font-bold text-white md:text-4xl">
-            Our Partners
+            Blue Level Sponsors
           </h2>
-
-          <Suspense fallback={<SponsorGridSkeleton />}>
-            <SponsorGrid />
-          </Suspense>
+          <SponsorGrid partners={blueLevelPartners} compact />
+          <p className="mt-8 text-center text-sm text-muted-foreground">
+            Interested in joining this list? Start with our partner packages below.
+          </p>
         </div>
       </section>
 
-      {/* Become a Partner - Now with Submission Form */}
-      <section className="py-16 md:py-24">
-        <div className="mx-auto max-w-3xl px-6">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-white md:text-4xl">
-              Become a Partner
-            </h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Partner with RiseUp Youth Football League and make a lasting impact in
-              our community. We offer various partnership levels with benefits
-              including logo placement, event recognition, and community engagement
-              opportunities.
-            </p>
-
-            {/* Link to Become a Partner page */}
+      {/* Become a Partner CTA */}
+      <section className="bg-white/5 py-16 md:py-24">
+        <div className="mx-auto max-w-4xl px-6 text-center">
+          <h2 className="text-3xl font-bold text-white md:text-4xl">
+            Become a Partner
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
+            Ready to make an impact with us? Explore partnership packages and join
+            the organizations investing in young athletes across our community.
+          </p>
+          <div className="mt-8">
             <Link
               href="/become-a-partner"
-              className="mt-6 inline-block rounded-full bg-accent px-8 py-4 text-lg font-semibold text-white transition-opacity hover:opacity-90"
+              className="inline-flex rounded-full bg-accent px-8 py-4 text-lg font-semibold text-white transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black"
             >
-              View Partnership Packages
+              View Partnership Opportunities
             </Link>
-          </div>
-
-          {/* Partner Submission Form */}
-          <div className="mt-12 rounded-xl border border-white/10 bg-white/5 p-8">
-            <h3 className="mb-2 text-xl font-semibold text-white">
-              Already a partner? Submit your information
-            </h3>
-            <p className="mb-6 text-sm text-muted-foreground">
-              Submit your company information and logo below. After review, your
-              logo will appear in our partners section above.
-            </p>
-            <SponsorForm />
-          </div>
-        </div>
-      </section>
-
-      {/* Partnership Levels */}
-      <section className="bg-white/5 py-16 md:py-24">
-        <div className="mx-auto max-w-6xl px-6">
-          <h2 className="mb-12 text-center text-3xl font-bold text-white md:text-4xl">
-            Partnership Levels
-          </h2>
-          <div className="grid gap-6 md:grid-cols-3">
-            <div className="rounded-xl border border-white/10 bg-background p-8 text-center">
-              <h3 className="text-2xl font-bold text-white">Bronze</h3>
-              <p className="mt-2 text-3xl font-bold text-accent">$500</p>
-              <ul className="mt-6 space-y-3 text-left text-muted-foreground">
-                <li>- Logo on website</li>
-                <li>- Social media recognition</li>
-                <li>- Certificate of appreciation</li>
-              </ul>
-            </div>
-            <div className="rounded-xl border-2 border-accent bg-background p-8 text-center">
-              <h3 className="text-2xl font-bold text-white">Silver</h3>
-              <p className="mt-2 text-3xl font-bold text-accent">$1,000</p>
-              <ul className="mt-6 space-y-3 text-left text-muted-foreground">
-                <li>- All Bronze benefits</li>
-                <li>- Logo on team banners</li>
-                <li>- Event booth opportunity</li>
-              </ul>
-            </div>
-            <div className="rounded-xl border border-white/10 bg-background p-8 text-center">
-              <h3 className="text-2xl font-bold text-white">Gold</h3>
-              <p className="mt-2 text-3xl font-bold text-accent">$2,500</p>
-              <ul className="mt-6 space-y-3 text-left text-muted-foreground">
-                <li>- All Silver benefits</li>
-                <li>- Logo on team jerseys</li>
-                <li>- VIP game day experience</li>
-              </ul>
-            </div>
           </div>
         </div>
       </section>
