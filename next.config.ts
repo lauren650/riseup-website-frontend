@@ -10,6 +10,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/become-a-sponsor",
+        destination: "/become-a-partner",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
